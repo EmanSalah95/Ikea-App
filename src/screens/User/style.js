@@ -105,5 +105,28 @@ export const styles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between"
-    }
+    },
+    // End Styles for LogIn page
+
+    // Start Style For SignIn Page
+    signInSub: {
+        fontWeight: "bold",
+        fontSize: 20,
+        margin: 20,
+        color: "gray"
+    },
+
+    signTxt: {
+        padding: 5,
+        fontSize: 17
+    },
+
+    signPage: {
+        textAlign: "left"
+    },
+
+    signForm: {
+        marginTop: 50
+    },
+    // End Style For SignIn Page
 });

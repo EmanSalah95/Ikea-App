@@ -5,34 +5,7 @@ import { TextInput } from 'react-native-paper';
 import { styles } from './style';
 
 
-export default class Loginscreen extends Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      username: '',
-      password: '',
-    };
-  }
-
-  go = () => {
-           const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (reg.test(this.state.email) === true){
-               alert('valid');
-           }
-           else{
-               alert();
-           }
- 
-  }
-  
-  onLogin() {
-    const { username, password } = this.state;
-
-    Alert.alert('Credentials', `${username} + ${password}`);
-  }
-
-  render() {
+export default function Loginscreen({navigation}){
     return (
       <View style={styles.container}>
         <Text style={styles.userHeading}>LogIn</Text>
@@ -40,19 +13,14 @@ export default class Loginscreen extends Component {
          <View style={styles.view}>
         <TextInput
           placeholder="Email Address"
-          value={this.state.username}
-          onChangeText={(username) => this.setState({ username })}
           style={styles.input}
         />
         <TextInput
           placeholder="Password"
-          value={this.state.password}
-          onChangeText={(password) => this.setState({ password })}
-          secureTextEntry={true}
           style={styles.input}
         />
         
-        <Button style={styles.logBtn} mode='contained' onPress={() => navigation.navigate('Login')} >LogIn</Button>
+        <Button style={styles.logBtn} mode='contained' onPress={() => navigation.navigate('Product')} >LogIn</Button>
         </View>
 
         <View style={styles.displayTxt}>
@@ -62,5 +30,5 @@ export default class Loginscreen extends Component {
         </View>
       </View>
     );
-  }
+  
 }

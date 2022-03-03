@@ -10,7 +10,7 @@ export default function User({navigation}) {
         <Text style={styles.userSubHeading}>Log in to save your shopping lists</Text>
         <Text style={styles.userSubHeading}>and access them from any device.</Text>
         <Button style={styles.logBtn} mode='contained' onPress={() => navigation.navigate('Login')} >Login</Button>
-        <Button style={styles.signBtn} mode='contained' >Sign Up</Button>
+        <Button style={styles.signBtn} mode='contained' onPress={() => navigation.navigate('Sign')} >Sign Up</Button>
         <Text style={styles.txtQues}>Forget Password?</Text>
       </View>
       <View style={styles.space}></View>

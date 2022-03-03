@@ -7,6 +7,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Product from './screens/Product.js/product';
 import Loginscreen from './screens/User/LogIn';
 import SignUpScreen from './screens/User/SignUp'
+import SignUpForm from './screens/User/SignUpForm'
+
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -16,7 +18,8 @@ export default function HomeStack() {
       <Stack.Screen name='Home' component={Home} />
       <Stack.Screen name='Product' component={Product} />
       <Stack.Screen name='Login' component={Loginscreen} />
-      <Stack.Screen name='sign' component={SignUpScreen} />
+      <Stack.Screen name='Sign' component={SignUpScreen} />
+      <Stack.Screen name='SignForm' component={SignUpForm} />
     </Stack.Navigator>
   );
 }

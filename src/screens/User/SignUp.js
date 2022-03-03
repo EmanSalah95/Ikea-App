@@ -1,59 +1,23 @@
 import React, { useState } from 'react'
-import { Text, View, StyleSheet } from "react-native"
+import { Button } from 'react-native-paper';
+import { styles } from './style';
+import { Text, View } from "react-native"
 import firebase from 'firebase/app';
 import "firebase/auth";
 
-const styles = StyleSheet.create({
-    view: {
-        flex: 1,
-        width: "100%",
-        justifyContent: "center",
-        alignItems: "center"
-    }
-})
-
 export default function SignUpScreen({ navigation }) {
 
-    const [values, setValues] = useState({
-        email: "",
-        pwd: "",
-        pwd2: ""
-    })
-
-    function handleChange(text, eventName) {
-        setValues(prev => {
-            return {
-                ...prev,
-                [eventName]: text
-            }
-        })
-    }
-
-    function SignUp() {
-
-        const { email, pwd, pwd2 } = values
-
-        if (pwd == pwd2) {
-            firebase.auth().createUserWithEmailAndPassword(email, pwd)
-                .then(() => {
-                })
-                .catch((error) => {
-                    alert(error.message)
-                    // ..
-                });
-        } else {
-            alert("Passwords are different!")
-        }
-    }
-
-    return <View style={styles.view}>
-        <Text style={{ fontSize: 34, fontWeight: "800", marginBottom: 20 }}>Sign Up</Text>
-        {/* <TextBox placeholder="Email Address" onChangeText={text => handleChange(text, "email")} />
-        <TextBox placeholder="Password" secureTextEntry={true}  onChangeText={text => handleChange(text, "pwd")}/>
-        <TextBox placeholder="Confirme Password" secureTextEntry={true}  onChangeText={text => handleChange(text, "pwd2")}/>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "92%", }}>
-            <Btn onClick={() => SignUp()} title="Sign Up" style={{ width: "48%" }} />
-            <Btn onClick={() => navigation.replace("Login")} title="Login" style={{ width: "48%", backgroundColor: "#344869" }} />
-        </View> */}
+    return (
+    <View style={styles.container}>
+        {/* <Text style={styles.userHeading}>Sign Up</Text> */}
+        <View style={styles.signPage}>
+            <Text style={styles.signInSub}>IKEA ACCOUNT BENEFITS:</Text>
+            <View>
+                <Text style={styles.signTxt}>- Have you shopping lists on your phone, tablet, and computer</Text>
+                <Text style={styles.signTxt}>- See more IKEA offers</Text>
+            </View>
+            <Button style={styles.logBtn} mode='contained' onPress={() => navigation.navigate('SignForm')} >SIGN UP FOR IKEA ACCOUNT</Button>
+        </View>
     </View>
+    )
 }
