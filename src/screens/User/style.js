@@ -25,7 +25,10 @@ export const styles = StyleSheet.create({
     logBtn: {
         width: "100%",
         marginTop: 20,
-        padding: 10
+        padding: 10,
+        width: "92%",
+        backgroundColor: "#2e73b8",
+	    alignSelf: "center"
     },
 
     signBtn: {
@@ -34,6 +37,8 @@ export const styles = StyleSheet.create({
         color: 'black',
         backgroundColor: "lightgray",
         padding: 10,
+        width: "92%",
+        alignSelf: "center"
     },
     
     txtQues: {
