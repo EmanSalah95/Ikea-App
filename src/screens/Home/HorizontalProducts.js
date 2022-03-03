@@ -3,19 +3,31 @@ import FollowCard from './followCard';
 import ListHeader from './ListHeader';
 import ProductCard from './ProductCard';
 import { styles } from '../../styles';
+import { useEffect, useState } from 'react';
+import { getCollection } from '../../services/firebase';
 
 export default function HorizontalProducts({navigation}) {
+  const [products,setProducts]=useState(null);
+  const getProducts = () => {
+    getCollection('Products',['SalePrice','>=',0])
+      .then((res) => {
+        setProducts(res);
+      })
+      .catch((err) => console.log('error :', err));
+  };
+  useEffect(()=>getProducts(),[]);
+
   return (
     <SafeAreaView >
       <ListHeader/>
-      <FlatList
+     { products&&<FlatList
        style={styles.prodListH}
-        data={[1, 2, 3, 4, 5]}
+        data={products}
         renderItem={({item}) => <ProductCard item={item} navigation={navigation} />}
         keyExtractor={(item,index) => index}
         horizontal
         showsHorizontalScrollIndicator={false}
-      />
+      />}
       <FollowCard/>
     </SafeAreaView>
   );
