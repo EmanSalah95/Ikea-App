@@ -108,7 +108,13 @@ export const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     elevation:1,
-    backgroundColor:'#0058a3'
+    backgroundColor:'#0058a3',
+    zIndex:10,
+  }, heart: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex:10,
   },
   followCard:{
     marginVertical:10,
