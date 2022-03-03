@@ -3,12 +3,12 @@ export const styles = StyleSheet.create({
     // Start Style For UserPage
     container: {
         backgroundColor: "white",
-        height: "100%"
+        height: "100%", 
+        textAlign: "center"
     },
 
     firstSec: {
         paddingBottom: 30,
-        textAlign: "center",
     },
 
     userHeading: { 
@@ -45,7 +45,8 @@ export const styles = StyleSheet.create({
     secondSec: {
         marginLeft: 15,
         paddingTop: 20,
-        fontSize: 18
+        fontSize: 18,
+        textAlign: "left"
     },
 
     space: {
@@ -60,4 +61,44 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 2 ,
     },
     // End Style For UserPage
+
+    // Start Style For LogPage
+    userSubbHeading: {
+        marginBottom: 28,
+        fontSize: 20,
+        color: "gray"
+    },
+
+    view: {
+        marginLeft: "4%",
+        marginRight: "4%",
+    },
+
+    input: {
+        width: "100%",
+        height: 30,
+        padding: 15,
+        borderWidth: 1,
+        borderColor: 'white',
+        marginBottom: 10,
+        backgroundColor: "white"
+    },
+
+    inputext: {
+        width: 200,
+        height: 44,
+        padding: 10,
+        textAlign:'center',
+        fontWeight:'bold',
+        borderWidth: 1,
+        borderColor: 'black',
+        marginBottom: 10,
+    },
+
+    displayTxt: {
+        marginTop: 20,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between"
+    }
 });
