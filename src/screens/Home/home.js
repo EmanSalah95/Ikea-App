@@ -1,27 +1,27 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { SafeAreaView, ScrollView, View, FlatList } from 'react-native';
+import HorizontalProducts from './HorizontalProducts';
+import { styles } from '../../styles';
+import Ads from './ads';
+import HomeHeader from './homeHeader';
+import OfferRow from './offerRow';
+import TextOffer from './textOffer';
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-      <Button
-        icon='camera'
-        mode='contained'
-        onPress={() => navigation.navigate('Product')}
-      >
-        Press me
-      </Button>
-      
-    </View>
+    <SafeAreaView style={styles.listContainer}>
+      <FlatList
+        ListHeaderComponent={
+          <View>
+            <HomeHeader />
+            <Ads />
+            <TextOffer navigation={navigation} />
+          </View>
+        }
+        data={[1, 2, 3, 4, 5]}
+        renderItem={({item}) => <OfferRow item={item} navigation={navigation} />}
+        keyExtractor={(item,index) => index}
+        ListFooterComponent={<HorizontalProducts navigation={navigation}/>}
+      />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-  },
-});

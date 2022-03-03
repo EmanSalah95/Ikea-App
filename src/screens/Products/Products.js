@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Badge() {
+export default function Products() {
   return (
     <View style={styles.container}>
-      <Text>User</Text>
+      <Text>Products</Text>
     </View>
   );
 }

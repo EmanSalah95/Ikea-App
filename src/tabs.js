@@ -42,9 +42,7 @@ export default function Tabs() {
           component={Search}
           options={{
             tabBarIcon: ({ color }) => (
-
                 <MaterialIcons name='search' color={color} size={26} />
-
             ),
           }}
         />
