@@ -9,7 +9,6 @@ import ProductsAndFollow from './ProductsAndFollow';
 import { useState } from 'react';
 
 export default function Home({ navigation }) {
-  const [modalVisible, setModalVisible] = useState(false);
   return (
     <SafeAreaView style={styles.listContainer}>
       <FlatList
@@ -25,7 +24,6 @@ export default function Home({ navigation }) {
         keyExtractor={(item,index) => index}
         ListFooterComponent={<ProductsAndFollow navigation={navigation}/>}
       />
-      <SearchModal modalVisible/>
     </SafeAreaView>
   );
 }
