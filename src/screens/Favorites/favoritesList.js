@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, TouchableOpacity, Text } from 'react-native';
+import { View, FlatList, TouchableOpacity, Text, Alert } from 'react-native';
 import { h } from '../../constants/dimentions';
 import FavoritesCard from './favoritesCard';
 import { styles } from './styles';
@@ -18,7 +18,12 @@ export default function FavoritesList({ favItems }) {
   };
 
   const clearFavItems = () => {
-    dispatch(removeAllFromFav());
+    return Alert.alert('Do you want to clear shopping list?', null, [
+      {
+        text: 'No',
+      },
+      { text: 'Yes', onPress: () => dispatch(removeAllFromFav()) },
+    ]);
   };
 
   return (
