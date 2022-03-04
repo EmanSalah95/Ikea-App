@@ -18,8 +18,13 @@ export const styles = StyleSheet.create({
       textAlign: 'center'
     },
     flatList: {
-      height: h * 0.62,
+      height: h * 0.55,
       flexGrow: 0
+    },
+    emptyCartImg:{
+      width: w * 0.55,
+      height: h * 0.30,
+      borderRadius:w
     },
     totalPriceCard: {
       marginTop: 15,

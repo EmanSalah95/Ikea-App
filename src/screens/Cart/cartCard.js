@@ -5,26 +5,26 @@ import { styles } from './styles';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import {setCartItemAmount , removeFromCart} from '../../store/actions/cartProducts'
+import { setCartItemAmount, removeFromCart } from '../../store/actions/cartProducts'
 
-export default function CartCard({ item , purchasedQuantity, id}) {
+export default function CartCard({ item, purchasedQuantity, id }) {
     const [selectedAmount, setSelectedAmount] = useState(purchasedQuantity);
     const dispatch = useDispatch();
-  
+
     const deleteItem = () => {
-      dispatch(removeFromCart(id));
-      dispatch(setCartItemAmount(id, 0));
-    //   removeCartItemFromUser(localStorage.getItem('UID'), id);
+        dispatch(removeFromCart(id));
+        dispatch(setCartItemAmount(id, 0));
+        //   removeCartItemFromUser(localStorage.getItem('UID'), id);
     };
 
     const selectAmount = (value) => {
-      setSelectedAmount(value);
+        setSelectedAmount(value);
     };
-  
+
     useEffect(() => {
-      dispatch(
-        setCartItemAmount({ id: id, PurchasedAmount: selectedAmount })
-      );
+        dispatch(
+            setCartItemAmount({ id: id, PurchasedAmount: selectedAmount })
+        );
     }, [dispatch, id, selectedAmount]);
     return (
         <View style={styles.cartBox}>
@@ -33,57 +33,62 @@ export default function CartCard({ item , purchasedQuantity, id}) {
                 style={styles.cartImage}
             />
             <View style={styles.infoContainer}>
-                <Text style={{ fontWeight: 'bold', fontSize: 16, textTransform:'uppercase' }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 16, textTransform: 'uppercase' }}>
                     {item.ProductName}
                 </Text>
                 <Text>{item.Name}</Text>
-                <View style={{ display: 'flex', flexDirection: 'row'}}>
-                    <Text style={{color:'gray'}}>
+                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Text style={{ color: 'gray' }}>
                         {item.Color}
                     </Text>
                     {
                         (item.Height && item.Width && item.Thickness) && (
-                            <Text style={{color:'gray'}}>, {item.Height} x {item.Width} x {item.Thickness} cm</Text>
+                            <Text style={{ color: 'gray' }}>, {item.Height} x {item.Width} x {item.Thickness} cm</Text>
                         )
                     }
                     {
                         (item.Height && item.Width && !item.Thickness) && (
-                            <Text style={{color:'gray'}}>, {item.Height} x {item.Width} cm</Text>
+                            <Text style={{ color: 'gray' }}>, {item.Height} x {item.Width} cm</Text>
                         )
                     }
                     {
                         (item.Width && !item.Height && !item.Thickness) && (
-                            <Text style={{color:'gray'}}>, {item.Width} cm</Text>
+                            <Text style={{ color: 'gray' }}>, {item.Width} cm</Text>
                         )
                     }
                     {
                         (item.Thickness && !item.Width && !item.Height) && (
-                            <Text style={{color:'gray'}}>, {item.Thickness} cm</Text>
+                            <Text style={{ color: 'gray' }}>, {item.Thickness} cm</Text>
                         )
                     }
                     {
                         (item.Height && !item.Width && !item.Thickness) && (
-                            <Text style={{color:'gray'}}>, {item.Height} cm</Text>
+                            <Text style={{ color: 'gray' }}>, {item.Height} cm</Text>
                         )
                     }
                 </View>
-                <Text style={{fontWeight:'bold',marginBottom:5}}>
+                <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>
                     EGP {item.Price}
                 </Text>
-                <NumericInput 
-                type='up-down' 
-                onChange={selectAmount} 
-                minValue={1} 
-                maxValue={item.Quantity}
-                value={selectedAmount}
-                />
-                <Text style={{marginTop:5}}>
+                {/* <View style={{ borderColor: 'black',borderWidth:0.5}}> */}
+                    <NumericInput
+                        editable={false}
+                        type='plus-minus'
+                        onChange={selectAmount}
+                        minValue={1}
+                        maxValue={item.Quantity}
+                        value={selectedAmount}
+                        separatorWidth={0}
+                        iconSize={25}
+                    />
+                {/* </View> */}
+                <Text style={{ marginTop: 5 }}>
                     SubTotal:
-                    <Text style={{fontWeight:'bold'}}>
-                        EGP {item.Price  * selectedAmount}
+                    <Text style={{ fontWeight: 'bold' }}>
+                        EGP {item.Price * selectedAmount}
                     </Text>
                 </Text>
-                <AwesomeIcon name="trash" size={25} style={{textAlign:'right'}} onPress={() => deleteItem()}/>
+                <AwesomeIcon name="trash" size={25} style={{ textAlign: 'right' }} onPress={() => deleteItem()} />
             </View>
         </View>
     )
