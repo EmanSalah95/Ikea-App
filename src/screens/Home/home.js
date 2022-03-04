@@ -25,7 +25,7 @@ export default function Home({ navigation }) {
         keyExtractor={(item,index) => index}
         ListFooterComponent={<ProductsAndFollow navigation={navigation}/>}
       />
-      <SearchModal modalVisible/>
+      <SearchModal modalVisible={false}/>
     </SafeAreaView>
   );
 }
