@@ -2,13 +2,14 @@ let initialState = {
   //   cartProducts: [{
   //     id:1,
   //     productData:{
+  //       ProductName:"ADRMNE",
   //       Name:"Chair",
   //       Material:"wood",
   //       Price:500,
   //       SalePrice:300,
   //       Width:30,
   //       Length:50,
-  //       Image:'https://www.ikea.com/eg/en/images/products/bergmund-chair-black-rommele-dark-blue-white__1007975_pe826608_s5.jpg?f=xxxs',
+  //       Images:['https://www.ikea.com/eg/en/images/products/bergmund-chair-black-rommele-dark-blue-white__1007975_pe826608_s5.jpg?f=xxxs'],
   //       Quantity:5,
   //       Description:"some text..",
   //     },
@@ -17,13 +18,14 @@ let initialState = {
   //   {
   //     id:2,
   //     productData:{
+  //       ProductName:"sdkdis",
   //       Name:"Table",
   //       Material:"wood",
   //       Price:700,
   //       SalePrice:200,
   //       Width:30,
   //       Length:50,
-  //       Image:'https://www.ikea.com/eg/en/images/products/bergmund-chair-black-rommele-dark-blue-white__1007975_pe826608_s5.jpg?f=xxxs',
+  //       Images:['https://www.ikea.com/eg/en/images/products/bergmund-chair-black-rommele-dark-blue-white__1007975_pe826608_s5.jpg?f=xxxs'],
   //       Quantity:1,
   //       Description:"some text.."
   //     },
@@ -32,13 +34,14 @@ let initialState = {
   //   {
   //     id:3,
   //     productData:{
+  //       ProductName:"kjdkdd",
   //       Name:"Bed",
   //       Material:"wood",
   //       Price:500,
   //       SalePrice:300,
   //       Width:30,
   //       Length:50,
-  //       Image:'https://www.ikea.com/eg/en/images/products/bergmund-chair-black-rommele-dark-blue-white__1007975_pe826608_s5.jpg?f=xxxs',
+  //       Images:['https://www.ikea.com/eg/en/images/products/bergmund-chair-black-rommele-dark-blue-white__1007975_pe826608_s5.jpg?f=xxxs'],
   //       Quantity:4,
   //       Description:"some text.."
   //     },
@@ -47,13 +50,14 @@ let initialState = {
   //   {
   //     id:4,
   //     productData:{
+  //       ProductName:"ADReek",
   //       Name:"Chair",
   //       Material:"wood",
   //       Price:1000,
   //       SalePrice:300,
   //       Width:30,
   //       Length:50,
-  //       Image:'https://www.ikea.com/eg/en/images/products/bergmund-chair-black-rommele-dark-blue-white__1007975_pe826608_s5.jpg?f=xxxs',
+  //       Images:['https://www.ikea.com/eg/en/images/products/bergmund-chair-black-rommele-dark-blue-white__1007975_pe826608_s5.jpg?f=xxxs'],
   //       Quantity:3,
   //       Description:"some text.."
   //     },
