@@ -4,12 +4,15 @@ import Tabs from './src/tabs';
 import { Provider } from 'react-redux';
 import store from './src/store/store';
 import { LogBox } from 'react-native';
+import HomeStack from './src/homeStack';
 
 export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Tabs />
+        <HomeStack />
+        {/* <Tabs /> */}
+
       </NavigationContainer>
     </Provider>
   );

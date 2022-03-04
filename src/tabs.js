@@ -13,6 +13,7 @@ import { Badge } from 'react-native-paper';
 import { styles } from './styles';
 import SearchModalProvider from './context';
 import SearchModal from './components/SearchModal/SearchModal';
+import Home from './screens/Home/home';
 
 const Tab = createMaterialBottomTabNavigator();
 export default function Tabs() {
@@ -29,7 +30,7 @@ export default function Tabs() {
         labeled={false}
         barStyle={{ backgroundColor: '#fff' }}
       >
-        <Tab.Screen
+        {/* <Tab.Screen
           name='HomeStack'
           component={HomeStack}
           options={{
@@ -37,7 +38,16 @@ export default function Tabs() {
               <MaterialCommunityIcons name='home' color={color} size={26} />
             ),
           }}
-        />
+        /> */}
+        <Tab.Screen
+        name='HomeStack'
+        component={Home}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name='home' color={color} size={26} />
+          ),
+        }}
+      />
 
         <Tab.Screen
           name='Search'
