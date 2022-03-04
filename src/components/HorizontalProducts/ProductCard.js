@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 export default function ProductCard({ navigation, item }) {
   const { favourits } = useSelector((state) => state.favourits);
-  const { cartProducts } = useSelector((state) => state.cartProducts);
+  let { cartProducts } = useSelector((state) => state.cartProducts);
 
   let found = favourits?.find((i) => i.id === item.id);
   let foundInCart = cartProducts?.find((i) => i.id === item.id);
@@ -27,6 +27,8 @@ export default function ProductCard({ navigation, item }) {
     );
     // addFavItemsToUser(localStorage.getItem('UID'), item.id);
     setIsFavourite(!isFavourite);
+    console.log('cart',cartProducts.length);
+
   };
 
   const addCart = () => {
@@ -73,14 +75,13 @@ export default function ProductCard({ navigation, item }) {
         <Text style={styles.boldTitle}>{ProductName}</Text>
         <Text style={styles.grayText}>{Name}</Text>
         <View style={styles.marV}>
-          {!inCart && (
+          {!cartProducts?.find((i) => i.id === item.id) && (
             <FAB
               style={styles.fab}
               small
               icon='cart'
               color='#fff'
               onPress={addCart}
-              disabled={inCart}
             />
           )}
           <Text style={styles.boldTitle}>{`EGP ${Price}`}</Text>

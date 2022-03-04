@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   searchIcon: {
     width: 30,
     height: 30,
-    borderRadius: 20,
+    borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
