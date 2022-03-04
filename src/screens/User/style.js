@@ -129,4 +129,8 @@ export const styles = StyleSheet.create({
         marginTop: 50
     },
     // End Style For SignIn Page
+
+    textDanger: {
+        color: "red"
+    },
 });
