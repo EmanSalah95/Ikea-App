@@ -1,21 +1,46 @@
 import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
 import { Button, Card, TextInput } from 'react-native-paper';
 import NumericInput from 'react-native-numeric-input';
-import { h, w } from '../../constants/dimentions';
+import { styles } from './styles';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import {setCartItemAmount , removeFromCart} from '../../store/actions/cartProducts'
 
-export default function CartCard({ item }) {
+export default function CartCard({ item , purchasedQuantity, id}) {
+    const [selectedAmount, setSelectedAmount] = useState(purchasedQuantity);
+    const dispatch = useDispatch();
+  
+    const deleteItem = () => {
+      dispatch(removeFromCart(id));
+      dispatch(setCartItemAmount(id, 0));
+    //   removeCartItemFromUser(localStorage.getItem('UID'), id);
+    };
+
+    const selectAmount = (value) => {
+      setSelectedAmount(value);
+    };
+  
+    useEffect(() => {
+      dispatch(
+        setCartItemAmount({ id: id, PurchasedAmount: selectedAmount })
+      );
+    }, [dispatch, id, selectedAmount]);
     return (
-        <View style={styles.container}>
+        <View style={styles.cartBox}>
             <Image
-                source={{ uri: 'https://www.ikea.com/eg/en/images/products/angersby-3-seat-sofa-knisa-light-grey__0940370_pe794950_s5.jpg?f=xxs' }}
+                source={{ uri: item.Images[0] }}
                 style={styles.cartImage}
             />
             <View style={styles.infoContainer}>
-                <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.ProductName}</Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 16, textTransform:'uppercase' }}>
+                    {item.ProductName}
+                </Text>
                 <Text>{item.Name}</Text>
                 <View style={{ display: 'flex', flexDirection: 'row'}}>
-                    <Text style={{color:'gray'}}>{item.Color}</Text>
+                    <Text style={{color:'gray'}}>
+                        {item.Color}
+                    </Text>
                     {
                         (item.Height && item.Width && item.Thickness) && (
                             <Text style={{color:'gray'}}>, {item.Height} x {item.Width} x {item.Thickness} cm</Text>
@@ -42,30 +67,24 @@ export default function CartCard({ item }) {
                         )
                     }
                 </View>
-                <Text style={{fontWeight:'bold',marginBottom:5}}>EGP {item.Price}</Text>
-                <NumericInput type='up-down' onChange={value => console.log(value)} minValue={1} maxValue={item.Quantity}/>
-                <Text style={{marginTop:5}}>SubTotal:<Text style={{fontWeight:'bold'}}>{item.Price}</Text></Text>
-                <AwesomeIcon name="trash" size={25} style={{textAlign:'right'}}/>
+                <Text style={{fontWeight:'bold',marginBottom:5}}>
+                    EGP {item.Price}
+                </Text>
+                <NumericInput 
+                type='up-down' 
+                onChange={selectAmount} 
+                minValue={1} 
+                maxValue={item.Quantity}
+                value={selectedAmount}
+                />
+                <Text style={{marginTop:5}}>
+                    SubTotal:
+                    <Text style={{fontWeight:'bold'}}>
+                        EGP {item.Price  * selectedAmount}
+                    </Text>
+                </Text>
+                <AwesomeIcon name="trash" size={25} style={{textAlign:'right'}} onPress={() => deleteItem()}/>
             </View>
         </View>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'white',
-        width: w,
-        marginTop: 10,
-        display: 'flex',
-        flexDirection: 'row'
-    },
-    cartImage: {
-        width: w * 0.5,
-        height: h * 0.25
-    },
-    infoContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        padding:30,
-        width:w*0.5
-    }
-})

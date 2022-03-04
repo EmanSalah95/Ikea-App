@@ -1,51 +1,31 @@
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { Button } from 'react-native-paper';
-import { w } from '../../constants/dimentions';
+import { useSelector } from 'react-redux';
 import CartCard from './cartCard';
+import { styles } from './styles';
 
 export default function Cart({ navigation }) {
+  const itemsCount = useSelector(
+    state => state.cartProducts.totalAmountOfCartItems
+  );
+  const cartItems = useSelector(state => state.cartProducts.cartProducts);
+  const totalOrderPrice = useSelector(state => state.cartProducts.totalPrice);
+
   return (
     <View style={styles.container}>
-    <FlatList
-    ListHeaderComponent={<View style={styles.ListHeader}><Text style={styles.HeaderText}>Shopping bag</Text></View>}
-    data={[
-      {
-        id:1,
-        Image:'',
-        ProductName:'ANGERSBY',
-        Name:'3-seat sofa',
-        Color:'grey',
-        Price:1000,
-        Quantity:1,
-        Width:10,
-        Height:20,
-        Thickness:50
-      },
-      {
-        id:2,
-        Image:'',
-        ProductName:'ANGERSBY',
-        Name:'3-seat sofa',
-        Color:'grey',
-        Price:1000,
-        Quantity:10,
-        Width:40
-      },
-      {
-        id:3,
-        Image:'',
-        ProductName:'ANGERSBY',
-        Name:'3-seat sofa',
-        Color:'grey',
-        Price:1000,
-        Quantity:5,
-        Height:60
-      }
-    ]}
-    renderItem={({item}) => <CartCard item={item}/>}
-
-    />
-       {/* <Text>Cart</Text>
+      <FlatList
+        style={styles.flatList}
+        ListHeaderComponent={<View style={styles.ListHeader}><Text style={styles.HeaderText}>Shopping bag</Text></View>}
+        data={cartItems}
+        renderItem={({ item }) => <CartCard item={item.productData} id={item.id} key={item.id} purchasedQuantity={item.PurchasedAmount}/>}
+      />
+                  {/* <CartCard
+                    id={item.id}
+                    key={item.id}
+                    product={item.productData}
+                    purchasedQuantity={item.PurchasedAmount}
+                  /> */}
+      {/* <Text>Cart</Text>
        <Button
          icon='camera'
          mode='contained'
@@ -53,26 +33,29 @@ export default function Cart({ navigation }) {
        >
          Press me
        </Button> */}
+      <View style={styles.totalPriceCard}>
+        <View style={{ flexDirection: 'column' }}>
+          <Text style={{ textTransform: 'uppercase' }}>
+            Total Price
+          </Text>
+          <Text>
+            (Inc. VAT)
+          </Text>
+          <Text style={{ paddingTop: 10 }}>
+            {itemsCount} items
+          </Text>
+        </View>
+        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+          EGP {totalOrderPrice}
+        </Text>
+      </View>
+      <View style={{ alignItems: 'center' }}>
+        <Button color='white' style={styles.checkoutBtn}>
+          <Text style={{ fontWeight: 'bold', fontSize: 12 }}>
+            PROCEED TO CHECKOUT
+          </Text>
+        </Button>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#E7F0EF',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  ListHeader:{
-    backgroundColor:'white',
-    width:w,
-    padding:15
-  },
-  HeaderText:{
-    fontWeight:'bold',
-    fontSize:15,
-    textTransform:'uppercase',
-    textAlign:'center'
-  }
-});
