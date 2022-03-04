@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { Text, Alert, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
 import { styles } from './style';
