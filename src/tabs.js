@@ -1,5 +1,4 @@
-import {View, StatusBar } from 'react-native';
-import Favourits from './screens/Favourits/favourits';
+import { View, StatusBar } from 'react-native';
 import Search from './screens/Search/Search';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,11 +10,13 @@ import User from './screens/User/user';
 import { useSelector } from 'react-redux';
 import { Badge } from 'react-native-paper';
 import { styles } from './styles';
+import Favorites from './screens/Favorites/favorites';
+import FavoritesDrawer from './drawer';
 
 const Tab = createMaterialBottomTabNavigator();
 export default function Tabs() {
-  const cartItems = useSelector((state) => state.cartProducts.cartProducts);
-  const favItems = useSelector((state) => state.favourits.favourits);
+  const cartItems = useSelector(state => state.cartProducts.cartProducts);
+  const favItems = useSelector(state => state.favourits.favourits);
 
   return (
     <>
@@ -42,7 +43,7 @@ export default function Tabs() {
           component={Search}
           options={{
             tabBarIcon: ({ color }) => (
-                <MaterialIcons name='search' color={color} size={26} />
+              <MaterialIcons name='search' color={color} size={26} />
             ),
           }}
         />
@@ -54,7 +55,7 @@ export default function Tabs() {
             tabBarIcon: ({ color }) => (
               <View>
                 <MaterialIcons name='shopping-basket' color={color} size={26} />
-                <Badge visible={cartItems.length>0} style={styles.badge} >
+                <Badge visible={cartItems.length > 0} style={styles.badge}>
                   {cartItems.length}
                 </Badge>
               </View>
@@ -63,13 +64,13 @@ export default function Tabs() {
         />
 
         <Tab.Screen
-          name='Favourits'
-          component={Favourits}
+          name='FavoritesDrawer'
+          component={FavoritesDrawer}
           options={{
             tabBarIcon: ({ color }) => (
               <View>
-              <MaterialCommunityIcons name='heart' color={color} size={26} />
-                <Badge visible={favItems.length>0} style={styles.badge} >
+                <MaterialCommunityIcons name='heart' color={color} size={26} />
+                <Badge visible={favItems.length > 0} style={styles.badge}>
                   {favItems.length}
                 </Badge>
               </View>
@@ -91,4 +92,3 @@ export default function Tabs() {
     </>
   );
 }
-
