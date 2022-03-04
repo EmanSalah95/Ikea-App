@@ -70,7 +70,6 @@ export default function CartCard({ item, purchasedQuantity, id }) {
                 <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>
                     EGP {item.Price}
                 </Text>
-                {/* <View style={{ borderColor: 'black',borderWidth:0.5}}> */}
                     <NumericInput
                         editable={false}
                         type='plus-minus'
@@ -81,7 +80,6 @@ export default function CartCard({ item, purchasedQuantity, id }) {
                         separatorWidth={0}
                         iconSize={25}
                     />
-                {/* </View> */}
                 <Text style={{ marginTop: 5 }}>
                     SubTotal:
                     <Text style={{ fontWeight: 'bold' }}>

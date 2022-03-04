@@ -19,8 +19,8 @@ export default function Cart({ navigation }) {
         {
           (cartItems.length === 0) && (
             <View style={{ alignItems: 'center', justifyContent: 'center',height:h*0.75}}>
-              <Image source={require('../../assets/noCartItems.png')} style={styles.emptyCartImg} />
-              <Text style={{fontWeight:'bold',fontSize:20,textAlign:'center',marginTop:20}}>
+              <Image source={require('../../assets/noCartItems.jpg')} style={styles.emptyCartImg} />
+              <Text style={{fontWeight:'bold',fontSize:20,textAlign:'center',paddingHorizontal:20}}>
                 Your shopping bag is waiting for it's first product
               </Text>
             </View>
