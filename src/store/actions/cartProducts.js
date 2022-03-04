@@ -5,6 +5,13 @@ export const addToCart = data => {
   };
 };
 
+export const addAllItemsToCart = data => {
+  return {
+    type: 'ADD_ALL_ITEMS_TO_CART',
+    payload: data,
+  };
+};
+
 export const removeFromCart = data => {
   return {
     type: 'REMOVE_FROM_CART',

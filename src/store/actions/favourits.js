@@ -12,6 +12,12 @@ export const removeFromFav = data => {
   };
 };
 
+export const removeAllFromFav = () => {
+  return {
+    type: 'REMOVE_ALL_FROM_FAV',
+  };
+};
+
 export const setFavItemAmount = data => {
   return {
     type: 'SET_AMOUNT',

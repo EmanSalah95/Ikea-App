@@ -78,6 +78,13 @@ export default function cartReducer(state = initialState, action) {
       };
     }
 
+    case 'ADD_ALL_ITEMS_TO_CART': {
+      return {
+        ...state,
+        cartProducts: [...action.payload, ...state.cartProducts],
+      };
+    }
+
     case 'REMOVE_FROM_CART': {
       return {
         ...state,

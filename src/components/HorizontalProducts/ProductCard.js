@@ -9,11 +9,11 @@ import { addFavItemsToUser } from '../../services/firebase';
 import { useState } from 'react';
 
 export default function ProductCard({ navigation, item }) {
-  const { favourits } = useSelector((state) => state.favourits);
-  const { cartProducts } = useSelector((state) => state.cartProducts);
+  const { favourits } = useSelector(state => state.favourits);
+  const { cartProducts } = useSelector(state => state.cartProducts);
 
-  let found = favourits?.find((i) => i.id === item.id);
-  let foundInCart = cartProducts?.find((i) => i.id === item.id);
+  let found = favourits?.find(i => i.id === item.id);
+  let foundInCart = cartProducts?.find(i => i.id === item.id);
 
   const [isFavourite, setIsFavourite] = useState(found ? true : false);
   const [inCart, setInCart] = useState(foundInCart ? true : false);
