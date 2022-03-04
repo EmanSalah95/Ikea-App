@@ -4,7 +4,8 @@ import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
 import { useState, useRef } from 'react';
 import { styles } from './style';
-import { login, useAuth } from '../../Firebase/fireStoreAuthConfig';
+import {app} from '../../Firebase/fireStoreAuthConfig';
+// import { login, useAuth } from '../../Firebase/fireStoreAuthConfig';
 
 export default function Loginscreen({navigation}){
   const [email, setEmail] = useState('');
@@ -53,6 +54,27 @@ export default function Loginscreen({navigation}){
         console.log('success LogIn')
       }
   }
+
+  // const userLogin = () => {
+  //   if(email === '' && password === '') {
+  //     Alert.alert('Enter details to signin!')
+  //   } 
+
+  //   app
+  //     .auth()
+  //     .signInWithEmailAndPassword(email, password)
+  //     .then((res) => {
+  //       console.log(res)
+  //       console.log('User logged-in successfully!')
+  //       this.setState({
+  //         email: '', 
+  //         password: ''
+  //       })
+  //       this.props.navigation.navigate('Product')
+  //     })
+  //     .catch(error => this.setState({ errorMessage: error.message }))
+    
+  // }
   
     return (
       <View style={styles.container}>

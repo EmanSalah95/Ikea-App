@@ -15,7 +15,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 
 export function signup(email, password) {
@@ -47,3 +47,4 @@ export function useAuth() {
 
   return currentUser;
 }
+
