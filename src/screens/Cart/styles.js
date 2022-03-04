@@ -23,8 +23,7 @@ export const styles = StyleSheet.create({
     },
     emptyCartImg:{
       width: w * 0.55,
-      height: h * 0.30,
-      borderRadius:w
+      height: w * 0.55,
     },
     totalPriceCard: {
       marginTop: 15,
