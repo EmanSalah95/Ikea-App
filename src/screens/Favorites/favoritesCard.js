@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, TouchableOpacity, Text } from 'react-native';
+import { View, Image, TouchableOpacity, Text, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/actions/cartProducts';
-import { setFavItemAmount } from '../../store/actions/favourits';
+import { removeFromFav, setFavItemAmount } from '../../store/actions/favourits';
 import { styles } from './styles';
 
 export default function FavoritesCard({ item, allInCart, setAllInCart }) {
@@ -37,7 +37,7 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
   }, [allInCart]);
 
   useEffect(() => {
-    const arr = [];
+    const arr = [{ label: '0', value: 0 }];
     for (const i of Array(productData.Quantity).keys()) {
       arr.push({ label: (i + 1).toString(), value: i + 1 });
     }
@@ -71,6 +71,27 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
               onValueChange={value => {
                 setSelectedValue(value);
                 console.log(value);
+                if (value === 0 && item.id) {
+                  console.log('alert');
+                  return Alert.alert(
+                    '',
+                    'Do you want to remove this product?',
+                    [
+                      {
+                        text: 'No',
+                        onPress: () => {
+                          setSelectedValue(1);
+                        },
+                      },
+                      {
+                        text: 'Yes',
+                        onPress: () => {
+                          dispatch(removeFromFav(item.id));
+                        },
+                      },
+                    ]
+                  );
+                }
               }}
               items={quantityArr}
               placeholder={{
