@@ -2,10 +2,11 @@ import { Text, View, Alert } from 'react-native';
 import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
 import { styles } from './style';
-import { signup } from '../../Firebase/fireStoreAuthConfig';
+import { signup, useAuth } from '../../Firebase/fireStoreAuthConfig';
 import React, { useState } from 'react'
+import { addDocByID } from '../../services/firebase';
 
-export default function Loginscreen({ navigation }) {
+export default function SignUpForm({ navigation }) {
   
     const [firstName, setFirstName] = useState( '' )
     const [surName, setSurName] = useState( '' )
@@ -96,14 +97,17 @@ export default function Loginscreen({ navigation }) {
         };
         
         try {
-        await signup(Email, Password).then(
-            userCredentials => {
-                localStorage.setItem('UID', userCredentials.user.uid);
-                console.log('success');
-            });
-            }
+            await signup(Email, Password).then(
+              userCredentials => {
+                addDocByID('users', userCredentials.user.uid, userObj).then(() => {
+                  localStorage.setItem('UID', userCredentials.user.uid);
+                  navigation.navigate('Products')
+                });
+              }
+            );
+          } 
         catch {
-        Alert('User is alredy exist!');
+            alert('User is alredy exist!');
         }
         console.log('function signIn');
         console.log(userObj);

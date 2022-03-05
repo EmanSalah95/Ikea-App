@@ -75,6 +75,8 @@ export default function Loginscreen({navigation}){
   //     .catch(error => this.setState({ errorMessage: error.message }))
     
   // }
+
+  
   
     return (
       <View style={styles.container}>
@@ -85,6 +87,7 @@ export default function Loginscreen({navigation}){
           placeholder="Email Address"
           style={styles.input}
           onChangeText={(email) => setEmail(email)}
+       
         />
         <Text style={styles.textDanger}>{errors.EmailErr}</Text>
         <TextInput
@@ -92,6 +95,7 @@ export default function Loginscreen({navigation}){
           style={styles.input}
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
+
         />
         <Text style={styles.textDanger}>{errors.PasswordErr}</Text>   
         <Button style={styles.logBtn} mode='contained' onPress={() => signIn()}>LogIn</Button>
