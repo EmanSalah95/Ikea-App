@@ -2,8 +2,8 @@ import { Text, View, Alert } from 'react-native';
 import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
 import { styles } from './style';
-import { signup, useAuth } from '../../Firebase/fireStoreAuthConfig';
-import React, { useState } from 'react'
+import { signup } from '../../Firebase/fireStoreAuthConfig';
+import React, { useState, useEffect } from 'react'
 import { addDocByID } from '../../services/firebase';
 
 export default function SignUpForm({ navigation }) {
@@ -19,7 +19,7 @@ export default function SignUpForm({ navigation }) {
 
 
     // Function to hadndle change in any input and write into it
-    const handleChangeInInput = () => {
+    const handleValidateInput = () => {
         const regName = /^\w[a-zA-Z]{2,}/;
         const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
         const regPassword =
@@ -69,7 +69,7 @@ export default function SignUpForm({ navigation }) {
         }
     };
 
-    async function handleSignup() {
+    async function handleSignup(e) {
         
         var userObj = {
         FirstName: firstName,
@@ -78,30 +78,31 @@ export default function SignUpForm({ navigation }) {
         Password: Password,
         };
 
-        handleChangeInInput()
+        handleValidateInput()
         
         try {
             await signup(Email, Password).then(
-              userCredentials => {
+                userCredentials => {
                 addDocByID('users', userCredentials.user.uid, userObj).then(() => {
-                  localStorage.setItem('UID', userCredentials.user.uid);
-                  navigation.navigate('Products')
-                  console.log('function signIn Success');
+                    localStorage.setItem('UID', userCredentials.user.uid);
+                    navigation.navigate('Products')
+                    console.log('function signIn Success');
                 });
-              }
+                }
             );
-          } 
+            } 
         catch {
             Alert('Email is alredy exist!');
             console.log('function signIn Failed');
         }
+        
         
         console.log(userObj);
         
     }
 
     return (
-        <View style={styles.containeer}>
+        <View style={styles.container}>
             <View style={styles.signForm}>
                 <TextInput
                 placeholder="First Name"

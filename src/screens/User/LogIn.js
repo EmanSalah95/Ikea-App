@@ -45,7 +45,7 @@ export default function Loginscreen({navigation}){
       }
   }
 
-  async function handleLogIn() {
+  async function handleLogIn(e) {
         
     var userObj = {
     Email: email,
@@ -82,7 +82,7 @@ export default function Loginscreen({navigation}){
 }
   
     return (
-      <View style={styles.containeer}>
+      <View style={styles.container}>
         <Text style={styles.userHeading}>LogIn</Text>
          <Text style={styles.userSubbHeading}>Log in to save your shopping lists and access them from any device.</Text>
          <View style={styles.view}>
@@ -105,9 +105,9 @@ export default function Loginscreen({navigation}){
         </View>
 
         <View style={styles.displayTxt}>
-            <Text>Sign up</Text>
-            <Text>|</Text>
-            <Text>Forget Password?</Text>
+            <Text style={styles.txxt} onPress={() => navigation.navigate('SignForm')}>Sign up</Text>
+            <Text style={styles.txxt}>|</Text>
+            <Text style={styles.txxt}>Forget Password?</Text>
         </View>
       </View>
     );
