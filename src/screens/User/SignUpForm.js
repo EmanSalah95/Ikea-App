@@ -107,7 +107,7 @@ export default function SignUpForm({ navigation }) {
             );
           } 
         catch {
-            alert('User is alredy exist!');
+            Alert('Email is alredy exist!');
         }
         console.log('function signIn');
         console.log(userObj);

@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, Alert, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
 import { useState, useRef } from 'react';
 import { styles } from './style';
-import {app} from '../../Firebase/fireStoreAuthConfig';
-// import { login, useAuth } from '../../Firebase/fireStoreAuthConfig';
+import { login, useAuth } from '../../Firebase/fireStoreAuthConfig';
 
 export default function Loginscreen({navigation}){
   const [email, setEmail] = useState('');
@@ -15,7 +14,7 @@ export default function Loginscreen({navigation}){
     PasswordErr: null,
   });
   
-  const signIn = () => {                          
+  const handleValidation = () => {                          
       const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
       const regPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
   
@@ -55,28 +54,39 @@ export default function Loginscreen({navigation}){
       }
   }
 
-  // const userLogin = () => {
-  //   if(email === '' && password === '') {
-  //     Alert.alert('Enter details to signin!')
-  //   } 
+  async function handleLogIn() {
+        
+    var userObj = {
+    Email: email,
+    Password: password,
+    };
 
-  //   app
-  //     .auth()
-  //     .signInWithEmailAndPassword(email, password)
-  //     .then((res) => {
-  //       console.log(res)
-  //       console.log('User logged-in successfully!')
-  //       this.setState({
-  //         email: '', 
-  //         password: ''
-  //       })
-  //       this.props.navigation.navigate('Product')
-  //     })
-  //     .catch(error => this.setState({ errorMessage: error.message }))
+    if(email === '' && password === '') {
+      Alert.alert('Enter details to signin!')
+      console.log('Empty Field Input, Please fill it');
+    } 
     
-  // }
+    else {
+      try {
+        await login(email, password).then(
+          userCredentials => {
+            localStorage.setItem('UID', userCredentials.user.uid);
+            navigation.navigate('Products')
+            console.log('function LogIn Success');
+          }
+          
+        );
+      } 
+      catch {
+        Alert.alert('User not found you can signup!')
+          console.log('Failed LogIn')
+          navigation.navigate('SignForm')
+      }
+    }
 
-  
+    console.log(userObj);
+    
+}
   
     return (
       <View style={styles.container}>
@@ -87,7 +97,7 @@ export default function Loginscreen({navigation}){
           placeholder="Email Address"
           style={styles.input}
           onChangeText={(email) => setEmail(email)}
-       
+          value={email}
         />
         <Text style={styles.textDanger}>{errors.EmailErr}</Text>
         <TextInput
@@ -95,10 +105,10 @@ export default function Loginscreen({navigation}){
           style={styles.input}
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
-
+          value={password}
         />
         <Text style={styles.textDanger}>{errors.PasswordErr}</Text>   
-        <Button style={styles.logBtn} mode='contained' onPress={() => signIn()}>LogIn</Button>
+        <Button style={styles.logBtn} mode='contained' onPress={handleLogIn}>LogIn</Button>
         </View>
 
         <View style={styles.displayTxt}>
