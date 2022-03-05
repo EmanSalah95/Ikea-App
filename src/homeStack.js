@@ -7,24 +7,14 @@ import SignUpScreen from './screens/User/SignUp';
 import SignUpForm from './screens/User/SignUpForm';
 import Products from './screens/Products/Products';
 import Tabs from './tabs';
+import { w } from './constants/dimentions';
+
 import { Text, TouchableOpacity } from 'react-native';
 import { ProductDetails } from './screens/Product.js/productDetails';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// const { favourits } = useSelector((state) => state.favourits);
-// let found = favourits?.find((i) => i.id === item.id);
-// const [isFavourite, setIsFavourite] = useState(found ? true : false);
-// const dispatch = useDispatch();
-
-const toggleFavourite = () => {
-  // dispatch(
-  //   isFavourite
-  //     ? removeFromFav(item.id)
-  //     : addToFav({ id: item.id, productData: item.data() })
-  // );
-};
 export default function HomeStack() {
   return (
     <Stack.Navigator
@@ -33,6 +23,8 @@ export default function HomeStack() {
         headerTitleAlign: 'center',
         headerTitleStyle: {
           fontSize: 18,
+          maxWidth: w * 0.6,
+          headerTitleAlign: 'center',
         },
       }}
     >

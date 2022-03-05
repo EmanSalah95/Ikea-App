@@ -1,15 +1,14 @@
-import {
-  Text,
-  View,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { Text, View, TouchableWithoutFeedback } from 'react-native';
 import { styles } from '../../styles';
 
 export default function TextOffer({ navigation }) {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        navigation.navigate('Products');
+        navigation.navigate('Products', {
+          SalePrice: true,
+          screenTitle: 'Mall of Arabia anniversary offers',
+        });
       }}
     >
       <View style={styles.offerContainer}>
