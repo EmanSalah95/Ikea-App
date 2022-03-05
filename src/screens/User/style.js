@@ -123,7 +123,9 @@ export const styles = StyleSheet.create({
     },
 
     signForm: {
-        marginTop: 50
+        marginTop: 50,
+        width: "92%",
+        margin: "3%"
     },
     // End Style For SignIn Page
 
