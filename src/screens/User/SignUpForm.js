@@ -16,6 +16,9 @@ export default function SignUpForm({ navigation }) {
     const [surNameErr, setSurNameErr] = useState( '' )
     const [EmailErr, setEmailErr] = useState( '' )
     const [PasswordErr, setPasswordErr] = useState( '' )
+    const [allValid, setAllValid] = useState(
+        firstNameErr === null && surNameErr === null && EmailErr === null && PasswordErr === null
+      );
 
 
     // Function to hadndle change in any input and write into it
@@ -96,10 +99,12 @@ export default function SignUpForm({ navigation }) {
             console.log('function signIn Failed');
         }
         
-        
         console.log(userObj);
-        
     }
+
+    useEffect(()=>{
+        setAllValid(firstNameErr === null && surNameErr === null && EmailErr === null && PasswordErr === null);
+      },[])
 
     return (
         <View style={styles.container}>
@@ -137,7 +142,7 @@ export default function SignUpForm({ navigation }) {
                 />
                 <Text style={styles.textDanger}>{PasswordErr}</Text>
                 
-                <Button style={styles.logBtn} mode='contained' onPress={handleSignup} >SIGN UP</Button>
+                <Button style={styles.logBtn} mode='contained' onPress={handleSignup} disabled={firstName=='' || surName=='' || Email=='' || Password==''} >SIGN UP</Button>
             </View>
         </View>
     );

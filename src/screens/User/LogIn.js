@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, Alert, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styles } from './style';
 import { login } from '../../Firebase/fireStoreAuthConfig';
 
@@ -11,6 +11,9 @@ export default function Loginscreen({navigation}){
   const [password, setPassword] = useState('');
   const [EmailErr, setEmailErr] = useState('');
   const [PasswordErr, setPasswordErr] = useState('');
+  const [allValid, setAllValid] = useState(
+    EmailErr === null && PasswordErr === null
+  );
   
   const handleValidation = () => {                          
     const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
@@ -41,7 +44,7 @@ export default function Loginscreen({navigation}){
       
       else
       {
-        console.log('success LogIn')
+        console.log('success LogIn Validation')
       }
   }
 
@@ -54,12 +57,14 @@ export default function Loginscreen({navigation}){
 
     handleValidation()
 
-    if(email === '' && password === '') {
-      Alert.alert('Enter details to signin!')
-      console.log('Empty Field Input, Please fill it');
-    } 
+    // if(email === '' && password === '') {
+    //   Alert.alert('Enter details to signin!')
+    //   console.log('Empty Field Input, Please fill it');
+    // } 
+
     
-    else {
+    
+    
       try {
         await login(email, password).then(
           userCredentials => {
@@ -75,11 +80,15 @@ export default function Loginscreen({navigation}){
           console.log('Failed LogIn')
           navigation.navigate('SignForm')
       }
-    }
+    
 
     console.log(userObj);
     
 }
+
+  useEffect(()=>{
+    setAllValid(EmailErr === null && PasswordErr === null);
+  },[])
   
     return (
       <View style={styles.container}>
@@ -101,7 +110,7 @@ export default function Loginscreen({navigation}){
           value={password}
         />
         <Text style={styles.textDanger}>{PasswordErr}</Text>   
-        <Button style={styles.logBtn} mode='contained' onPress={handleLogIn}>LogIn</Button>
+        <Button style={styles.logBtn} mode='contained' onPress={handleLogIn} disabled={email=='' || password==''} >LogIn</Button>
         </View>
 
         <View style={styles.displayTxt}>
