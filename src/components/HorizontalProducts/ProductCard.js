@@ -43,7 +43,12 @@ export default function ProductCard({ navigation, item }) {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('Product');
+        navigation.navigate(
+          {
+            name: 'Product',
+            params: { id: item.id }
+          }
+        );
       }}
     >
       <Card style={styles.prodCardH}>
