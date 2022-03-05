@@ -1,12 +1,10 @@
 import { View, StatusBar } from 'react-native';
-import Favourits from './screens/Favourits/favourits';
 import Search from './screens/Search/Search';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import Cart from './screens/Cart/cart';
-import HomeStack from './homeStack';
 import User from './screens/User/user';
 import { useSelector } from 'react-redux';
 import { Badge } from 'react-native-paper';
@@ -14,11 +12,12 @@ import { styles } from './styles';
 import SearchModalProvider from './context';
 import SearchModal from './components/SearchModal/SearchModal';
 import Home from './screens/Home/home';
+import FavoritesDrawer from './drawer';
 
 const Tab = createMaterialBottomTabNavigator();
 export default function Tabs() {
-  const cartItems = useSelector((state) => state.cartProducts.cartProducts);
-  const favItems = useSelector((state) => state.favourits.favourits);
+  const cartItems = useSelector(state => state.cartProducts.cartProducts);
+  const favItems = useSelector(state => state.favourits.favourits);
 
   return (
     <SearchModalProvider>
@@ -40,14 +39,14 @@ export default function Tabs() {
           }}
         /> */}
         <Tab.Screen
-        name='HomeStack'
-        component={Home}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name='home' color={color} size={26} />
-          ),
-        }}
-      />
+          name='HomeStack'
+          component={Home}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name='home' color={color} size={26} />
+            ),
+          }}
+        />
 
         <Tab.Screen
           name='Search'
@@ -75,8 +74,8 @@ export default function Tabs() {
         />
 
         <Tab.Screen
-          name='Favourits'
-          component={Favourits}
+          name='FavoritesDrawer'
+          component={FavoritesDrawer}
           options={{
             tabBarIcon: ({ color }) => (
               <View>
