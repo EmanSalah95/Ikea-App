@@ -2,6 +2,7 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { Card, FAB } from 'react-native-paper';
 import { styles } from '../../styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToFav, removeFromFav } from '../../store/actions/favourits';
 import { addToCart } from '../../store/actions/cartProducts';
@@ -9,11 +10,11 @@ import { addFavItemsToUser } from '../../services/firebase';
 import { useState } from 'react';
 
 export default function ProductCard({ navigation, item }) {
-  const { favourits } = useSelector(state => state.favourits);
-  const { cartProducts } = useSelector(state => state.cartProducts);
+  const { favourits } = useSelector((state) => state.favourits);
+  const { cartProducts } = useSelector((state) => state.cartProducts);
 
-  let found = favourits?.find(i => i.id === item.id);
-  let foundInCart = cartProducts?.find(i => i.id === item.id);
+  let found = favourits?.find((i) => i.id === item.id);
+  let foundInCart = cartProducts?.find((i) => i.id === item.id);
 
   const [isFavourite, setIsFavourite] = useState(found ? true : false);
   const [inCart, setInCart] = useState(foundInCart ? true : false);
@@ -43,12 +44,10 @@ export default function ProductCard({ navigation, item }) {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate(
-          {
-            name: 'Product',
-            params: { id: item.id }
-          }
-        );
+        navigation.navigate({
+          name: 'Product',
+          params: { id: item.id },
+        });
       }}
     >
       <Card style={styles.prodCardH}>
@@ -74,14 +73,10 @@ export default function ProductCard({ navigation, item }) {
         <Text style={styles.boldTitle}>{ProductName}</Text>
         <Text style={styles.grayText}>{Name}</Text>
         <View style={styles.marV}>
-          {!cartProducts?.find(i => i.id === item.id) && (
-            <FAB
-              style={styles.fab}
-              small
-              icon='cart'
-              color='#fff'
-              onPress={addCart}
-            />
+          {!cartProducts?.find((i) => i.id === item.id) && (
+            <TouchableOpacity style={styles.cartIcon}>
+              <MaterialIcons name='shopping-basket' color='#fff' size={22} />
+            </TouchableOpacity>
           )}
           <Text style={styles.boldTitle}>{`EGP ${Price}`}</Text>
           {SalePrice && (
