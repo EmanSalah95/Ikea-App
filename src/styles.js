@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { Colors } from './constants/colors';
 import { w, h } from './constants/dimentions';
 
 export const styles = StyleSheet.create({
   // tabs
   badge: {
     position: 'absolute',
-    backgroundColor: 'rgb(255, 193, 7)',
+    backgroundColor: Colors.amber,
     right: -10,
     top: -5,
   },
@@ -64,8 +65,18 @@ export const styles = StyleSheet.create({
   },
   homeListImg: {
     width: '100%',
-    height:h*0.25,
+    height:h*0.3,
     marginVertical: 2.5,
+  },
+  blurContainer:{
+    margin:20,
+    padding:5,
+    width:w*0.6,
+    elevation:10,
+  },
+  description:{
+    fontSize:16,
+    fontWeight:'bold'
   },
   prodListH: {
     paddingStart:20,
