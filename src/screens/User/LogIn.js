@@ -2,49 +2,40 @@ import React from 'react';
 import { Text, Alert, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { styles } from './style';
-import { login, useAuth } from '../../Firebase/fireStoreAuthConfig';
+import { login } from '../../Firebase/fireStoreAuthConfig';
 
 export default function Loginscreen({navigation}){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setError] = useState({
-    EmailErr: null,
-    PasswordErr: null,
-  });
+  const [EmailErr, setEmailErr] = useState('');
+  const [PasswordErr, setPasswordErr] = useState('');
   
   const handleValidation = () => {                          
-      const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
-      const regPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+    const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
+    const regPassword =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?_&])[A-Za-z\d@$!%*?_&]{8,}$/;
   
       if (email) {
         if (!regEmail.test(email)) {
-          setError({
-            ...errors,
-            EmailErr: 'Email is not valid',
-          });
+          setEmailErr('Email is not valid') ,
+          console.log(email)
         }
           else {
-            setError({
-              ...errors,
-              EmailErr: '',
-            });
+            setEmailErr('') ,
+            console.log('err')
           }
+
       }
 
-      else if (password) {
+      if (password) {
         if (!regPassword.test(password)) {
-          setError({
-            ...errors,
-            PasswordErr: 'Password is not valid',
-          });
+          setPasswordErr('Password is not valid'),
+          console.log(password)
         }
         else {
-          setError({
-            ...errors,
-            PasswordErr: '',
-          });
+          setEmailErr('') 
         }
       }
       
@@ -60,6 +51,8 @@ export default function Loginscreen({navigation}){
     Email: email,
     Password: password,
     };
+
+    handleValidation()
 
     if(email === '' && password === '') {
       Alert.alert('Enter details to signin!')
@@ -89,7 +82,7 @@ export default function Loginscreen({navigation}){
 }
   
     return (
-      <View style={styles.container}>
+      <View style={styles.containeer}>
         <Text style={styles.userHeading}>LogIn</Text>
          <Text style={styles.userSubbHeading}>Log in to save your shopping lists and access them from any device.</Text>
          <View style={styles.view}>
@@ -99,7 +92,7 @@ export default function Loginscreen({navigation}){
           onChangeText={(email) => setEmail(email)}
           value={email}
         />
-        <Text style={styles.textDanger}>{errors.EmailErr}</Text>
+        <Text style={styles.textDanger}>{EmailErr}</Text>
         <TextInput
           placeholder="Password"
           style={styles.input}
@@ -107,7 +100,7 @@ export default function Loginscreen({navigation}){
           onChangeText={(password) => setPassword(password)}
           value={password}
         />
-        <Text style={styles.textDanger}>{errors.PasswordErr}</Text>   
+        <Text style={styles.textDanger}>{PasswordErr}</Text>   
         <Button style={styles.logBtn} mode='contained' onPress={handleLogIn}>LogIn</Button>
         </View>
 

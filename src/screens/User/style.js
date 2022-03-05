@@ -4,7 +4,14 @@ export const styles = StyleSheet.create({
     container: {
         backgroundColor: "white",
         height: "100%", 
-        textAlign: "center"
+        textAlign: "center",
+        alignSelf: "center"
+    },
+
+    containeer: {
+        backgroundColor: "white",
+        height: "100%", 
+        textAlign: "center",
     },
 
     firstSec: {

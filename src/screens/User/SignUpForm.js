@@ -117,7 +117,7 @@ export default function SignUpForm({ navigation }) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.containeer}>
             <View style={styles.signForm}>
                 <TextInput
                 placeholder="First Name"
