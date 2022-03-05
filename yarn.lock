@@ -1859,10 +1859,10 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
-"@react-native-firebase/app@^14.5.0":
-  version "14.5.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-14.5.0.tgz#677a3965d172d3bde12690bcc993176943f3a99d"
-  integrity sha512-pMTYZA4gQl/m4+9tYE9/3YpGVfuqePg2RF1Fj+/6EUyt6w8y8ADvJyTXzFmJwEkG5CdyWaqvtEyZmsifInUp3w==
+"@react-native-firebase/app@^14.5.1":
+  version "14.5.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-14.5.1.tgz#48acd6a497fd5a71c1a602c944ab788a0c5df706"
+  integrity sha512-PmoiKU3DBnuaMZ5Nw71qCmDbJMJQJoYknm5gTI+j09iF0PDzzF0t+Qe/lCWEKMrDs6TuYpJvxFoocSFlAF6BHg==
   dependencies:
     "@expo/config-plugins" "^4.0.18"
     opencollective-postinstall "^2.0.1"
@@ -5289,6 +5289,11 @@ react-native-reanimated@~2.3.1:
     mockdate "^3.0.2"
     react-native-screens "^3.4.0"
     string-hash-64 "^1.0.3"
+
+react-native-redux-connectivity@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-redux-connectivity/-/react-native-redux-connectivity-0.2.1.tgz#e285245c89f8353ed37e83eccf9661e6ff3d5633"
+  integrity sha512-vhd0Ln0Udaofl+kPRdRoExu11f0u6hfDthiAdCdeZsGDo6rfx1LG0sZiuZlpU6ajk5zhHJFeNc0hbkBgpHVIwg==
 
 react-native-safe-area-context@3.3.2:
   version "3.3.2"
