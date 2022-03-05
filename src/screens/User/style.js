@@ -102,9 +102,6 @@ export const styles = StyleSheet.create({
 
     displayTxt: {
         marginTop: 20,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between"
     },
     // End Styles for LogIn page
 

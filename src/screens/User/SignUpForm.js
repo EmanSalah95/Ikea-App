@@ -102,14 +102,16 @@ export default function SignUpForm({ navigation }) {
                 addDocByID('users', userCredentials.user.uid, userObj).then(() => {
                   localStorage.setItem('UID', userCredentials.user.uid);
                   navigation.navigate('Products')
+                  console.log('function signIn Success');
                 });
               }
             );
           } 
         catch {
             Alert('Email is alredy exist!');
+            console.log('function signIn Failed');
         }
-        console.log('function signIn');
+        
         console.log(userObj);
         
     }
@@ -143,6 +145,7 @@ export default function SignUpForm({ navigation }) {
 
                 <TextInput
                     placeholder="Password"
+                    secureTextEntry={true}
                     style={styles.input}
                     onChangeText={(Password) => setPassword(Password)}
                     value={Password}
