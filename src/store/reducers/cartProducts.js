@@ -81,7 +81,14 @@ export default function cartReducer(state = initialState, action) {
     case 'ADD_ALL_ITEMS_TO_CART': {
       return {
         ...state,
-        cartProducts: [...action.payload, ...state.cartProducts],
+        cartProducts: [
+          ...action.payload.filter(i => {
+            if (state.cartProducts.length === 0) return true;
+            return state.cartProducts.some(prod => {
+              return prod.id !== i.id;
+            });
+          }),
+        ],
       };
     }
 

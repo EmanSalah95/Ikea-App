@@ -6,7 +6,7 @@ import { addToCart } from '../../store/actions/cartProducts';
 import { setFavItemAmount } from '../../store/actions/favourits';
 import { styles } from './styles';
 
-export default function FavoritesCard({ item }) {
+export default function FavoritesCard({ item, allInCart, setAllInCart }) {
   const productData = item.productData;
   const [quantityArr, setQuantityArr] = useState([]);
   const [selectedValue, setSelectedValue] = useState(1);
@@ -28,6 +28,13 @@ export default function FavoritesCard({ item }) {
     );
     setInCart(true);
   };
+
+  useEffect(() => {
+    if (allInCart) {
+      setInCart(true);
+      // setAllInCart(false);
+    }
+  }, [allInCart]);
 
   useEffect(() => {
     const arr = [];

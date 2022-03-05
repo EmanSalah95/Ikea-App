@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, FlatList, TouchableOpacity, Text, Alert } from 'react-native';
 import { h } from '../../constants/dimentions';
 import FavoritesCard from './favoritesCard';
@@ -11,10 +11,14 @@ import { useDispatch } from 'react-redux';
 import { addAllItemsToCart } from '../../store/actions/cartProducts';
 
 export default function FavoritesList({ favItems }) {
+  const [allInCart, setAllInCart] = useState(false);
+
   const dispatch = useDispatch();
 
   const addAllFavItemsToBag = () => {
+    setAllInCart(true);
     dispatch(addAllItemsToCart(favItems));
+    dispatch(addAllItemsToCart(favItems)); // repeated to fix a bug temporarily
   };
 
   const clearFavItems = () => {
@@ -30,7 +34,13 @@ export default function FavoritesList({ favItems }) {
     <View style={{ height: h * 0.8125 }}>
       <FlatList
         data={favItems}
-        renderItem={({ item }) => <FavoritesCard item={item} />}
+        renderItem={({ item }) => (
+          <FavoritesCard
+            item={item}
+            allInCart={allInCart}
+            setAllInCart={setAllInCart}
+          />
+        )}
         ListHeaderComponent={() => (
           <View>
             <TouchableOpacity style={styles.storeCard}>
