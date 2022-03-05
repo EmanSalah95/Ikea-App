@@ -12,18 +12,15 @@ export default function SignUpForm({ navigation }) {
     const [surName, setSurName] = useState( '' )
     const [Email, setEmail] = useState( '' )
     const [Password, setPassword] = useState( '' )
-    
-    const [errors, setError] = useState({
-        firstNameErr: null,
-        surNameErr: null,
-        EmailErr: null,
-        PasswordErr: null,
-    });
+    const [firstNameErr, setFirstNameErr] = useState( '' )
+    const [surNameErr, setSurNameErr] = useState( '' )
+    const [EmailErr, setEmailErr] = useState( '' )
+    const [PasswordErr, setPasswordErr] = useState( '' )
 
 
     // Function to hadndle change in any input and write into it
     const handleChangeInInput = () => {
-        const regName = /^\w[a-zA-Z]{3,}/;
+        const regName = /^\w[a-zA-Z]{2,}/;
         const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
         const regPassword =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?_&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -32,57 +29,42 @@ export default function SignUpForm({ navigation }) {
         // Validate Name Input
         if (firstName) {
         if (!regName.test(firstName)) {
-            setError({
-            ...errors,
-            firstNameErr: 'Name is not Allowed',
-            });
+            setFirstNameErr('Name is not Allowed')
+            
         } else {
-            setError({
-            ...errors,
-            firstNameErr: '',
-            });
+            setFirstNameErr('')
+            
         }
-        } else if (surName) {
+        } 
+        if (surName) {
         if (!regName.test(surName)) {
-            setError({
-            ...errors,
-            surNameErr: 'Name is not Allowed',
-            });
+            setSurNameErr('Name is not Allowed')
+            
         } else {
-            setError({
-            ...errors,
-            surNameErr: '',
-            });
+            setSurNameErr('')
+            
         }
         }
 
         // // // Validate Email Input
-        else if (Email) {
+        if (Email) {
         if (!regEmail.test(Email)) {
-            setError({
-            ...errors,
-            EmailErr: 'Email is not valid',
-            });
+            setEmailErr('Email is not valid')
+            
         } else {
-            setError({
-            ...errors,
-            EmailErr: '',
-            });
+            setEmailErr('')
+            
         }
         }
 
         // // // Validate Password Input
-        else if (Password) {
+        if (Password) {
         if (!regPassword.test(Password)) {
-            setError({
-            ...errors,
-            PasswordErr: 'Password is not valid',
-            });
+            setPasswordErr('Password is not valid')
+            
         } else {
-            setError({
-            ...errors,
-            PasswordErr: '',
-            });
+            setPasswordErr('')
+            
         }
         }
     };
@@ -95,6 +77,8 @@ export default function SignUpForm({ navigation }) {
         Email: Email,
         Password: Password,
         };
+
+        handleChangeInInput()
         
         try {
             await signup(Email, Password).then(
@@ -125,7 +109,7 @@ export default function SignUpForm({ navigation }) {
                 onChangeText={(firstName) => setFirstName(firstName)}
                 value={firstName}
                 />
-                <Text style={styles.textDanger}>{errors.firstNameErr}</Text>
+                <Text style={styles.textDanger}>{firstNameErr}</Text>
 
                 <TextInput
                     placeholder="Surname"
@@ -133,7 +117,7 @@ export default function SignUpForm({ navigation }) {
                     onChangeText={(surName) => setSurName(surName)}
                     value={surName}
                 />
-                <Text style={styles.textDanger}>{errors.surNameErr}</Text>
+                <Text style={styles.textDanger}>{surNameErr}</Text>
 
                 <TextInput
                     placeholder="Email"
@@ -141,7 +125,7 @@ export default function SignUpForm({ navigation }) {
                     onChangeText={(Email) => setEmail(Email)}
                     value={Email}
                 />
-                <Text style={styles.textDanger}>{errors.EmailErr}</Text>
+                <Text style={styles.textDanger}>{EmailErr}</Text>
 
                 <TextInput
                     placeholder="Password"
@@ -150,7 +134,7 @@ export default function SignUpForm({ navigation }) {
                     onChangeText={(Password) => setPassword(Password)}
                     value={Password}
                 />
-                <Text style={styles.textDanger}>{errors.PasswordErr}</Text>
+                <Text style={styles.textDanger}>{PasswordErr}</Text>
                 
                 <Button style={styles.logBtn} mode='contained' onPress={handleSignup} >SIGN UP</Button>
             </View>
