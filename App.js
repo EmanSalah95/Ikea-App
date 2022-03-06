@@ -12,10 +12,11 @@ export default function App() {
       <NavigationContainer>
         <HomeStack />
         {/* <Tabs /> */}
-
       </NavigationContainer>
     </Provider>
   );
 }
-LogBox.ignoreLogs(['Setting a timer','Async Storage has been extracted from react-native core']);
-
+LogBox.ignoreLogs([
+  'Setting a timer',
+  'Async Storage has been extracted from react-native core',
+]);
