@@ -83,26 +83,23 @@ export default function SignUpForm({ navigation }) {
 
         handleValidateInput()
 
-        // if (!allValid) {
+        // if(!allValid) {
         //     e.preventDefault();
         //     console.log('submission prevented,, form is notValied')
         // } 
         // else {
-            try {
-                await signup(Email, Password).then(
-                    userCredentials => {
+            await signup(Email, Password).then(
+                userCredentials => {
                     addDocByID('users', userCredentials.user.uid, userObj).then(() => {
                         localStorage.setItem('UID', userCredentials.user.uid);
                         navigation.navigate('Products')
                         console.log('function signIn Success and data stored in firebase');
                     });
-                    }
-                );
-            } 
-            catch {
+                }
+            ).catch(err => {
                 Alert.alert('Email is alredy exist!');
-                console.log('function signIn Failed');
-            }
+                console.log('function signIn Failed', err);
+            })
         // }
         
         console.log(userObj);

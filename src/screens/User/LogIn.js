@@ -63,8 +63,7 @@ export default function Loginscreen({navigation}){
         Alert.alert('User not found you can signup!')
           console.log('Failed LogIn',err)
           navigation.navigate('SignForm')
-    }
-    )
+    })
     console.log(userObj);
 }
 
