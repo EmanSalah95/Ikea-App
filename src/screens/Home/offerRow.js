@@ -14,6 +14,7 @@ export default function OfferRow({ navigation, item }) {
         navigation.navigate('Products', {
           subId: item.id,
           screenTitle: item.data().Name,
+          condition:['SubCategory', '==', item.id]
         });
       }}
     >

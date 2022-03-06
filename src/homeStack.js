@@ -47,7 +47,12 @@ export default function HomeStack() {
           headerShown: true,
         }}
       />
-      <Stack.Screen name='Products' component={Products} />
+      <Stack.Screen 
+       name='Products' 
+       component={Products} 
+       options={{
+        headerShown: true,
+      }}/>
     </Stack.Navigator>
   );
 }

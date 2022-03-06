@@ -6,8 +6,8 @@ export default function TextOffer({ navigation }) {
     <TouchableWithoutFeedback
       onPress={() => {
         navigation.navigate('Products', {
-          SalePrice: true,
           screenTitle: 'Mall of Arabia anniversary offers',
+          condition:['SalePrice', '>=', 0]
         });
       }}
     >

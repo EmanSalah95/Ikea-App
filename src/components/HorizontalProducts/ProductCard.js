@@ -9,7 +9,7 @@ import { addToCart } from '../../store/actions/cartProducts';
 import { addFavItemsToUser } from '../../services/firebase';
 import { useState } from 'react';
 
-export default function ProductCard({ navigation, item }) {
+export default function ProductCard({ navigation, item ,horizontal }) {
   const { favourits } = useSelector((state) => state.favourits);
   const { cartProducts } = useSelector((state) => state.cartProducts);
 
@@ -50,7 +50,7 @@ export default function ProductCard({ navigation, item }) {
         });
       }}
     >
-      <Card style={styles.prodCardH}>
+      <Card style={horizontal? styles.prodCardH:[styles.prodCardH,styles.prodCardV]}>
         <TouchableOpacity style={styles.heart} onPress={toggleFavourite}>
           <FontAwesome
             name={isFavourite ? 'heart' : 'heart-o'}
@@ -73,16 +73,17 @@ export default function ProductCard({ navigation, item }) {
         <Text style={styles.boldTitle}>{ProductName}</Text>
         <Text style={styles.grayText}>{Name}</Text>
         <View style={styles.marV}>
-          {!cartProducts?.find((i) => i.id === item.id) && (
-            <TouchableOpacity style={styles.cartIcon}>
-              <MaterialIcons name='shopping-basket' color='#fff' size={22} />
-            </TouchableOpacity>
-          )}
+          
           <Text style={styles.boldTitle}>{`EGP ${Price}`}</Text>
           {SalePrice && (
             <Text
               style={styles.grayText}
             >{`regular price EGP${SalePrice}`}</Text>
+          )}
+          {!cartProducts?.find((i) => i.id === item.id) && (
+            <TouchableOpacity style={horizontal? styles.cartIcon:styles.cartIconV} onPress={addCart}>
+              <MaterialIcons name='shopping-basket' color='#fff' size={22} />
+            </TouchableOpacity>
           )}
         </View>
       </Card>
