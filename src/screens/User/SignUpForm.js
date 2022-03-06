@@ -17,7 +17,7 @@ export default function SignUpForm({ navigation }) {
     const [EmailErr, setEmailErr] = useState( '' )
     const [PasswordErr, setPasswordErr] = useState( '' )
     const [allValid, setAllValid] = useState(
-        firstNameErr === null && surNameErr === null && EmailErr === null && PasswordErr === null
+        setFirstNameErr === null && setSurNameErr === null && setEmailErr === null && setPasswordErr === null
       );
 
 
@@ -82,28 +82,34 @@ export default function SignUpForm({ navigation }) {
         };
 
         handleValidateInput()
-        
-        try {
-            await signup(Email, Password).then(
-                userCredentials => {
-                addDocByID('users', userCredentials.user.uid, userObj).then(() => {
-                    localStorage.setItem('UID', userCredentials.user.uid);
-                    navigation.navigate('Products')
-                    console.log('function signIn Success');
-                });
-                }
-            );
+
+        // if (!allValid) {
+        //     e.preventDefault();
+        //     console.log('submission prevented,, form is notValied')
+        // } 
+        // else {
+            try {
+                await signup(Email, Password).then(
+                    userCredentials => {
+                    addDocByID('users', userCredentials.user.uid, userObj).then(() => {
+                        localStorage.setItem('UID', userCredentials.user.uid);
+                        navigation.navigate('Products')
+                        console.log('function signIn Success and data stored in firebase');
+                    });
+                    }
+                );
             } 
-        catch {
-            Alert('Email is alredy exist!');
-            console.log('function signIn Failed');
-        }
+            catch {
+                Alert.alert('Email is alredy exist!');
+                console.log('function signIn Failed');
+            }
+        // }
         
         console.log(userObj);
     }
 
     useEffect(()=>{
-        setAllValid(firstNameErr === null && surNameErr === null && EmailErr === null && PasswordErr === null);
+        setAllValid(setFirstNameErr === null && setSurNameErr === null && setEmailErr === null && setPasswordErr === null);
       },[])
 
     return (

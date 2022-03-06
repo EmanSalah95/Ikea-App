@@ -11,9 +11,6 @@ export default function Loginscreen({navigation}){
   const [password, setPassword] = useState('');
   const [EmailErr, setEmailErr] = useState('');
   const [PasswordErr, setPasswordErr] = useState('');
-  const [allValid, setAllValid] = useState(
-    EmailErr === null && PasswordErr === null
-  );
   
   const handleValidation = () => {                          
     const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
@@ -57,38 +54,20 @@ export default function Loginscreen({navigation}){
 
     handleValidation()
 
-    // if(email === '' && password === '') {
-    //   Alert.alert('Enter details to signin!')
-    //   console.log('Empty Field Input, Please fill it');
-    // } 
-
-    
-    
-    
-      try {
-        await login(email, password).then(
-          userCredentials => {
-            localStorage.setItem('UID', userCredentials.user.uid);
-            navigation.navigate('Products')
-            console.log('function LogIn Success');
-          }
-          
-        );
-      } 
-      catch {
-        Alert.alert('User not found you can signup!')
-          console.log('Failed LogIn')
-          navigation.navigate('SignForm')
+    await login(email, password).then(
+      userCredentials => {
+        navigation.navigate('Products')
+        console.log('function LogIn Success',userCredentials);
       }
-    
-
+    ).catch(err=>{
+        Alert.alert('User not found you can signup!')
+          console.log('Failed LogIn',err)
+          navigation.navigate('SignForm')
+    }
+    )
     console.log(userObj);
-    
 }
 
-  useEffect(()=>{
-    setAllValid(EmailErr === null && PasswordErr === null);
-  },[])
   
     return (
       <View style={styles.container}>
@@ -115,7 +94,7 @@ export default function Loginscreen({navigation}){
 
         <View style={styles.displayTxt}>
             <Text style={styles.txxt} onPress={() => navigation.navigate('SignForm')}>Sign up</Text>
-            <Text style={styles.txxt}>|</Text>
+            <Text style={[styles.txxt, styles.txxtColor]}>|</Text>
             <Text style={styles.txxt}>Forget Password?</Text>
         </View>
       </View>

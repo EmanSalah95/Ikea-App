@@ -105,11 +105,19 @@ export const styles = StyleSheet.create({
     },
 
     displayTxt: {
+        flexDirection: 'row',
+        alignSelf: 'center',
         marginTop: 20,
     },
 
     txxt: {
         textAlign: 'center',
+        color: '#2e73b8',
+        marginLeft: 10
+    },
+
+    txxtColor:{
+        color: '#000'
     },
     // End Styles for LogIn page
 
