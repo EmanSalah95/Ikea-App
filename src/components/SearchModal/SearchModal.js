@@ -4,6 +4,7 @@ import { Button } from 'react-native-paper';
 import { ModalContext } from '../../context';
 import { styles } from '../../styles/searchStyles';
 import SearchInput from './SearchInput';
+import SearchPage from '../../screens/Search/Search';
 
 export default function SearchModal() {
   const { isSearchVisible, setSearchVisible}=useContext(ModalContext);
@@ -18,7 +19,7 @@ export default function SearchModal() {
   >
     <View style={styles.container}>
       <SearchInput closeModal={closeModal}/>
-      
+      <SearchPage closeModal={closeModal}/>
     </View>
   </Modal>
   );

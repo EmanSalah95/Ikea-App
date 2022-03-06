@@ -3,6 +3,7 @@ import { styles } from '../../styles/searchStyles';
 import { styles as homeSt } from '../../styles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
+
 export default function SearchInput({closeModal}) {
   return (
     <View style={styles.searchBox}>

@@ -42,12 +42,14 @@ export default function Product({ route, navigation }) {
     );
     setInCart(true);
   };
+
   const getProduct = () => {
     getDocumentByID('Products', route.params.id).then((res) => {
       return setProduct(res);
     })
       .catch((err) => console.log('error :', err));
   };
+
   const getSimilarProducts = () => {
     getCollection('Products', ['SubCategory', '==', product.SubCategory])
       .then((res) => {
@@ -103,6 +105,7 @@ export default function Product({ route, navigation }) {
         />
       </View>
       <InfoSection product={product}  navigation={navigation}/>
+      
       {similarProducts.length!=0 && (
         <>
         <Text style={styles.InfoContainer}>Similar products</Text>
