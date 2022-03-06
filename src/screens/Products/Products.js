@@ -33,8 +33,8 @@ export default function Products({ route, navigation }) {
           <Text>filter</Text>
         </TouchableOpacity>
       ),
-      title: screenTitle ? screenTitle : currentSub?.Name,
-      headerTitleAlign: 'start',
+      title:screenTitle ,
+      headerTitleAlign:screenTitle.length>25 ? 'start':'center',
     });
   }, []);
   return (
