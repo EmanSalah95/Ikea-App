@@ -2,15 +2,16 @@ import { Text, View, TouchableWithoutFeedback } from 'react-native';
 import { styles } from '../../styles';
 
 export default function TextOffer({ navigation }) {
+
+  const pressHandler = () => {
+    navigation.navigate('Products', {
+      screenTitle: 'Mall of Arabia anniversary offers',
+      condition: ['SalePrice', '>=', 0],
+    });
+  };
+  
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        navigation.navigate('Products', {
-          screenTitle: 'Mall of Arabia anniversary offers',
-          condition:['SalePrice', '>=', 0]
-        });
-      }}
-    >
+    <TouchableWithoutFeedback onPress={pressHandler}>
       <View style={styles.offerContainer}>
         <Text style={styles.textOffer}>IKEA Mall of Arabia</Text>
         <Text style={styles.textOffer}>Anniversary offers</Text>

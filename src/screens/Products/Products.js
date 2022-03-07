@@ -1,54 +1,60 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  FlatList,
-} from 'react-native';
-import { useState, useEffect } from 'react';
-import { getCollection, getDocumentByID } from '../../services/firebase';
-import HorizontalProducts from '../../components/HorizontalProducts/HorizontalProducts';
+import { StyleSheet, View, FlatList, Text } from 'react-native';
+import { useState, useEffect, useContext } from 'react';
+import { getCollection } from '../../services/firebase';
 import ProductCard from '../../components/HorizontalProducts/ProductCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearDetails, getProdList } from '../../store/actions/productsList';
 
 export default function Products({ route, navigation }) {
-  const { subId, condition, screenTitle } = route.params;
-  const [products, setProducts] = useState(null);
+  const dispatch = useDispatch();
 
-  const getProducts = () => {
-    getCollection(
-      'Products',condition)
-      .then((res) => {
-        setProducts(res);
-        console.log('response', res.length);
-      })
-      .catch((err) => console.log('error :', err));
+  const { condition, screenTitle } = route.params.routeParams;
+  let { allProducts } = useSelector((state) => state.products);
+
+  // const [products, setProducts] = useState(allProducts);
+
+  const screenOptions = {
+    title: screenTitle,
   };
 
+  // const getProducts = () => {
+  //   getCollection('Products', condition)
+  //     .then((res) => {
+  //       setProducts(res);
+  //     })
+  //     .catch((err) => console.log('error :', err));
+  // };
 
   useEffect(() => {
-    getProducts();
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={() => console.log('sub', subId)}>
-          <Text>filter</Text>
-        </TouchableOpacity>
-      ),
-      title:screenTitle ,
-      headerTitleAlign:screenTitle.length>25 ? 'start':'center',
-    });
+    // getProducts();
+    const resolveAction = async () => {
+      dispatch(await getProdList(condition));
+    };
+    resolveAction();
+
+    navigation.setOptions(screenOptions);
+
+    return () => {
+      dispatch(clearDetails());
+    };
   }, []);
+
   return (
     <View style={styles.container}>
-      <FlatList
-        style={styles.prodListH}
-        data={products}
-        renderItem={({ item }) => (
-          <ProductCard item={item} navigation={navigation} />
-        )}
-        keyExtractor={(item, index) => index}
-        numColumns={2}
-        ItemSeparatorComponent={() => <View style={styles.devider} />}
-      />
+      {allProducts.length > 0 ? (
+        <FlatList
+          style={styles.prodListH}
+          data={allProducts}
+          renderItem={({ item }) => (
+            <ProductCard item={item} navigation={navigation} />
+          )}
+          keyExtractor={(item, index) => index}
+          numColumns={2}
+          ItemSeparatorComponent={() => <View style={styles.devider} />}
+        />
+      ) : (
+        <Text>Loading...</Text>
+      )}
     </View>
   );
 }
