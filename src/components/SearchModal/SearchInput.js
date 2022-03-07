@@ -24,7 +24,6 @@ export default function SearchInput({closeModal}) {
     <MaterialIcons name='photo' color={'black'} size={26} style={{marginTop:10}}/>
     </View>
     
-
     <View style={{marginTop:20}}>
         <Text style={{fontSize:18,padding:5}}>Your <b>search and browse activity</b> is only<br></br>
           used to make results more relevant

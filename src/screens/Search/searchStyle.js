@@ -23,11 +23,13 @@ export const styles = StyleSheet.create({
       borderRadius: 25, 
       paddingVertical: 3,
       paddingHorizontal: 3,
+  
     },
   
     input:{
       flex:1,
-      width: 200,
+      padding:7,
+      width: 300,
       height: 40,
       backgroundColor: '#F1EAF1',
       borderColor: '#F1EAF1',

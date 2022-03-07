@@ -20,9 +20,6 @@ export default function SearchModal() {
   >
     <View style={styles.container}>
       <SearchInput closeModal={closeModal}/>
-      
-      {/* <SearchPage closeModal={closeModal}/> */}
-      {/* <SearchHeader closeModal={closeModal} />  */}
     </View>
   </Modal>
   );

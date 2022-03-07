@@ -12,6 +12,7 @@ export default function HomeHeader() {
   const { isSearchVisible, setSearchVisible}=useContext(ModalContext);
   return (
     <View style={styles.homeSearch}>
+    
       <TouchableHighlight
         underlayColor='#DDD'
         style={styles.searchIcon}
