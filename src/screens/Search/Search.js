@@ -42,8 +42,6 @@ export default function SearchPage({navigation}) {
       <View style={styles.container}>
         <SearchHeader products={products} />
 
-
-
         {subCategories &&
           <FlatList
             data={subCategories}

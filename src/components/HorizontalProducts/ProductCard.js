@@ -58,6 +58,7 @@ export default function ProductCard({ navigation, item ,horizontal }) {
             size={24}
           />
         </TouchableOpacity>
+
         <Image
           style={styles.prodCardImg}
           source={{
@@ -67,11 +68,13 @@ export default function ProductCard({ navigation, item ,horizontal }) {
           }}
           resizeMode='contain'
         />
+
         <Text style={[styles.boldTitle, styles.blueText]}>
           IKEA Family price
         </Text>
         <Text style={styles.boldTitle}>{ProductName}</Text>
         <Text style={styles.grayText}>{Name}</Text>
+        
         <View style={styles.marV}>
           
           <Text style={styles.boldTitle}>{`EGP ${Price}`}</Text>
@@ -86,6 +89,7 @@ export default function ProductCard({ navigation, item ,horizontal }) {
             </TouchableOpacity>
           )}
         </View>
+
       </Card>
     </TouchableOpacity>
   );

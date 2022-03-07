@@ -31,6 +31,7 @@ export default function Home({ navigation }) {
       .catch((err) => console.log('error :', err));
   };
   useEffect(()=>getSubCategories(),[])
+  
   return (
     <SafeAreaView style={styles.listContainer}>
       <FlatList
@@ -41,6 +42,7 @@ export default function Home({ navigation }) {
             <TextOffer navigation={navigation} />
           </View>
         }
+
         data={subCategories}
         renderItem={({ item }) => (
           <OfferRow item={item} navigation={navigation} />

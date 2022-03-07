@@ -1,17 +1,15 @@
-import { StyleSheet, View, FlatList, Text } from 'react-native';
+import { StyleSheet, View, FlatList, Text,ImageBackground } from 'react-native';
 import { useState, useEffect, useContext } from 'react';
 import { getCollection } from '../../services/firebase';
 import ProductCard from '../../components/HorizontalProducts/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearDetails, getProdList } from '../../store/actions/productsList';
+import OfferRow from '../Home/offerRow';
 
-export default function Products({ route, navigation }) {
+export default function Products({ route, navigation,item }) {
   const dispatch = useDispatch();
-
   const { condition, screenTitle } = route.params.routeParams;
   let { allProducts } = useSelector((state) => state.products);
-
-  // const [products, setProducts] = useState(allProducts);
 
   const screenOptions = {
     title: screenTitle,
@@ -31,7 +29,6 @@ export default function Products({ route, navigation }) {
       dispatch(await getProdList(condition));
     };
     resolveAction();
-
     navigation.setOptions(screenOptions);
 
     return () => {
@@ -53,11 +50,17 @@ export default function Products({ route, navigation }) {
           ItemSeparatorComponent={() => <View style={styles.devider} />}
         />
       ) : (
-        <Text>Loading...</Text>
+        <>
+          <Text>Loading...</Text>
+          
+          </>
       )}
+      
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
