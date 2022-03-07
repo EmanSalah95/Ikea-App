@@ -97,10 +97,9 @@ export const updateUserStorageByID = async ID => {
   });
 };
 
-export const getCartItemsFromUser = userID => {
-  return getDoc(doc(fireStore, 'users', userID)).then(res => {
-    return res.data().CartItems;
-  });
+export const getCartItemsFromUser = async userID => {
+  const res = await getDoc(doc(fireStore, 'users', userID));
+  return res.data().CartItems;
 };
 
 export const addCartItemToUser = async (userID, productID) => {
@@ -120,10 +119,9 @@ export const addCartItemToUser = async (userID, productID) => {
     .catch(err => console.log('adding cart items to user ERROR: ' + err));
 };
 
-export const getProductDataById = id => {
-  return getDoc(doc(fireStore, 'Products', id)).then(product => {
-    return product.data();
-  });
+export const getProductDataById = async id => {
+  const product = await getDoc(doc(fireStore, 'Products', id));
+  return product.data();
 };
 
 export const removeCartItemFromUser = async (userID, productID) => {
@@ -185,15 +183,18 @@ export const getFirst4Categories = async () => {
 
   let results = await getDocs(q);
   // store.dispatch(changeLoader(false));
-
   let categories = [];
-
   results.forEach(res => {
     categories.push({ id: res.id, data: res.data() });
+    console.log(categories);
+    console.log(res);
   });
 
   return categories;
+  
 };
+
+
 
 export const getProductCatById = id => {
   return getDoc(doc(fireStore, 'ProductCategories', id)).then(

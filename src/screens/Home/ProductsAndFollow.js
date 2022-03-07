@@ -19,7 +19,7 @@ export default function ProductsAndFollow({ navigation }) {
 
   return (
     <SafeAreaView>
-      <ListHeader />
+      <ListHeader navigation={navigation} />
       {products && (
         <HorizontalProducts navigation={navigation} products={products} />
       )}

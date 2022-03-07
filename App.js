@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Tabs from './src/tabs';
+// import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import { Provider } from 'react-redux';
 import store from './src/store/store';
 import { LogBox } from 'react-native';
@@ -12,10 +12,11 @@ export default function App() {
       <NavigationContainer>
         <HomeStack />
         {/* <Tabs /> */}
-
       </NavigationContainer>
     </Provider>
   );
 }
-LogBox.ignoreLogs(['Setting a timer','Async Storage has been extracted from react-native core']);
-
+LogBox.ignoreLogs([
+  'Setting a timer',
+  'Async Storage has been extracted from react-native core',
+]);

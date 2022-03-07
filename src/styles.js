@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { Colors } from './constants/colors';
 import { w, h } from './constants/dimentions';
 
 export const styles = StyleSheet.create({
   // tabs
   badge: {
     position: 'absolute',
-    backgroundColor: 'rgb(255, 193, 7)',
+    backgroundColor: Colors.amber,
     right: -10,
     top: -5,
   },
@@ -64,8 +65,18 @@ export const styles = StyleSheet.create({
   },
   homeListImg: {
     width: '100%',
-    height:h*0.25,
+    height:h*0.3,
     marginVertical: 2.5,
+  },
+  blurContainer:{
+    margin:20,
+    padding:5,
+    width:w*0.6,
+    elevation:10,
+  },
+  description:{
+    fontSize:16,
+    fontWeight:'bold'
   },
   prodListH: {
     paddingStart:20,
@@ -81,6 +92,12 @@ export const styles = StyleSheet.create({
     padding:10,
     width:200,
     elevation:6,
+  }, 
+  prodCardV:{
+    width:w*0.47,
+    elevation:0,
+    paddingBottom:0,
+    marginHorizontal:5,
   },
   listHeader:{
     flexDirection:'row',
@@ -103,18 +120,34 @@ export const styles = StyleSheet.create({
   marV:{
     marginVertical:15,
   },
-  fab: {
+  cartIcon: {
     position: 'absolute',
-    right: 0,
-    bottom: 0,
+    right: -5,
+    bottom: -5,
     elevation:1,
     backgroundColor:'#0058a3',
     zIndex:10,
-  }, heart: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
+    width:35,
+    height:35,
+    borderRadius:25,
+    justifyContent:'center',
+    alignItems:'center',
+    alignContent:'center'
+  },  
+  cartIconV: {
+    elevation:1,
+    backgroundColor:'#0058a3',
     zIndex:10,
+    width:35,
+    height:35,
+    borderRadius:25,
+    justifyContent:'center',
+    alignItems:'center',
+    alignContent:'center',
+    alignSelf:'flex-end'
+  },
+   heart: {
+    alignSelf:'flex-end'
   },
   followCard:{
     marginVertical:10,

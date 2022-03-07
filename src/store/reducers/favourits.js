@@ -1,5 +1,7 @@
 let initialState = {
   favourits: [],
+  favTotalPrice: 0,
+  totalAmountOfFavItems: 0,
 };
 
 export default function favReducer(state = initialState, action) {
@@ -15,9 +17,37 @@ export default function favReducer(state = initialState, action) {
         ...state,
         favourits: state.favourits.filter(i => i.id !== action.payload),
       };
-      
-      default:
-        return state;
 
+    case 'REMOVE_ALL_FROM_FAV':
+      return {
+        ...state,
+        favourits: [],
+      };
+
+    case 'SET_AMOUNT': {
+      state.favTotalPrice = 0;
+      state.totalAmountOfFavItems = 0;
+      state.favourits.find((i, index) => {
+        if (i.id === action.payload.id) {
+          state.favourits[index].PurchasedAmount =
+            action.payload.PurchasedAmount;
+        }
+
+        state.favTotalPrice +=
+          state.favourits[index].PurchasedAmount *
+          state.favourits[index].productData.Price;
+
+        state.totalAmountOfCartItems += state.favourits[index].PurchasedAmount;
+      });
+      return {
+        ...state,
+        favourits: state.favourits,
+        favTotalPrice: state.favTotalPrice,
+        totalAmountOfCartItems: state.totalAmountOfCartItems,
+      };
+    }
+
+    default:
+      return state;
   }
 }
