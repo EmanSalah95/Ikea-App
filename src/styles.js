@@ -92,6 +92,12 @@ export const styles = StyleSheet.create({
     padding:10,
     width:200,
     elevation:6,
+  }, 
+  prodCardV:{
+    width:w*0.47,
+    elevation:0,
+    paddingBottom:0,
+    marginHorizontal:5,
   },
   listHeader:{
     flexDirection:'row',
@@ -114,18 +120,34 @@ export const styles = StyleSheet.create({
   marV:{
     marginVertical:15,
   },
-  fab: {
+  cartIcon: {
     position: 'absolute',
-    right: 0,
-    bottom: 0,
+    right: -5,
+    bottom: -5,
     elevation:1,
     backgroundColor:'#0058a3',
     zIndex:10,
-  }, heart: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
+    width:35,
+    height:35,
+    borderRadius:25,
+    justifyContent:'center',
+    alignItems:'center',
+    alignContent:'center'
+  },  
+  cartIconV: {
+    elevation:1,
+    backgroundColor:'#0058a3',
     zIndex:10,
+    width:35,
+    height:35,
+    borderRadius:25,
+    justifyContent:'center',
+    alignItems:'center',
+    alignContent:'center',
+    alignSelf:'flex-end'
+  },
+   heart: {
+    alignSelf:'flex-end'
   },
   followCard:{
     marginVertical:10,
