@@ -48,13 +48,29 @@ export const styles = StyleSheet.create({
     marginHorizontal: 100,
     color: '#000',
   },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   continueBtnWrappper: {
     backgroundColor: '#0058a2',
     padding: 10,
     alignItems: 'center',
+    borderRadius: 4,
   },
   continueBtn: {
     color: '#fff',
+    fontSize: 12,
+  },
+  backBtnWrappper: {
+    backgroundColor: '#e6e6e6',
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 4,
+  },
+  backBtn: {
+    color: '#000',
+    fontSize: 12,
   },
   itemCard: {
     borderTopWidth: 1,
@@ -87,4 +103,9 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     paddingVertical: 10,
   },
+  reviewCardsWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cardBody: {},
 });

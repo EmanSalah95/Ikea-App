@@ -17,6 +17,8 @@ import { getDocumentByID } from '../../services/firebase';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useSelector } from 'react-redux';
+import ButtonsGroup from './buttonsGroup';
+import PayPalCheckout from './paypal';
 
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -34,13 +36,19 @@ export default function Checkout() {
 
   const [userLocations, setUserLocations] = useState([]);
 
+  const [locationsExist, setLocationsExist] = useState();
+
+  const user = useSelector(state => state.user.user);
   const purchasedItems = useSelector(state => state.cartProducts.cartProducts);
   const totalOrderPrice = useSelector(state => state.cartProducts.totalPrice);
 
+  const [continuePayment, setContinuePayment] = useState(false);
+
   const handleAddressForm = values => {
-    // !locationsExist && setLocationsExist(true);
+    setLocationsExist(true);
+    // console.log('locationsExist: ', locationsExist);
     const newLocation = values;
-    console.log(newLocation);
+
     setUserLocations([...userLocations, newLocation]);
     // console.log(localStorage.getItem('UID'));
     // setUserLocation(localStorage.getItem('UID'), newLocation);
@@ -59,6 +67,17 @@ export default function Checkout() {
       setLocations(newLocations);
     });
   }, []);
+
+  useEffect(() => {
+    user.Locations ? setLocationsExist(true) : setLocationsExist(false);
+    // console.log(user.Locations);
+    const userLoc = user.Locations;
+
+    if (userLoc instanceof Array && userLoc.length !== 0) {
+      // console.log(userLoc);
+      setUserLocations([...user.Locations]);
+    }
+  }, [user.Locations, locationsExist]);
 
   const CONTENT = [
     {
@@ -137,6 +156,11 @@ export default function Checkout() {
                 >
                   <Text style={styles.continueBtn}>Submit</Text>
                 </TouchableOpacity>
+
+                <ButtonsGroup
+                  setSectionNext={() => setSections([1])}
+                  locationsExist={locationsExist}
+                />
               </View>
             )}
           </Formik>
@@ -144,7 +168,7 @@ export default function Checkout() {
       ),
     },
     {
-      title: ' Delivery Invoice',
+      title: 'Delivery Invoice',
       content: (
         <View>
           {purchasedItems.map(item => {
@@ -173,11 +197,6 @@ export default function Checkout() {
                   </View>
                 </View>
                 <Text style={{ ...styles.strongText, ...styles.dataText }}>
-                  {/* <p>
-                      <strong>
-                        EGP {item.PurchasedAmount * item.productData.Price}
-                      </strong>
-                    </p> */}
                   EGP {item.PurchasedAmount * item.productData.Price}
                 </Text>
               </View>
@@ -188,25 +207,85 @@ export default function Checkout() {
             <Text style={styles.strongText}> EGP {totalOrderPrice}</Text>
           </Text>
 
-          <TouchableOpacity
-            onPress={() => {
-              setSections([2]);
-            }}
-            style={styles.continueBtnWrappper}
-          >
-            <Text style={styles.continueBtn}>CONTINUE</Text>
-          </TouchableOpacity>
+          <ButtonsGroup
+            setSectionPrev={() => setSections([0])}
+            setSectionNext={() => setSections([2])}
+            locationsExist={true}
+          />
         </View>
       ),
     },
     {
-      title: 'Billing and Shipping Address',
+      title: 'Reviews and Confirm',
       content: (
         <View>
-          <Text>Billing Address</Text>
-          <View style={styles.formWrapper}>
-            <TextInput style={styles.input} placeholder='Full Name' />
+          <View style={styles.reviewCardsWrapper}>
+            <View style={styles.reviewCard}>
+              <Text style={styles.dataText}>Billing Address</Text>
+
+              <View style={styles.cardBody}>
+                <Text style={styles.dataText}>
+                  <Text style={styles.strongText}>Name: </Text> {user.FirstName}{' '}
+                  {user.LastName}
+                </Text>
+                <Text style={styles.dataText}>
+                  <Text style={styles.strongText}>Mobile: </Text>{' '}
+                  {user.PhoneNum}
+                </Text>
+                <Text style={styles.dataText}>
+                  <Text style={styles.strongText}>Address: </Text>{' '}
+                  {userLocations.length !== 0 && userLocations[0].address}
+                  {'\n'}
+                  {userLocations.length !== 0 && userLocations[0].building}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.reviewCard}>
+              <Text style={styles.dataText}>Shipping Address</Text>
+
+              <View style={styles.cardBody}>
+                <Text style={styles.dataText}>
+                  <Text style={styles.strongText}>Name: </Text> {user.FirstName}{' '}
+                  {user.LastName}
+                </Text>
+                <Text style={styles.dataText}>
+                  <Text style={styles.strongText}>Mobile: </Text>{' '}
+                  {user.PhoneNum}
+                </Text>
+                <Text style={styles.dataText}>
+                  <Text style={styles.strongText}>Address: </Text>{' '}
+                  {userLocations.length !== 0 && userLocations[0].address}
+                  {'\n'}
+                  {userLocations.length !== 0 && userLocations[0].building}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.reviewCard}>
+              <Text style={styles.dataText}>Delivery date and time</Text>
+
+              <View style={styles.cardBody}>
+                <Text style={styles.dataText}>
+                  <Text style={styles.strongText}>Delivery Date:</Text>
+                </Text>
+                <Text style={styles.dataText}>
+                  <Text style={styles.strongText}>Delivery Time:</Text>
+                </Text>
+                <Text style={styles.dataText}>
+                  <Text style={styles.strongText}>Assembly Time:</Text>
+                </Text>
+              </View>
+            </View>
           </View>
+          <ButtonsGroup
+            setSectionPrev={() => setSections([1])}
+            showPaypal={true}
+            locationsExist={true}
+            setContinuePayment={setContinuePayment}
+          />
+
+          {continuePayment && (
+            <PayPalCheckout totalOrderPrice={totalOrderPrice} />
+          )}
         </View>
       ),
     },
@@ -258,7 +337,7 @@ export default function Checkout() {
   };
 
   useEffect(() => {
-    setSections([1]);
+    setSections([2]);
   }, []);
 
   return (

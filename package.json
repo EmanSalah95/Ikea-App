@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^7.6.0",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-firebase/app": "^14.5.1",
     "@react-native-firebase/auth": "^14.5.0",
