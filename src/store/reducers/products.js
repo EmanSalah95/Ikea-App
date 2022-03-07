@@ -1,5 +1,5 @@
 let initialState = {
-  allProducts: null,
+  allProducts: [],
   condition: 0,
   filters: 0,
   filteredProducts: [],
