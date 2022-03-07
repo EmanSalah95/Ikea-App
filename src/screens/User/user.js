@@ -4,7 +4,7 @@ import { styles } from './style';
 
 export default function User({navigation}) {
   return (
-    <View style={styles.container}>
+    <View style={styles.containeer}>
       <View style={styles.firstSec}> 
         <Text style={styles.userHeading}>PROFILE</Text>
         <Text style={styles.userSubHeading}>Log in to save your shopping lists</Text>

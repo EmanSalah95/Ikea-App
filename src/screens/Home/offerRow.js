@@ -8,15 +8,15 @@ import { styles } from '../../styles';
 import { BlurView } from 'expo-blur';
 
 export default function OfferRow({ navigation, item }) {
+  const pressHandler = () => {
+    navigation.navigate('Products', {
+      screenTitle: item.data().Name,
+      condition: ['SubCategory', '==', item.id],
+    });
+  };
+
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        navigation.navigate('Products', {
-          subId: item.id,
-          screenTitle: item.data().Name,
-        });
-      }}
-    >
+    <TouchableWithoutFeedback onPress={pressHandler}>
       <ImageBackground
         style={styles.homeListImg}
         source={{ uri: item.data().Image }}

@@ -69,7 +69,7 @@ export default function SearchPage({navigation}) {
       <View style={{backgroundColor:'#F1EAF1',marginTop:20,padding:10,marginBottom:20}}>
   
         <Text style={{fontSize:19,fontWeight:'bold',marginTop:15}}>Make the most of your IKEA app</Text>
-        <Text style={{color:"gray",marginTop:10,fontSize:17}}>Sign up or log in to see and save<br></br>
+        <Text style={{color:"gray",marginTop:10,fontSize:17}}>Sign up or log in to see and save
          lists from any device</Text>
 
         <View style={{display:'flex',flexDirection:'row',justifyContent:'space-around',
