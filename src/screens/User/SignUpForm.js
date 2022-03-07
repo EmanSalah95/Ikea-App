@@ -17,7 +17,7 @@ export default function SignUpForm({ navigation }) {
     const [EmailErr, setEmailErr] = useState( '' )
     const [PasswordErr, setPasswordErr] = useState( '' )
     const [allValid, setAllValid] = useState(
-        setFirstNameErr === null && setSurNameErr === null && setEmailErr === null && setPasswordErr === null
+        firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === ''
       );
 
 
@@ -31,44 +31,44 @@ export default function SignUpForm({ navigation }) {
 
         // Validate Name Input
         if (firstName) {
-        if (!regName.test(firstName)) {
-            setFirstNameErr('Name is not Allowed')
-            
-        } else {
-            setFirstNameErr('')
-            
-        }
+            if (!regName.test(firstName)) {
+                setFirstNameErr('Name is not Allowed')
+                
+            } else {
+                setFirstNameErr('')
+                
+            }
         } 
         if (surName) {
-        if (!regName.test(surName)) {
-            setSurNameErr('Name is not Allowed')
-            
-        } else {
-            setSurNameErr('')
-            
-        }
+            if (!regName.test(surName)) {
+                setSurNameErr('Name is not Allowed')
+                
+            } else {
+                setSurNameErr('')
+                
+            }
         }
 
         // // // Validate Email Input
         if (Email) {
-        if (!regEmail.test(Email)) {
-            setEmailErr('Email is not valid')
-            
-        } else {
-            setEmailErr('')
-            
-        }
+            if (!regEmail.test(Email)) {
+                setEmailErr('Email is not valid')
+                
+            } else {
+                setEmailErr('')
+                
+            }
         }
 
         // // // Validate Password Input
         if (Password) {
-        if (!regPassword.test(Password)) {
-            setPasswordErr('Password is not valid')
-            
-        } else {
-            setPasswordErr('')
-            
-        }
+            if (!regPassword.test(Password)) {
+                setPasswordErr('Password is not valid')
+                
+            } else {
+                setPasswordErr('')
+                
+            }
         }
     };
 
@@ -83,11 +83,11 @@ export default function SignUpForm({ navigation }) {
 
         handleValidateInput()
 
-        // if(!allValid) {
-        //     e.preventDefault();
-        //     console.log('submission prevented,, form is notValied')
-        // } 
-        // else {
+        if(!allValid) {
+            e.preventDefault();
+            console.log('submission prevented,, form is notValied')
+        } 
+        else {
             await signup(Email, Password).then(
                 userCredentials => {
                     addDocByID('users', userCredentials.user.uid, userObj).then(() => {
@@ -100,13 +100,13 @@ export default function SignUpForm({ navigation }) {
                 Alert.alert('Email is alredy exist!');
                 console.log('function signIn Failed', err);
             })
-        // }
+        }
         
         console.log(userObj);
     }
 
     useEffect(()=>{
-        setAllValid(setFirstNameErr === null && setSurNameErr === null && setEmailErr === null && setPasswordErr === null);
+        setAllValid(firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === '');
       },[])
 
     return (
