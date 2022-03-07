@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     container: {
         backgroundColor: "white",
         height: "100%", 
-        textAlign: "center"
+        textAlign: "center",
     },
 
     firstSec: {
@@ -15,11 +15,13 @@ export const styles = StyleSheet.create({
         fontSize: 28, 
         fontWeight: "bold", 
         margin: 15 ,
+        textAlign: 'center',
     },
 
     userSubHeading: {
         fontSize: 18,
-        color: "gray"
+        color: "gray",
+        textAlign: 'center',
     },
 
     logBtn: {
@@ -44,7 +46,8 @@ export const styles = StyleSheet.create({
     txtQues: {
         color: "blue",
         fontSize: 18,
-        margin: 10
+        margin: 10,
+        textAlign: 'center',
     },
 
     secondSec: {
@@ -70,8 +73,9 @@ export const styles = StyleSheet.create({
     // Start Style For LogPage
     userSubbHeading: {
         marginBottom: 28,
-        fontSize: 20,
-        color: "gray"
+        fontSize: 19,
+        color: "gray",
+        textAlign: 'center',
     },
 
     view: {
@@ -101,7 +105,19 @@ export const styles = StyleSheet.create({
     },
 
     displayTxt: {
+        flexDirection: 'row',
+        alignSelf: 'center',
         marginTop: 20,
+    },
+
+    txxt: {
+        textAlign: 'center',
+        color: '#2e73b8',
+        marginLeft: 10
+    },
+
+    txxtColor:{
+        color: '#000'
     },
     // End Styles for LogIn page
 
@@ -115,7 +131,8 @@ export const styles = StyleSheet.create({
 
     signTxt: {
         padding: 5,
-        fontSize: 17
+        fontSize: 17,
+        paddingLeft: 12
     },
 
     signPage: {
