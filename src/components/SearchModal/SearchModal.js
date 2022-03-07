@@ -5,6 +5,7 @@ import { ModalContext } from '../../context';
 import { styles } from '../../styles/searchStyles';
 import SearchInput from './SearchInput';
 import SearchPage from '../../screens/Search/Search';
+import SearchHeader from '../../screens/Search/searchHeader';
 
 export default function SearchModal() {
   const { isSearchVisible, setSearchVisible}=useContext(ModalContext);
@@ -19,7 +20,9 @@ export default function SearchModal() {
   >
     <View style={styles.container}>
       <SearchInput closeModal={closeModal}/>
-      <SearchPage closeModal={closeModal}/>
+      
+      {/* <SearchPage closeModal={closeModal}/> */}
+      {/* <SearchHeader closeModal={closeModal} />  */}
     </View>
   </Modal>
   );

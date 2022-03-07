@@ -16,21 +16,18 @@ export const styles = StyleSheet.create({
     },
   
     inputHead:{
-      width: "100%",
-      height: "100%",
-      justifyContent:'center',
-      alignItems:'center',
+      display:'flex',
       flexDirection:'row',
-      flex:1,
-      backgroundColor: "#fff",
-      borderRadius: 20, 
+      backgroundColor: '#F1EAF1',
+      width:360,
+      borderRadius: 25, 
       paddingVertical: 3,
       paddingHorizontal: 3,
     },
   
     input:{
       flex:1,
-      width: 300,
+      width: 200,
       height: 40,
       backgroundColor: '#F1EAF1',
       borderColor: '#F1EAF1',
@@ -41,7 +38,8 @@ export const styles = StyleSheet.create({
     },
     icon:{
       paddingRight:7,
-      paddingLeft:10
+      paddingLeft:10,
+      marginTop:10
     },
 
     proShow:{
@@ -65,7 +63,7 @@ export const styles = StyleSheet.create({
     fontSize:20,
     fontWeight:'bold'
    },
-   
+
    login:{
       backgroundColor:'#2912F5',
       color:'#fff',
@@ -79,6 +77,14 @@ export const styles = StyleSheet.create({
       paddingHorizontal: 3,
       fontSize:20,
       fontWeight:'bold'
-  }       
+  },
+  
+  btn:{
+    padding:7,
+    borderWidth:2,
+    width:80,
+    height:40,
+    borderColor:'#ccc'
+  }
   });
   
