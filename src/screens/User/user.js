@@ -54,6 +54,7 @@ export default function User({ navigation }) {
   useEffect(() => {
     getUser();
     console.log(id)
+    console.log('user>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',user,user&& user.id!='')
   }, [])
   // useEffect(()=>{
   //   if(id!=null)
@@ -66,7 +67,12 @@ export default function User({ navigation }) {
   // },[user])
   return (
     <View style={styles.container}>
-      {!exist &&
+      {user&& user.id!='' ?
+        <View style={styles.profileContainer}>
+          <Text style={{ fontWeight: 'bold', textTransform: 'uppercase', fontSize: 15 }}>Welcome</Text>
+          <Text style={{ color: 'black' }}>{user?.user?.FirstName} {user?.user?.LastName}</Text>
+        </View>
+        :
         <>
           <View style={styles.firstSec}>
             <Text style={styles.userHeading}>PROFILE</Text>
@@ -78,12 +84,6 @@ export default function User({ navigation }) {
           </View>
           <View style={styles.space}></View>
         </>
-      }
-      {exist &&
-        <View style={styles.profileContainer}>
-          <Text style={{ fontWeight: 'bold', textTransform: 'uppercase', fontSize: 15 }}>Welcome</Text>
-          <Text style={{ color: 'black' }}>{user.user.FirstName} {user.user.LastName}</Text>
-        </View>
       }
       <View style={styles.secondSec}>
         <TouchableOpacity

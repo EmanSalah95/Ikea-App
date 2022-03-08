@@ -25,6 +25,7 @@ export const ProfileSettings = ({ navigation }) => {
             AsyncStorage.removeItem('UID');
             store.dispatch(clearUser());
             setLogged(false);
+            navigation.pop();
             // location.reload();
         })
     }

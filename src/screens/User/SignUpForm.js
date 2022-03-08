@@ -4,7 +4,7 @@ import { TextInput } from 'react-native-paper';
 import { styles } from './style';
 import { signup } from '../../Firebase/fireStoreAuthConfig';
 import React, { useState, useEffect } from 'react'
-import { addDocByID } from '../../services/firebase';
+import { addDocByID, updateUserStorageByID } from '../../services/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignUpForm({ navigation }) {
@@ -94,6 +94,7 @@ export default function SignUpForm({ navigation }) {
                     addDocByID('users', userCredentials.user.uid, userObj).then(() => {
                         try {
                             AsyncStorage.setItem('UID', userCredentials.user.uid)
+                            updateUserStorageByID(userCredentials.user.uid)
                             navigation.navigate('HomeStack')
                             console.log('function signIn Success and data stored in firebase');
                         } catch (e) {
