@@ -6,15 +6,20 @@ import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { setCartItemAmount, removeFromCart } from '../../store/actions/cartProducts'
+import { removeCartItemFromUser } from '../../services/firebase';
 
 export default function CartCard({ item, purchasedQuantity, id }) {
     const [selectedAmount, setSelectedAmount] = useState(purchasedQuantity);
     const dispatch = useDispatch();
 
-    const deleteItem = () => {
+    const deleteItem = async() => {
         dispatch(removeFromCart(id));
         dispatch(setCartItemAmount(id, 0));
-        //   removeCartItemFromUser(localStorage.getItem('UID'), id);
+        const localID = await AsyncStorage.getItem('UID');
+        if(localID!=null)
+        {
+          removeCartItemFromUser(localID, id);
+        }
     };
 
     const selectAmount = (value) => {

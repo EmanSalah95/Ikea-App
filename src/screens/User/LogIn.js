@@ -5,6 +5,8 @@ import { TextInput } from 'react-native-paper';
 import { useState, useEffect } from 'react';
 import { styles } from './style';
 import { login } from '../../Firebase/fireStoreAuthConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { updateUserStorageByID } from '../../services/firebase';
 
 export default function Loginscreen({navigation}){
   const [email, setEmail] = useState('');
@@ -56,10 +58,13 @@ export default function Loginscreen({navigation}){
 
     await login(email, password).then(
       userCredentials => {
-        navigation.navigate('Products')
-        console.log('function LogIn Success',userCredentials);
+        AsyncStorage.setItem('UID', userCredentials.user.uid);
+        navigation.navigate('HomeStack');
+        updateUserStorageByID(userCredentials.user.uid)
+        // console.log('function LogIn Success',userCredentials);
       }
-    ).catch(err=>{
+    )
+    .catch(err=>{
         Alert.alert('User not found you can signup!')
           console.log('Failed LogIn',err)
           navigation.navigate('SignForm')

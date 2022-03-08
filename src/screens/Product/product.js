@@ -3,7 +3,7 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import { Button, ActivityIndicator } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import { getCollection, getDocumentByID } from '../../services/firebase';
+import { addFavItemsToUser, getCollection, getDocumentByID } from '../../services/firebase';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/actions/cartProducts';
@@ -12,6 +12,7 @@ import { styles } from './styles';
 import HorizontalProducts from '../../components/HorizontalProducts/HorizontalProducts';
 import { InfoSection } from './infoSection';
 import { h, w } from '../../constants/dimentions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Product({ route, navigation }) {
 
   const [product, setProduct] = useState({});
@@ -28,13 +29,16 @@ export default function Product({ route, navigation }) {
   const [inCart, setInCart] = useState(foundInCart ? true : false);
 
   const dispatch = useDispatch();
-  const toggleFavourite = () => {
+  const toggleFavourite = async () => {
     dispatch(
       isFavourite
         ? removeFromFav(route.params.id)
         : addToFav({ id: route.params.id, productData: product })
     );
-    // addFavItemsToUser(localStorage.getItem('UID'), route.params.id);
+    const localID = await AsyncStorage.getItem('UID');
+    if (localID != null) {
+      addFavItemsToUser(localID, route.params.id);
+    }
     setIsFavourite(!isFavourite);
   };
   const addCart = () => {
