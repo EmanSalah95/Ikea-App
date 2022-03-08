@@ -6,6 +6,7 @@ import { styles } from "./style"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import store from "../../store/store"
 import { clearUser } from "../../store/actions/auth"
+import RNPickerSelect from 'react-native-picker-select';
 
 export const ProfileSettings = ({ navigation }) => {
     const [logged, setLogged] = useState(false);
@@ -37,7 +38,23 @@ export const ProfileSettings = ({ navigation }) => {
     }, [])
     return (
         <View style={styles.settingsContainer}>
-            <Text>Language</Text>
+            <View>
+                <RNPickerSelect
+                onValueChange={()=>{}}
+                items={[{
+                    label:'English',
+                    value:'en'
+                },{
+                    label:'العربية',
+                    value:'ar'
+                }]}
+                placeholder={{
+                    label: 'Select Language',
+                    value: "Language",
+                    // color: '#0e2d64',
+                  }}                  
+                />
+            </View>
             <Divider style={styles.dividerStyle} />
             {logged &&
                 <TouchableOpacity
