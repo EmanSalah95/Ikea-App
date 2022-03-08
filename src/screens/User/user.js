@@ -1,54 +1,22 @@
-import { Text, Touchable, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { styles } from './style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
-import { getDocumentByID, updateUserStorageByID } from '../../services/firebase';
-import { useDispatch, useSelector } from 'react-redux';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../Firebase/fireStoreAuthConfig';
+import { updateUserStorageByID } from '../../services/firebase';
+import { useSelector } from 'react-redux';
 
 export default function User({ navigation }) {
-  // const [logged, setLogged] = useState(false);
   const user = useSelector((state) => state.user)
-  const [exist, setExist] = useState(false);
   const [id, setID] = useState();
-  // const getUser = async () => {
-  //   const id = await AsyncStorage.getItem('UID');
-  //   if (id != null) {
-  //     getDocumentByID('users', id)
-  //       .then((res) => {
-  //         updateUserStorageByID(id);
-  //         setLogged(true);
-  //         setUser(res);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       })
-  //   }
-  //   else {
-  //     setUser({});
-  //     setLogged(false);
-  //     console.log("here")
-  //   }
-  // }
-  // useEffect(() => {
-  //   getUser();
-  // }, [logged])
-
-  // const [logged, setLogged] = useState(async () => await AsyncStorage.getItem('UID'));
-  // const id
   const getUser = async () => {
     const id = await AsyncStorage.getItem('UID');
     if (id != null) {
       setID(id)
-      updateUserStorageByID(id).then(() => {
-        setExist(true);
-      })
+      updateUserStorageByID(id);
     }
     else {
       setID(null)
-      setExist(false);
     }
   }
   useEffect(() => {
@@ -56,15 +24,6 @@ export default function User({ navigation }) {
     console.log(id)
     console.log('user>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',user,user&& user.id!='')
   }, [])
-  // useEffect(()=>{
-  //   if(id!=null)
-  //   {
-  //     setExist(true);
-  //   }
-  //   else{
-  //     setExist(false);
-  //   }
-  // },[user])
   return (
     <View style={styles.container}>
       {user&& user.id!='' ?
