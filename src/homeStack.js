@@ -10,6 +10,7 @@ import { w } from './constants/dimentions';
 import { ProductDetails } from './screens/Product/productDetails';
 import SearchModalProvider from './context';
 import ProductsDrawer from './productDrawer';
+import { OrdersHistory } from './screens/User/OrdersHistory/ordersHistory';
 const Stack = createNativeStackNavigator();
 
 export default function HomeStack() {
@@ -55,6 +56,13 @@ export default function HomeStack() {
           options={{
             headerShown: true,
           }}
+        />
+        <Stack.Screen
+        name='OrdersHistory'
+        component={OrdersHistory}
+        options={{
+          headerShown: true,
+        }}
         />
       </Stack.Navigator>
     </SearchModalProvider>

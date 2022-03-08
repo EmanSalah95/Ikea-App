@@ -22,11 +22,11 @@ export default function User({ navigation }) {
   useEffect(() => {
     getUser();
     console.log(id)
-    console.log('user>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',user,user&& user.id!='')
+    console.log('user>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', user, user && user.id != '')
   }, [])
   return (
     <View style={styles.container}>
-      {user&& user.id!='' ?
+      {user && user.id != '' ?
         <View style={styles.profileContainer}>
           <Text style={{ fontWeight: 'bold', textTransform: 'uppercase', fontSize: 15 }}>Welcome</Text>
           <Text style={{ color: 'black' }}>{user?.user?.FirstName} {user?.user?.LastName}</Text>
@@ -51,7 +51,13 @@ export default function User({ navigation }) {
           <Text >Settings</Text>
         </TouchableOpacity>
         <View style={styles.line}></View>
-        <Text >Information</Text>
+        {user.id != '' &&
+          <TouchableOpacity
+            onPress={() => navigation.navigate('OrdersHistory')}
+          >
+            <Text >Your orders</Text>
+          </TouchableOpacity>
+        }
       </View>
     </View>
   );

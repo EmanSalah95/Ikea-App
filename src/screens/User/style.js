@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     },
 
     space: {
-        backgroundColor: "#F0F4F8",
+        backgroundColor: "#E7F0EF",
         height: 20
     },
 
