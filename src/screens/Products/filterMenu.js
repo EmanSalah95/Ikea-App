@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text, TouchableHighlight } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { clearFilters } from '../../store/actions/productsList';
 import { styles } from '../../styles/filterStyles';
 import FilterField from './filterField';
-import {capitalize} from '../../services/utilities'
 
-export default function FilterMenu({ condition }) {
-  let { allProducts } = useSelector((state) => state.products);
+export default function FilterMenu() {
+  let { allProducts, filteredList } = useSelector((state) => state.products);
   const [materials, setMaterials] = useState(null);
   const [colors, setColors] = useState(null);
 
@@ -28,23 +27,20 @@ export default function FilterMenu({ condition }) {
         !foundMaterial && Material != undefined && materials.push(Material);
       });
 
-      console.log('all materials', materials);
-      setMaterials(materials);
+      materials.length > 0 && setMaterials(materials);
       setColors(colors);
-      console.log('all colors', colors);
     }
   };
 
   useEffect(() => {
-    console.log('effect................');
     getUniqueFilters();
   }, [allProducts]);
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
-        <FilterField title='Sort'  />
-        {colors&&<FilterField title='color' options={colors} />}
-        {materials&&<FilterField title='material' options={materials}/>}
+        <FilterField title='Sort' options={sortOptions} sort />
+        {colors && <FilterField title='Color' options={colors} />}
+        {materials && <FilterField title='Material' options={materials} />}
         <FilterField />
         <FilterField />
         <FilterField />
@@ -54,20 +50,39 @@ export default function FilterMenu({ condition }) {
 
       <View style={styles.buttonsContainer}>
         <Button
-          style={[styles.btn,styles.clear]}
+          style={[styles.btn, styles.clear]}
           mode='outlined'
-          onPress={() => console.log('Pressed')}
+          onPress={() => dispatch(clearFilters())}
         >
-         <Text style={{color:'#000'}}>Clear all</Text> 
+          <Text style={{ color: '#000' }}>Clear all</Text>
         </Button>
         <Button
-          style={[styles.btn,styles.view]}
+          style={[styles.btn, styles.view]}
           mode='contained'
           onPress={() => console.log('Pressed')}
         >
-          View
+          {`View ${filteredList?.length > 0 ? filteredList.length : ''}`}
         </Button>
       </View>
     </View>
   );
 }
+
+const sortOptions = [
+  {
+    label: 'Newest',
+    sortBy: ['CreatedAt', 'desc'],
+  },
+  {
+    label: 'Price: low to high',
+    sortBy: ['Price', 'asc'],
+  },
+  {
+    label: 'Price: high to low',
+    sortBy: ['Price', 'desc'],
+  },
+  {
+    label: 'Name',
+    sortBy: ['Name', 'asc'],
+  },
+];

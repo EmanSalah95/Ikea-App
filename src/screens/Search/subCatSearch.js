@@ -10,26 +10,7 @@ import { getCollection } from '../../services/firebase';
 // import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export default function SubCatSearch({ navigation, item }) {
-  const [subCat, setSubCat] = useState([]);
 
-  const getSubCat = async () => {
-    console.log('in sub');
-
-    getCollection('subCategory')
-      .then((res) => {
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', res.length);
-      })
-      .catch((err) => console.log(err));
-
-    let categories = [];
-    results.forEach((res) => {
-      categories.push({ id: res.id, data: res.data() });
-      console.log(categories);
-      console.log(res);
-    });
-
-    setSubCat([...categories]);
-  };
 
   return (
     <View style={{ backgroundColor: '#F1EAF1', padding: 15, margin: 5 }}>

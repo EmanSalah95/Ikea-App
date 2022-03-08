@@ -1,30 +1,24 @@
-import { StyleSheet, View, FlatList, Text,ImageBackground } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+} from 'react-native';
 import { useState, useEffect, useContext } from 'react';
-import { getCollection } from '../../services/firebase';
 import ProductCard from '../../components/HorizontalProducts/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearDetails, getProdList } from '../../store/actions/productsList';
-import OfferRow from '../Home/offerRow';
+import { clearProducts, getProdList } from '../../store/actions/productsList';
 
-export default function Products({ route, navigation,item }) {
+export default function Products({ route, navigation, item }) {
   const dispatch = useDispatch();
   const { condition, screenTitle } = route.params.routeParams;
-  let { allProducts } = useSelector((state) => state.products);
+  let { allProducts, filteredList } = useSelector((state) => state.products);
 
   const screenOptions = {
     title: screenTitle,
   };
 
-  // const getProducts = () => {
-  //   getCollection('Products', condition)
-  //     .then((res) => {
-  //       setProducts(res);
-  //     })
-  //     .catch((err) => console.log('error :', err));
-  // };
-
   useEffect(() => {
-    // getProducts();
     const resolveAction = async () => {
       dispatch(await getProdList(condition));
     };
@@ -32,7 +26,7 @@ export default function Products({ route, navigation,item }) {
     navigation.setOptions(screenOptions);
 
     return () => {
-      dispatch(clearDetails());
+      dispatch(clearProducts());
     };
   }, []);
 
@@ -41,7 +35,7 @@ export default function Products({ route, navigation,item }) {
       {allProducts.length > 0 ? (
         <FlatList
           style={styles.prodListH}
-          data={allProducts}
+          data={filteredList ? filteredList : allProducts}
           renderItem={({ item }) => (
             <ProductCard item={item} navigation={navigation} />
           )}
@@ -52,21 +46,16 @@ export default function Products({ route, navigation,item }) {
       ) : (
         <>
           <Text>Loading...</Text>
-          
-          </>
+        </>
       )}
-      
     </View>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
   },
   devider: {
     backgroundColor: '#DDD',

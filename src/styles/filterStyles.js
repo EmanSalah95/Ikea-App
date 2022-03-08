@@ -33,8 +33,25 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 20,
     paddingHorizontal: 5,
+  },
+  borderBottom: {
     borderBottomColor: '#E2E2E2',
     borderBottomWidth: 1,
+  },  
+  optionRow: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+    alignItems:'center'
   },
+  bold:{
+    fontWeight:'bold'
+  },
+  grayText:{
+    color:'gray'
+  }
+
 });
 ;

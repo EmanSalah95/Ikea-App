@@ -22,7 +22,6 @@ export default function SearchPage({navigation}) {
   };
 
   const getSubCategories = async ()=>{
-    console.log('in sub');
     getCollection('subCategory').then((res) => {
     setSubCategories(res)
   }
