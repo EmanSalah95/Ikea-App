@@ -7,10 +7,11 @@ import { styles } from '../../styles/filterStyles';
 import Options from './options';
 import { updateFilter } from '../../store/actions/productsList';
 
-export default function FilterField({ title, options, sort }) {
+export default function FilterField({ title, options, objectOP }) {
   const [opened, setOpened] = useState(false);
+  let { filters, filteredList } = useSelector((state) => state.products);
   const [selectedOPtion, setSelectedOp] = useState('');
-  let { filters } = useSelector((state) => state.products);
+
   const dispatsh = useDispatch();
 
   const chooseOption = async (newValue) => {
@@ -19,12 +20,18 @@ export default function FilterField({ title, options, sort }) {
     setSelectedOp(newValue);
     if (title == 'Sort') {
       updateFilters = { ...filters, Sort: newValue.sortBy };
-    } else {
+    } else if (title == 'Price') {
+      updateFilters = { ...filters, Price: newValue.condition };
+    }else{
       updateFilters = { ...filters, [title]: [title, '==', newValue] };
     }
 
     dispatsh(await updateFilter(updateFilters));
   };
+
+  useEffect(() => {
+    !filteredList && setSelectedOp('');
+  }, [filteredList]);
 
   return (
     <View>
@@ -40,7 +47,7 @@ export default function FilterField({ title, options, sort }) {
             <Text style={styles.bold}>{title ? title : 'filter'}</Text>
             {!opened && selectedOPtion != '' && (
               <Text style={styles.grayText}>
-                {!sort ? selectedOPtion : selectedOPtion?.label}
+                {!objectOP ? selectedOPtion : selectedOPtion?.label}
               </Text>
             )}
           </View>
@@ -53,7 +60,7 @@ export default function FilterField({ title, options, sort }) {
           options={options}
           selectedOPtion={selectedOPtion}
           setSelectedOp={chooseOption}
-          isSort={sort}
+          objectOP={objectOP}
         />
       )}
     </View>

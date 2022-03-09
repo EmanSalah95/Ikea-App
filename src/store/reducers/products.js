@@ -3,6 +3,7 @@ let initialState = {
   condition: 0,
   filters: {},
   filteredList: null,
+  loading :true,
 };
 
 export default function productsReducer(state = initialState, action) {
@@ -13,6 +14,7 @@ export default function productsReducer(state = initialState, action) {
         allProducts: action.payload.products,
         condition: action.payload.condition,
         filters: { condition: action.payload.condition },
+        loading:false,
       };
 
     case 'UPDATE_FILTER':
@@ -29,6 +31,8 @@ export default function productsReducer(state = initialState, action) {
         filteredList: null,
         condition: null,
         filters: null,
+        loading:true,
+
       };
     }
 

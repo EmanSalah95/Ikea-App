@@ -22,7 +22,7 @@ export default function OfferRow({ navigation, item }) {
         source={{ uri: item.data().Image }}
       >
         <BlurView intensity={180} style={styles.blurContainer}>
-          <Text style={styles.description}>{item.data().Description}</Text>
+          <Text style={styles.description}>{item.data().Title}</Text>
         </BlurView>
       </ImageBackground>
     </TouchableWithoutFeedback>

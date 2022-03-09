@@ -9,6 +9,8 @@ import { w } from './constants/dimentions';
 import { ProductDetails } from './screens/Product.js/productDetails';
 import SearchModalProvider from './context';
 import ProductsDrawer from './productDrawer';
+import SnackBar from './components/SnackBar';
+
 const Stack = createNativeStackNavigator();
 
 export default function HomeStack() {
@@ -49,6 +51,7 @@ export default function HomeStack() {
           component={ProductsDrawer}
         />
       </Stack.Navigator>
+     <SnackBar/>
     </SearchModalProvider>
   );
 }

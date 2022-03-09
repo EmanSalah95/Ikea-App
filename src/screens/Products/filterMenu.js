@@ -10,6 +10,9 @@ export default function FilterMenu() {
   let { allProducts, filteredList } = useSelector((state) => state.products);
   const [materials, setMaterials] = useState(null);
   const [colors, setColors] = useState(null);
+  const [widthes,setWidthes]=useState(null);
+  const [lengthes,setLengthes]=useState(null);
+  const [heights,setHeights]=useState(null);
 
   const dispatch = useDispatch();
 
@@ -17,18 +20,34 @@ export default function FilterMenu() {
     if (allProducts.length > 0) {
       let colors = [];
       let materials = [];
+      let widthes = [];
+      let lengthes = [];
+      let heights = [];
       allProducts.forEach((product) => {
-        const { Color, Material } = product.data();
+        const { Color, Material ,Width,Length,Height} = product.data();
 
         let foundColor = colors.find((col) => col === Color);
         !foundColor && colors.push(Color);
 
-        let foundMaterial = materials.find((mat) => mat.id === Material);
+        let foundMaterial = materials.find((mat) => mat === Material);
         !foundMaterial && Material != undefined && materials.push(Material);
+
+        let foundWidth= widthes.find((wid) => wid === Width);
+        !foundWidth && Width != undefined && widthes.push(Width);
+        
+        let foundLength= lengthes.find((len) => len === Length);
+        !foundLength && Length != undefined && lengthes.push(Length);
+        
+        let foundHeight= heights.find((height) => height === Height);
+        !foundHeight && Height != undefined && heights.push(Height);
+
       });
 
       materials.length > 0 && setMaterials(materials);
-      setColors(colors);
+      widthes.length > 0 && setWidthes(widthes);
+      colors.length > 0 && setColors(colors);
+      lengthes.length > 0 && setLengthes(lengthes);
+      heights.length > 0 && setHeights(heights);
     }
   };
 
@@ -38,14 +57,16 @@ export default function FilterMenu() {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
-        <FilterField title='Sort' options={sortOptions} sort />
+
+        {/* objectOP prop mean every option item is object */}
+        <FilterField title='Sort' options={sortOptions} objectOP />
         {colors && <FilterField title='Color' options={colors} />}
         {materials && <FilterField title='Material' options={materials} />}
-        <FilterField />
-        <FilterField />
-        <FilterField />
-        <FilterField />
-        <FilterField />
+        <FilterField title='Price' options={priceOptions} objectOP/>
+        {widthes && <FilterField title='Width' options={widthes} />}
+        {lengthes && <FilterField title='Length' options={lengthes} />}
+        {heights && <FilterField title='Height' options={heights} />}
+
       </ScrollView>
 
       <View style={styles.buttonsContainer}>
@@ -84,5 +105,36 @@ const sortOptions = [
   {
     label: 'Name',
     sortBy: ['Name', 'asc'],
+  },{
+    label: 'Width',
+    sortBy: ['Width', 'asc'],
+  },{
+    label: 'Length',
+    sortBy: ['Length', 'asc'],
   },
+];
+
+const priceOptions = [
+  {
+    label: 'less than 100',
+    condition: ['Price','<=', 100],
+  },{
+    label: 'less than 250',
+    condition: ['Price','<=', 250],
+  },{
+    label: 'less than 500',
+    condition: ['Price','<=', 500],
+  },{
+    label: 'less than 1000',
+    condition: ['Price','<=', 1000],
+  },{
+    label: 'less than 5000',
+    condition: ['Price','<=', 5000],
+  },{
+    label: 'less than 10000',
+    condition: ['Price','<=', 10000],
+  },
+  
+
+
 ];

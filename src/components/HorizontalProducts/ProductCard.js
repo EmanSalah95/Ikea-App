@@ -9,7 +9,7 @@ import { addToCart } from '../../store/actions/cartProducts';
 import { addFavItemsToUser } from '../../services/firebase';
 import { useState } from 'react';
 
-export default function ProductCard({ navigation, item ,horizontal }) {
+export default function ProductCard({ navigation, item, horizontal }) {
   const { favourits } = useSelector((state) => state.favourits);
   const { cartProducts } = useSelector((state) => state.cartProducts);
 
@@ -39,8 +39,17 @@ export default function ProductCard({ navigation, item ,horizontal }) {
     // addCartItemToUser(localStorage.getItem('UID'), item.id);
   };
 
-  const { Name, ProductName, Price, SalePrice, Width, Length, Images, Height } =
-    item.data();
+  const {
+    Name,
+    ProductName,
+    Price,
+    SalePrice,
+    Width,
+    Length,
+    Images,
+    Height,
+    Thickness,
+  } = item.data();
   return (
     <TouchableOpacity
       onPress={() => {
@@ -50,7 +59,11 @@ export default function ProductCard({ navigation, item ,horizontal }) {
         });
       }}
     >
-      <Card style={horizontal? styles.prodCardH:[styles.prodCardH,styles.prodCardV]}>
+      <Card
+        style={
+          horizontal ? styles.prodCardH : [styles.prodCardH, styles.prodCardV]
+        }
+      >
         <TouchableOpacity style={styles.heart} onPress={toggleFavourite}>
           <FontAwesome
             name={isFavourite ? 'heart' : 'heart-o'}
@@ -74,9 +87,21 @@ export default function ProductCard({ navigation, item ,horizontal }) {
         </Text>
         <Text style={styles.boldTitle}>{ProductName}</Text>
         <Text style={styles.grayText}>{Name}</Text>
-        
+        {(Width || Length) && (
+          <Text style={styles.grayText}>
+            {Width}{' '}
+            {Length
+              ? (Width && 'x ') + Length
+              : Height
+              ? 'x ' + Height
+              : Thickness
+              ? 'x ' + Thickness
+              : ''}{' '}
+            cm
+          </Text>
+        )}
+
         <View style={styles.marV}>
-          
           <Text style={styles.boldTitle}>{`EGP ${Price}`}</Text>
           {SalePrice && (
             <Text
@@ -84,12 +109,14 @@ export default function ProductCard({ navigation, item ,horizontal }) {
             >{`regular price EGP${SalePrice}`}</Text>
           )}
           {!cartProducts?.find((i) => i.id === item.id) && (
-            <TouchableOpacity style={horizontal? styles.cartIcon:styles.cartIconV} onPress={addCart}>
+            <TouchableOpacity
+              style={horizontal ? styles.cartIcon : styles.cartIconV}
+              onPress={addCart}
+            >
               <MaterialIcons name='shopping-basket' color='#fff' size={22} />
             </TouchableOpacity>
           )}
         </View>
-
       </Card>
     </TouchableOpacity>
   );

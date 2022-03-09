@@ -13,11 +13,11 @@ export default function Options({
   options,
   selectedOPtion,
   setSelectedOp,
-  isSort,
+  objectOP,
 }) {
   const lastOption = options.length - 1;
 
-  const Option = ({ item, index, isSort }) => {
+  const Option = ({ item, index, objectOP }) => {
     //   sortOptions are objects ,others array
     return (
       <TouchableHighlight
@@ -31,7 +31,7 @@ export default function Options({
           ]}
         >
           <Text style={styles.optionText}>
-            {capitalize(!isSort ? item : item.label)}
+            {capitalize(!objectOP ? item.toString() : item.label)}
           </Text>
           <RadioButton value={item} style={styles.radio} color='#000' />
         </View>
@@ -43,7 +43,7 @@ export default function Options({
     <View>
       <RadioButton.Group onValueChange={setSelectedOp} value={selectedOPtion}>
         {options.map((item, index) => (
-          <Option item={item} key={index} index={index} isSort={isSort} />
+          <Option item={item} key={index} index={index} objectOP={objectOP} />
         ))}
       </RadioButton.Group>
     </View>
