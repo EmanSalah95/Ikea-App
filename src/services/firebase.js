@@ -150,13 +150,16 @@ export const addFavItemsToUser = async (userID, productID) => {
     }
   });
 
-  updateDoc(doc(fireStore, 'users', userID), {
-    FavItems: [productID, ...favItems],
-  })
-    .then(() => {
-      console.log('Favourite items added to current user');
+  if (!cartItems.includes(productID))
+    updateDoc(doc(fireStore, 'users', userID), {
+      FavItems: [productID, ...favItems],
     })
-    .catch(err => console.log('adding Favourite items to user ERROR: ' + err));
+      .then(() => {
+        console.log('Favourite items added to current user');
+      })
+      .catch(err =>
+        console.log('adding Favourite items to user ERROR: ' + err)
+      );
 };
 
 export const removeFavItemFromUser = async (userID, productID) => {
