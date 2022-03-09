@@ -4,7 +4,8 @@ import { w, h } from '../../constants/dimentions';
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: '#E7F0EF',
-    height: h,
+    // height: h,
+    flex:1
   },
   ListHeader: {
     backgroundColor: 'white',
