@@ -6,8 +6,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToFav, removeFromFav } from '../../store/actions/favourits';
 import { addToCart } from '../../store/actions/cartProducts';
-import { addFavItemsToUser } from '../../services/firebase';
+import { addCartItemToUser, addFavItemsToUser } from '../../services/firebase';
 import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProductCard({ navigation, item, horizontal }) {
   const { favourits } = useSelector((state) => state.favourits);
@@ -20,23 +21,30 @@ export default function ProductCard({ navigation, item, horizontal }) {
   const [inCart, setInCart] = useState(foundInCart ? true : false);
   const dispatch = useDispatch();
 
-  const toggleFavourite = () => {
+  const toggleFavourite = async () => {
     dispatch(
       isFavourite
         ? removeFromFav(item.id)
         : addToFav({ id: item.id, productData: item.data() })
     );
     // addFavItemsToUser(localStorage.getItem('UID'), item.id);
+    const localID = await AsyncStorage.getItem('UID');
+    if (localID != null) {
+      addFavItemsToUser(localID, item.id);
+    }
     setIsFavourite(!isFavourite);
     console.log('cart', cartProducts.length);
   };
 
-  const addCart = () => {
+  const addCart = async () => {
     dispatch(
       addToCart({ id: item.id, productData: item.data(), PurchasedAmount: 1 })
     );
+    const localID = await AsyncStorage.getItem('UID');
+    if (localID != null) {
+      addCartItemToUser(localID, item.id);
+    }
     setInCart(true);
-    // addCartItemToUser(localStorage.getItem('UID'), item.id);
   };
 
   const {
@@ -59,11 +67,7 @@ export default function ProductCard({ navigation, item, horizontal }) {
         });
       }}
     >
-      <Card
-        style={
-          horizontal ? styles.prodCardH : [styles.prodCardH, styles.prodCardV]
-        }
-      >
+      <Card style={horizontal ? styles.prodCardH : [styles.prodCardH, styles.prodCardV]}>
         <TouchableOpacity style={styles.heart} onPress={toggleFavourite}>
           <FontAwesome
             name={isFavourite ? 'heart' : 'heart-o'}
@@ -109,10 +113,7 @@ export default function ProductCard({ navigation, item, horizontal }) {
             >{`regular price EGP${SalePrice}`}</Text>
           )}
           {!cartProducts?.find((i) => i.id === item.id) && (
-            <TouchableOpacity
-              style={horizontal ? styles.cartIcon : styles.cartIconV}
-              onPress={addCart}
-            >
+            <TouchableOpacity style={horizontal ? styles.cartIcon : styles.cartIconV} onPress={addCart}>
               <MaterialIcons name='shopping-basket' color='#fff' size={22} />
             </TouchableOpacity>
           )}

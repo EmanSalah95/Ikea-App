@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { h, w } from "../../constants/dimentions";
 export const styles = StyleSheet.create({
     // Start Style For UserPage
     container: {
@@ -58,7 +59,7 @@ export const styles = StyleSheet.create({
     },
 
     space: {
-        backgroundColor: "#F0F4F8",
+        backgroundColor: "#E7F0EF",
         height: 20
     },
 
@@ -149,4 +150,19 @@ export const styles = StyleSheet.create({
     textDanger: {
         color: "red"
     },
+
+    profileContainer:{
+        backgroundColor:'#EEEEEE',
+        height:h*0.15,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    settingsContainer:{
+        backgroundColor:'white',
+        height:h,
+        padding:20
+    },
+    dividerStyle:{
+        marginVertical:20
+    }
 });

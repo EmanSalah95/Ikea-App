@@ -22,7 +22,7 @@ export default function authReducer(state = initial, action) {
         id: action.payload.id
       };
     case 'CLEAR_USER':
-      return state={};
+      return initial;
     default:
       return state;
   }
