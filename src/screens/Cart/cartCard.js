@@ -91,7 +91,7 @@ export default function CartCard({ item, purchasedQuantity, id }) {
                         EGP {item.Price * selectedAmount}
                     </Text>
                 </Text>
-                <AwesomeIcon name="trash" size={25} style={{ textAlign: 'right' }} onPress={() => deleteItem()} />
+                <AwesomeIcon name="trash" size={25} style={{ textAlign: 'right' }} onPress={deleteItem} />
             </View>
         </View>
     )

@@ -6,14 +6,63 @@ import SignUpForm from './screens/User/SignUpForm';
 import {ProfileSettings} from './screens/User/setting';
 import Tabs from './tabs';
 import { w } from './constants/dimentions';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProductDetails } from './screens/Product/productDetails';
 import SearchModalProvider from './context';
 import ProductsDrawer from './productDrawer';
 import { OrdersHistory } from './screens/User/OrdersHistory/ordersHistory';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCartItemsFromUser, getFavItemsFromUser, getProductDataById, updateUserStorageByID } from './services/firebase';
+import { addToCart } from './store/actions/cartProducts';
+import { addToFav } from './store/actions/favourits';
 const Stack = createNativeStackNavigator();
 
 export default function HomeStack() {
+  const [id, setID] = useState();
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cartProducts.cartProducts);
+  const favItems = useSelector(state => state.favourits.favourits);
+
+  useEffect(async () => {
+    const id = await AsyncStorage.getItem('UID');
+    if (id != null) {
+      setID(id)
+      updateUserStorageByID(id);
+      // Handle Add toCart
+      getCartItemsFromUser(id).then(productIDs => {
+        // console.log(productIDs);
+        productIDs &&
+          productIDs.forEach(productID => {
+            getProductDataById(productID).then(productData => {
+              // if there are cart items that already exist in store don't dispatch again and just skip it
+              if (!cartItems.some(item => item.id === productID))
+                // use this condition if the navbar will be rendered again, but as long as it is never rendered again this condition won't be needed
+                dispatch(
+                  addToCart({ id: productID, productData, PurchasedAmount: 1 })
+                );
+            });
+          });
+      });
+
+      // Handle Add to Favourite
+      getFavItemsFromUser(id).then(productIDs => {
+        // console.log(productIDs);
+        productIDs &&
+          productIDs.forEach(productID => {
+            getProductDataById(productID).then(productData => {
+              // if there are cart items that already exist in store don't dispatch again and just skip it
+              if (!favItems.some(item => item.id === productID))
+                // use this condition if the navbar will be rendered again, but as long as it is never rendered again this condition won't be needed
+                dispatch(addToFav({ id: productID, productData }));
+            });
+          });
+      });
+    }
+    else {
+      setID(null)
+    }
+  }, [])
   return (
     <SearchModalProvider>
       <Stack.Navigator
