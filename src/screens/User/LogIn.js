@@ -2,91 +2,76 @@ import React from 'react';
 import { Text, Alert, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { styles } from './style';
-import { login, useAuth } from '../../Firebase/fireStoreAuthConfig';
+import { login } from '../../Firebase/fireStoreAuthConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { updateUserStorageByID } from '../../services/firebase';
 
 export default function Loginscreen({navigation}){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setError] = useState({
-    EmailErr: null,
-    PasswordErr: null,
-  });
+  const [EmailErr, setEmailErr] = useState('');
+  const [PasswordErr, setPasswordErr] = useState('');
   
   const handleValidation = () => {                          
-      const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
-      const regPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+    const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
+    const regPassword =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?_&])[A-Za-z\d@$!%*?_&]{8,}$/;
   
       if (email) {
         if (!regEmail.test(email)) {
-          setError({
-            ...errors,
-            EmailErr: 'Email is not valid',
-          });
+          setEmailErr('Email is not valid') ,
+          console.log(email)
         }
           else {
-            setError({
-              ...errors,
-              EmailErr: '',
-            });
+            setEmailErr('') ,
+            console.log('err')
           }
+
       }
 
-      else if (password) {
+      if (password) {
         if (!regPassword.test(password)) {
-          setError({
-            ...errors,
-            PasswordErr: 'Password is not valid',
-          });
+          setPasswordErr('Password is not valid'),
+          console.log(password)
         }
         else {
-          setError({
-            ...errors,
-            PasswordErr: '',
-          });
+          setEmailErr('') 
         }
       }
       
       else
       {
-        console.log('success LogIn')
+        console.log('success LogIn Validation')
       }
   }
 
-  async function handleLogIn() {
+  async function handleLogIn(e) {
         
     var userObj = {
     Email: email,
     Password: password,
     };
 
-    if(email === '' && password === '') {
-      Alert.alert('Enter details to signin!')
-      console.log('Empty Field Input, Please fill it');
-    } 
-    
-    else {
-      try {
-        await login(email, password).then(
-          userCredentials => {
-            localStorage.setItem('UID', userCredentials.user.uid);
-            navigation.navigate('Products')
-            console.log('function LogIn Success');
-          }
-          
-        );
-      } 
-      catch {
-        Alert.alert('User not found you can signup!')
-          console.log('Failed LogIn')
-          navigation.navigate('SignForm')
-      }
-    }
+    handleValidation()
 
+    await login(email, password).then(
+      userCredentials => {
+        AsyncStorage.setItem('UID', userCredentials.user.uid);
+        navigation.navigate('HomeStack');
+        updateUserStorageByID(userCredentials.user.uid)
+        // console.log('function LogIn Success',userCredentials);
+      }
+    )
+    .catch(err=>{
+        Alert.alert('User not found you can signup!')
+          console.log('Failed LogIn',err)
+          navigation.navigate('SignForm')
+    })
     console.log(userObj);
-    
 }
+
   
     return (
       <View style={styles.container}>
@@ -99,7 +84,7 @@ export default function Loginscreen({navigation}){
           onChangeText={(email) => setEmail(email)}
           value={email}
         />
-        <Text style={styles.textDanger}>{errors.EmailErr}</Text>
+        <Text style={styles.textDanger}>{EmailErr}</Text>
         <TextInput
           placeholder="Password"
           style={styles.input}
@@ -107,14 +92,14 @@ export default function Loginscreen({navigation}){
           onChangeText={(password) => setPassword(password)}
           value={password}
         />
-        <Text style={styles.textDanger}>{errors.PasswordErr}</Text>   
-        <Button style={styles.logBtn} mode='contained' onPress={handleLogIn}>LogIn</Button>
+        <Text style={styles.textDanger}>{PasswordErr}</Text>   
+        <Button style={styles.logBtn} mode='contained' onPress={handleLogIn} disabled={email=='' || password==''} >LogIn</Button>
         </View>
 
         <View style={styles.displayTxt}>
-            <Text>Sign up</Text>
-            <Text>|</Text>
-            <Text>Forget Password?</Text>
+            <Text style={styles.txxt} onPress={() => navigation.navigate('SignForm')}>Sign up</Text>
+            <Text style={[styles.txxt, styles.txxtColor]}>|</Text>
+            <Text style={styles.txxt}>Forget Password?</Text>
         </View>
       </View>
     );

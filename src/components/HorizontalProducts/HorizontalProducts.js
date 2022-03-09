@@ -7,7 +7,7 @@ export default function HorizontalProducts({navigation,products}) {
     <FlatList
        style={styles.prodListH}
         data={products}
-        renderItem={({item}) => <ProductCard item={item} navigation={navigation} />}
+        renderItem={({item}) => <ProductCard item={item} navigation={navigation} horizontal/>}
         keyExtractor={(item,index) => index}
         horizontal
         showsHorizontalScrollIndicator={false}

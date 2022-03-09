@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -32,9 +32,9 @@ export function login(email, password) {
   // console.log(password);
 }
 
-// export function logout() {
-//   return signOut(auth);
-// }
+export function logout() {
+  return signOut(auth);
+}
 
 // Custom Hook
 export function useAuth() {

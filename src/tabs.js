@@ -9,18 +9,17 @@ import User from './screens/User/user';
 import { useSelector } from 'react-redux';
 import { Badge } from 'react-native-paper';
 import { styles } from './styles';
-import SearchModalProvider from './context';
 import SearchModal from './components/SearchModal/SearchModal';
 import Home from './screens/Home/home';
 import FavoritesDrawer from './drawer';
 
 const Tab = createMaterialBottomTabNavigator();
 export default function Tabs() {
-  const cartItems = useSelector(state => state.cartProducts.cartProducts);
-  const favItems = useSelector(state => state.favourits.favourits);
+  const cartItems = useSelector((state) => state.cartProducts.cartProducts);
+  const favItems = useSelector((state) => state.favourits.favourits);
 
   return (
-    <SearchModalProvider>
+    <>
       <StatusBar style='auto' />
 
       <Tab.Navigator
@@ -29,15 +28,6 @@ export default function Tabs() {
         labeled={false}
         barStyle={{ backgroundColor: '#fff' }}
       >
-        {/* <Tab.Screen
-          name='HomeStack'
-          component={HomeStack}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name='home' color={color} size={26} />
-            ),
-          }}
-        /> */}
         <Tab.Screen
           name='HomeStack'
           component={Home}
@@ -99,6 +89,6 @@ export default function Tabs() {
         />
       </Tab.Navigator>
       <SearchModal modalVisible={false} />
-    </SearchModalProvider>
+    </>
   );
 }
