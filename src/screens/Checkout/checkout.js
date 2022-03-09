@@ -19,6 +19,11 @@ import * as yup from 'yup';
 import { useSelector } from 'react-redux';
 import ButtonsGroup from './buttonsGroup';
 import PayPalCheckout from './paypal';
+import { RadioButton } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import Collapsible from 'react-native-collapsible';
+import { setUserLocation } from './../../services/firebase';
 
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -35,6 +40,8 @@ export default function Checkout() {
   const [selectedValue, setSelectedValue] = useState();
 
   const [userLocations, setUserLocations] = useState([]);
+  const [checkedAddress, setCheckedAddress] = useState(0);
+  const [addressCollapse, setAddressCollapse] = useState(true);
 
   const [locationsExist, setLocationsExist] = useState();
 
@@ -44,17 +51,23 @@ export default function Checkout() {
 
   const [continuePayment, setContinuePayment] = useState(false);
 
-  const handleAddressForm = values => {
+  const handleAddressForm = async values => {
     setLocationsExist(true);
-    // console.log('locationsExist: ', locationsExist);
+
     const newLocation = values;
 
-    setUserLocations([...userLocations, newLocation]);
-    // console.log(localStorage.getItem('UID'));
-    // setUserLocation(localStorage.getItem('UID'), newLocation);
+    setUserLocations([newLocation, ...userLocations]);
+
+    const uid = await AsyncStorage.getItem('UID');
+    setUserLocation(uid, newLocation);
 
     setSections([1]); // go to the second section
   };
+
+  useEffect(() => {
+    setCheckedAddress(0);
+    setAddressCollapse(true);
+  }, [userLocations]);
 
   useEffect(() => {
     getDocumentByID('governorate', 'VZsmOmwYmRM8qL2TAnqR').then(data => {
@@ -86,84 +99,228 @@ export default function Checkout() {
         <View>
           <Text>Billing Address</Text>
 
-          <Formik
-            initialValues={{
-              name: '',
-              email: '',
-              address: '',
-              building: '',
-              gov: '',
-            }}
-            onSubmit={(values, actions) => {
-              actions.resetForm();
-              handleAddressForm(values);
-            }}
-            validationSchema={schema}
-          >
-            {({ handleChange, handleSubmit, setFieldValue, values }) => (
-              <View style={styles.formWrapper}>
-                <TextInput
-                  onChangeText={handleChange('name')}
-                  value={values.name}
-                  style={styles.input}
-                  placeholder='Full Name'
-                />
-                <TextInput
-                  onChangeText={handleChange('email')}
-                  value={values.email}
-                  style={styles.input}
-                  placeholder='sample1@sample.com'
-                />
-
-                <View style={styles.pickerWrapper}>
-                  {locations && (
-                    <RNPickerSelect
-                      style={styles.quantityPicker}
-                      onValueChange={value => {
-                        if (value !== selectedValue && value !== undefined) {
-                          setSelectedValue(value);
-                          setFieldValue('gov', value.Name);
+          {userLocations.length !== 0 ? (
+            <>
+              <RadioButton.Group
+                onValueChange={newValue => {
+                  setCheckedAddress(newValue);
+                }}
+                value={checkedAddress}
+              >
+                {userLocations.map(loc => (
+                  <View
+                    key={userLocations.indexOf(loc)}
+                    style={styles.locationsWrapper}
+                  >
+                    <View style={styles.radioButtonsGroup}>
+                      <RadioButton
+                        value={userLocations.indexOf(loc)}
+                        status={
+                          user.Locations.indexOf(loc) === checkedAddress
+                            ? 'checked'
+                            : 'unchecked'
                         }
-                      }}
-                      items={locations}
-                      placeholder={{
-                        label: 'Select Governorate',
-                        value: selectedValue,
-                      }}
-                      placeholderTextColor='red'
-                      value={selectedValue}
-                    />
-                  )}
-                </View>
+                        color='#0058a2'
+                      />
+                    </View>
+                    <View>
+                      <Text style={styles.dataText}>
+                        <Text style={styles.strongText}>Name:</Text>{' '}
+                        {user.FirstName} {user.LastName}
+                      </Text>
+                      <Text style={styles.dataText}>
+                        <Text style={styles.strongText}>Mobile:</Text>{' '}
+                        {user.PhoneNum}
+                      </Text>
+                      <Text style={styles.dataText}>
+                        <Text style={styles.strongText}>Address:</Text>{' '}
+                        {loc.address}
+                        {'\n'}
+                        {loc.building}
+                      </Text>
+                    </View>
+                  </View>
+                ))}
+              </RadioButton.Group>
 
-                <TextInput
-                  onChangeText={handleChange('address')}
-                  value={values.address}
-                  style={styles.input}
-                  placeholder='Address'
-                />
+              <TouchableOpacity
+                style={styles.shippingAddressBtn}
+                onPress={() => {
+                  setAddressCollapse(!addressCollapse);
+                }}
+              >
+                <Text style={styles.dataText}>ADD NEW SHIPPING ADDRESS</Text>
+              </TouchableOpacity>
 
-                <TextInput
-                  onChangeText={handleChange('building')}
-                  value={values.building}
-                  style={styles.input}
-                  placeholder='Building Name/Apartment No./Floor No.'
-                />
-
-                <TouchableOpacity
-                  onPress={handleSubmit}
-                  style={styles.continueBtnWrappper}
+              <Collapsible collapsed={addressCollapse}>
+                <Formik
+                  initialValues={{
+                    name: '',
+                    email: '',
+                    address: '',
+                    building: '',
+                    gov: '',
+                  }}
+                  onSubmit={(values, actions) => {
+                    actions.resetForm();
+                    handleAddressForm(values);
+                  }}
+                  validationSchema={schema}
                 >
-                  <Text style={styles.continueBtn}>Submit</Text>
-                </TouchableOpacity>
+                  {({ handleChange, handleSubmit, setFieldValue, values }) => (
+                    <View style={styles.formWrapper}>
+                      <TextInput
+                        onChangeText={handleChange('name')}
+                        value={values.name}
+                        style={styles.input}
+                        placeholder='Full Name'
+                      />
+                      <TextInput
+                        onChangeText={handleChange('email')}
+                        value={values.email}
+                        style={styles.input}
+                        placeholder='sample1@sample.com'
+                      />
 
-                <ButtonsGroup
-                  setSectionNext={() => setSections([1])}
-                  locationsExist={locationsExist}
-                />
-              </View>
-            )}
-          </Formik>
+                      <View style={styles.pickerWrapper}>
+                        {locations && (
+                          <RNPickerSelect
+                            style={styles.quantityPicker}
+                            onValueChange={value => {
+                              if (
+                                value !== selectedValue &&
+                                value !== undefined
+                              ) {
+                                setSelectedValue(value);
+                                setFieldValue('gov', value.Name);
+                              }
+                            }}
+                            items={locations}
+                            placeholder={{
+                              label: 'Select Governorate',
+                              value: selectedValue,
+                            }}
+                            placeholderTextColor='red'
+                            value={selectedValue}
+                          />
+                        )}
+                      </View>
+
+                      <TextInput
+                        onChangeText={handleChange('address')}
+                        value={values.address}
+                        style={styles.input}
+                        placeholder='Address'
+                      />
+
+                      <TextInput
+                        onChangeText={handleChange('building')}
+                        value={values.building}
+                        style={styles.input}
+                        placeholder='Building Name/Apartment No./Floor No.'
+                      />
+
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSections([1]);
+                          handleSubmit();
+                        }}
+                        style={styles.continueBtnWrappper}
+                      >
+                        <Text style={styles.continueBtn}>Submit</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </Formik>
+              </Collapsible>
+            </>
+          ) : (
+            <Formik
+              initialValues={{
+                name: '',
+                email: '',
+                address: '',
+                building: '',
+                gov: '',
+              }}
+              onSubmit={(values, actions) => {
+                actions.resetForm();
+                handleAddressForm(values);
+              }}
+              validationSchema={schema}
+            >
+              {({ handleChange, handleSubmit, setFieldValue, values }) => (
+                <View style={styles.formWrapper}>
+                  <TextInput
+                    onChangeText={handleChange('name')}
+                    value={values.name}
+                    style={styles.input}
+                    placeholder='Full Name'
+                  />
+                  <TextInput
+                    onChangeText={handleChange('email')}
+                    value={values.email}
+                    style={styles.input}
+                    placeholder='sample1@sample.com'
+                  />
+
+                  <View style={styles.pickerWrapper}>
+                    {locations && (
+                      <RNPickerSelect
+                        style={styles.quantityPicker}
+                        onValueChange={value => {
+                          if (value !== selectedValue && value !== undefined) {
+                            setSelectedValue(value);
+                            setFieldValue('gov', value.Name);
+                          }
+                        }}
+                        items={locations}
+                        placeholder={{
+                          label: 'Select Governorate',
+                          value: selectedValue,
+                        }}
+                        placeholderTextColor='red'
+                        value={selectedValue}
+                      />
+                    )}
+                  </View>
+
+                  <TextInput
+                    onChangeText={handleChange('address')}
+                    value={values.address}
+                    style={styles.input}
+                    placeholder='Address'
+                  />
+
+                  <TextInput
+                    onChangeText={handleChange('building')}
+                    value={values.building}
+                    style={styles.input}
+                    placeholder='Building Name/Apartment No./Floor No.'
+                  />
+
+                  <TouchableOpacity
+                    onPress={handleSubmit}
+                    style={styles.continueBtnWrappper}
+                  >
+                    <Text style={styles.continueBtn}>Submit</Text>
+                  </TouchableOpacity>
+
+                  <ButtonsGroup
+                    setSectionNext={() => setSections([1])}
+                    locationsExist={locationsExist}
+                  />
+                </View>
+              )}
+            </Formik>
+          )}
+
+          {addressCollapse && locationsExist && (
+            <ButtonsGroup
+              setSectionNext={() => setSections([1])}
+              locationsExist={locationsExist}
+            />
+          )}
         </View>
       ),
     },
@@ -234,9 +391,11 @@ export default function Checkout() {
                 </Text>
                 <Text style={styles.dataText}>
                   <Text style={styles.strongText}>Address: </Text>{' '}
-                  {userLocations.length !== 0 && userLocations[0].address}
+                  {userLocations.length !== 0 &&
+                    userLocations[checkedAddress].address}
                   {'\n'}
-                  {userLocations.length !== 0 && userLocations[0].building}
+                  {userLocations.length !== 0 &&
+                    userLocations[checkedAddress].building}
                 </Text>
               </View>
             </View>
@@ -254,9 +413,11 @@ export default function Checkout() {
                 </Text>
                 <Text style={styles.dataText}>
                   <Text style={styles.strongText}>Address: </Text>{' '}
-                  {userLocations.length !== 0 && userLocations[0].address}
+                  {userLocations.length !== 0 &&
+                    userLocations[checkedAddress].address}
                   {'\n'}
-                  {userLocations.length !== 0 && userLocations[0].building}
+                  {userLocations.length !== 0 &&
+                    userLocations[checkedAddress].building}
                 </Text>
               </View>
             </View>
@@ -337,7 +498,7 @@ export default function Checkout() {
   };
 
   useEffect(() => {
-    setSections([2]);
+    setSections([0]);
   }, []);
 
   return (

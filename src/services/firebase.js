@@ -110,13 +110,14 @@ export const addCartItemToUser = async (userID, productID) => {
     }
   });
 
-  updateDoc(doc(fireStore, 'users', userID), {
-    CartItems: [productID, ...cartItems],
-  })
-    .then(() => {
-      console.log('cart items added to current user');
+  if (!cartItems.includes(productID))
+    updateDoc(doc(fireStore, 'users', userID), {
+      CartItems: [productID, ...cartItems],
     })
-    .catch(err => console.log('adding cart items to user ERROR: ' + err));
+      .then(() => {
+        console.log('cart items added to current user');
+      })
+      .catch(err => console.log('adding cart items to user ERROR: ' + err));
 };
 
 export const getProductDataById = async id => {
@@ -191,10 +192,7 @@ export const getFirst4Categories = async () => {
   });
 
   return categories;
-  
 };
-
-
 
 export const getProductCatById = id => {
   return getDoc(doc(fireStore, 'ProductCategories', id)).then(
@@ -204,6 +202,45 @@ export const getProductCatById = id => {
   );
 };
 
-export const deleteDocument=(id,collName)=>{
-  return deleteDoc(doc(fireStore,collName,id));
-}
+export const deleteDocument = (id, collName) => {
+  return deleteDoc(doc(fireStore, collName, id));
+};
+
+export const setUserLocation = async (userID, locationData) => {
+  const locations = [];
+
+  await getDoc(doc(fireStore, 'users', userID)).then(res => {
+    if (res.data().Locations) {
+      locations.push(...res.data().Locations);
+    }
+  });
+
+  updateDoc(doc(fireStore, 'users', userID), {
+    Locations: [locationData, ...locations],
+  })
+    .then(() => {
+      console.log('Location added to current user');
+    })
+    .catch(err => console.log('adding location to user ERROR: ' + err));
+};
+
+export const createNewOrder = async data => {
+  await addDoc(collection(fireStore, 'Orders'), {
+    CreatedAt: data.createdAt,
+    Items: data.items,
+    Status: data.status,
+    TotalPrice: data.totalPrice,
+    UserID: data.userId,
+    CheckedAddress: data.checkedAddress,
+  }).then(async newDoc => {
+    let purchased = [];
+    await getDoc(doc(fireStore, 'users', data.userId)).then(res => {
+      if (res.data().Purchased) {
+        purchased.push(...res.data().Purchased);
+      }
+    });
+    updateDoc(doc(fireStore, 'users', data.userId), {
+      Purchased: [newDoc.id, ...purchased],
+    });
+  });
+};

@@ -108,4 +108,22 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   cardBody: {},
+  locationsWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#e9e9e9',
+    marginVertical: 8,
+    paddingVertical: 15,
+  },
+  radioButtonsGroup: {
+    width: 70,
+    alignItems: 'center',
+  },
+  shippingAddressBtn: {
+    backgroundColor: '#efefee',
+    padding: 10,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
 });
