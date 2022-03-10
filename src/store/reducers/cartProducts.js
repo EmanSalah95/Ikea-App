@@ -79,20 +79,15 @@ export default function cartReducer(state = initialState, action) {
     }
 
     case 'ADD_ALL_ITEMS_TO_CART': {
-      const prevCartProducts = state.cartProducts;
-      const favItems = action.payload;
+      const allItems = [...state.cartProducts, ...action.payload];
 
-      const newCartProducts = [...prevCartProducts];
-
-      favItems.forEach(favItem => {
-        if (prevCartProducts.some(i => i.id !== favItem.id)) {
-          newCartProducts.push(favItem);
-        }
-      });
+      const newCartProduct = allItems.filter(
+        (value, idx, self) => idx === self.findIndex(t => t.id === value.id)
+      );
 
       return {
         ...state,
-        cartProducts: newCartProducts,
+        cartProducts: newCartProduct,
       };
     }
 
