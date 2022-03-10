@@ -13,12 +13,12 @@ import { styles } from './styles';
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import RNPickerSelect from 'react-native-picker-select';
-import { getDocumentByID, getUserLocations } from '../../services/firebase';
+import { getDocumentByID } from '../../services/firebase';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useSelector } from 'react-redux';
 import ButtonsGroup from './buttonsGroup';
-import PayPalCheckout from './paypal';
+
 import { RadioButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -26,6 +26,7 @@ import Collapsible from 'react-native-collapsible';
 import { setUserLocation } from './../../services/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { fireStore } from '../../config/firebaseConfig';
+import Pay from './pay';
 
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -453,9 +454,7 @@ export default function Checkout() {
               setContinuePayment={setContinuePayment}
             />
 
-            {continuePayment && (
-              <PayPalCheckout totalOrderPrice={totalOrderPrice} />
-            )}
+            {continuePayment && <Pay checkedAddress={checkedAddress} />}
           </View>
         </View>
       ),
