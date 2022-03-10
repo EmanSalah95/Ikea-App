@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/actions/cartProducts';
 import { removeFromFav, setFavItemAmount } from '../../store/actions/favourits';
 import { styles } from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { addCartItemToUser } from '../../services/firebase';
 
 export default function FavoritesCard({ item, allInCart, setAllInCart }) {
   const productData = item.productData;
@@ -18,7 +20,7 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
 
   const dispatch = useDispatch();
 
-  const addCart = () => {
+  const addCart = async() => {
     dispatch(
       addToCart({
         id: item.id,
@@ -27,6 +29,10 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
       })
     );
     setInCart(true);
+    const localID = await AsyncStorage.getItem('UID');
+    if (localID != null) {
+      addCartItemToUser(localID, item.id);
+    }
   };
 
   useEffect(() => {

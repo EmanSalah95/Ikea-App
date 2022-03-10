@@ -41,9 +41,11 @@ export default function HomeStack() {
                 dispatch(
                   addToCart({ id: productID, productData, PurchasedAmount: 1 })
                 );
-            });
+            })
+            .catch((err)=>console.log(err))
           });
-      });
+      })
+      .catch((err)=>console.log(err))
 
       // Handle Add to Favourite
       getFavItemsFromUser(id).then(productIDs => {
@@ -55,9 +57,11 @@ export default function HomeStack() {
               if (!favItems.some(item => item.id === productID))
                 // use this condition if the navbar will be rendered again, but as long as it is never rendered again this condition won't be needed
                 dispatch(addToFav({ id: productID, productData }));
-            });
+            })
+            .catch((err)=>console.log(err))
           });
-      });
+      })
+      .catch((err)=>console.log(err));
     }
     else {
       setID(null)

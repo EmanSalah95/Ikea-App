@@ -17,13 +17,13 @@ export default function ProductCard({ navigation, item, horizontal }) {
   let found = favourits?.find((i) => i.id === item.id);
   let foundInCart = cartProducts?.find((i) => i.id === item.id);
 
-  const [isFavourite, setIsFavourite] = useState(found ? true : false);
-  const [inCart, setInCart] = useState(foundInCart ? true : false);
+  const [isFavourite, setIsFavourite] = useState(favourits?.find((i) => i.id === item.id) ? true : false);
+  const [inCart, setInCart] = useState(cartProducts?.find((i) => i.id === item.id) ? true : false);
   const dispatch = useDispatch();
 
   const toggleFavourite = async () => {
     dispatch(
-      isFavourite
+      favourits?.find((i) => i.id === item.id)
         ? removeFromFav(item.id)
         : addToFav({ id: item.id, productData: item.data() })
     );
@@ -32,7 +32,7 @@ export default function ProductCard({ navigation, item, horizontal }) {
     if (localID != null) {
       addFavItemsToUser(localID, item.id);
     }
-    setIsFavourite(!isFavourite);
+    setIsFavourite(!favourits?.find((i) => i.id === item.id));
     console.log('cart', cartProducts.length);
   };
 
@@ -62,7 +62,7 @@ export default function ProductCard({ navigation, item, horizontal }) {
       <Card style={horizontal ? styles.prodCardH : [styles.prodCardH, styles.prodCardV]}>
         <TouchableOpacity style={styles.heart} onPress={toggleFavourite}>
           <FontAwesome
-            name={isFavourite ? 'heart' : 'heart-o'}
+            name={favourits?.find((i) => i.id === item.id)? 'heart' : 'heart-o'}
             color={'gray'}
             size={24}
           />

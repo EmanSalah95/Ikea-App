@@ -22,13 +22,15 @@ export const ProfileSettings = ({ navigation }) => {
         }
     }
     const handleLogout = () => {
-        logout().then(() => {
+        logout()
+        .then(() => {
             AsyncStorage.removeItem('UID');
             store.dispatch(clearUser());
             setLogged(false);
             navigation.pop();
             // location.reload();
         })
+        .catch((err)=>console.log(err))
     }
     useEffect(() => {
         navigation.setOptions({

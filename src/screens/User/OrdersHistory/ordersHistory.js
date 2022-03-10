@@ -21,7 +21,8 @@ export const OrdersHistory = () => {
           setOrders(orderList);
           setLoader(false);
         }
-      });
+      })
+      .catch((err)=>console.log(err))
     });
   };
   useEffect(() => {
