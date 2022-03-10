@@ -31,9 +31,9 @@ import Pay from './pay';
 const schema = yup.object().shape({
   name: yup.string().required(),
   email: yup.string().email(),
-  // address: yup.string().required(),
-  // building: yup.string().required(),
-  // gov: yup.string().required(),
+  address: yup.string().required(),
+  building: yup.string().required(),
+  gov: yup.string().required(),
 });
 
 export default function Checkout() {
