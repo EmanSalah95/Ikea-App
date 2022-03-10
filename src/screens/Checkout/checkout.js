@@ -13,7 +13,7 @@ import { styles } from './styles';
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import RNPickerSelect from 'react-native-picker-select';
-import { getDocumentByID } from '../../services/firebase';
+import { getDocumentByID, getUserLocations } from '../../services/firebase';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useSelector } from 'react-redux';
@@ -24,6 +24,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Collapsible from 'react-native-collapsible';
 import { setUserLocation } from './../../services/firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { fireStore } from '../../config/firebaseConfig';
 
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -40,6 +42,7 @@ export default function Checkout() {
   const [selectedValue, setSelectedValue] = useState();
 
   const [userLocations, setUserLocations] = useState([]);
+
   const [checkedAddress, setCheckedAddress] = useState(0);
   const [addressCollapse, setAddressCollapse] = useState(true);
 
@@ -81,16 +84,21 @@ export default function Checkout() {
     });
   }, []);
 
-  useEffect(() => {
-    user.Locations ? setLocationsExist(true) : setLocationsExist(false);
-    // console.log(user.Locations);
-    const userLoc = user.Locations;
+  useEffect(async () => {
+    const uid = await AsyncStorage.getItem('UID');
 
-    if (userLoc instanceof Array && userLoc.length !== 0) {
-      // console.log(userLoc);
-      setUserLocations([...user.Locations]);
-    }
-  }, [user.Locations, locationsExist]);
+    //////////////////////////////////////////////////////////////////
+    // I couldn't use onSnapshot in firebase.js so I had to use it here
+    //////////////////////////////////////////////////////////////////
+    onSnapshot(doc(fireStore, 'users', uid), userDoc => {
+      const userLoc = userDoc.data().Locations;
+      userLoc.length !== 0 ? setLocationsExist(true) : setLocationsExist(false);
+
+      if (userLoc instanceof Array && userLoc.length !== 0) {
+        setUserLocations([...userLoc]);
+      }
+    });
+  }, []);
 
   const CONTENT = [
     {
@@ -437,16 +445,18 @@ export default function Checkout() {
               </View>
             </View>
           </View>
-          <ButtonsGroup
-            setSectionPrev={() => setSections([1])}
-            showPaypal={true}
-            locationsExist={true}
-            setContinuePayment={setContinuePayment}
-          />
+          <View style={styles.reviewButtons}>
+            <ButtonsGroup
+              setSectionPrev={() => setSections([1])}
+              showPaypal={true}
+              locationsExist={true}
+              setContinuePayment={setContinuePayment}
+            />
 
-          {continuePayment && (
-            <PayPalCheckout totalOrderPrice={totalOrderPrice} />
-          )}
+            {continuePayment && (
+              <PayPalCheckout totalOrderPrice={totalOrderPrice} />
+            )}
+          </View>
         </View>
       ),
     },

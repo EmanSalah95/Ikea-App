@@ -103,11 +103,14 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     paddingVertical: 10,
   },
-  reviewCardsWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  reviewCard: {
+    borderWidth: 1,
+    borderColor: '#e9e9e9',
+    padding: 10,
   },
-  cardBody: {},
+  reviewButtons: {
+    marginTop: 10,
+  },
   locationsWrapper: {
     flexDirection: 'row',
     alignItems: 'center',

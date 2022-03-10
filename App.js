@@ -17,16 +17,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [id, setID] = useState();
-  useEffect(async()=>{
+  useEffect(async () => {
     const id = await AsyncStorage.getItem('UID');
     if (id != null) {
-      setID(id)
+      setID(id);
       updateUserStorageByID(id);
+    } else {
+      setID(null);
     }
-    else {
-      setID(null)
-    }
-  },[])
+  }, []);
   return (
     <Provider store={store}>
       <NavigationContainer>
