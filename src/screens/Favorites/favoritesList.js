@@ -9,16 +9,23 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { removeAllFromFav } from '../../store/actions/favourits';
 import { useDispatch } from 'react-redux';
 import { addAllItemsToCart } from '../../store/actions/cartProducts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  addAllFavItemsToCart,
+  removeAllFavItemsFromUser,
+} from '../../services/firebase';
 
 export default function FavoritesList({ favItems }) {
-  const [allInCart, setAllInCart] = useState(false);
+  // const [allInCart, setAllInCart] = useState(false);
 
   const dispatch = useDispatch();
 
-  const addAllFavItemsToBag = () => {
-    setAllInCart(true);
+  const addAllFavItemsToBag = async () => {
+    // setAllInCart(true);
     dispatch(addAllItemsToCart(favItems));
-    dispatch(addAllItemsToCart(favItems)); // repeated to fix a bug temporarily
+
+    const uid = await AsyncStorage.getItem('UID');
+    addAllFavItemsToCart(uid);
   };
 
   const clearFavItems = () => {
@@ -26,7 +33,15 @@ export default function FavoritesList({ favItems }) {
       {
         text: 'No',
       },
-      { text: 'Yes', onPress: () => dispatch(removeAllFromFav()) },
+      {
+        text: 'Yes',
+        onPress: async () => {
+          dispatch(removeAllFromFav());
+
+          const uid = await AsyncStorage.getItem('UID');
+          removeAllFavItemsFromUser(uid);
+        },
+      },
     ]);
   };
 
@@ -37,8 +52,8 @@ export default function FavoritesList({ favItems }) {
         renderItem={({ item }) => (
           <FavoritesCard
             item={item}
-            allInCart={allInCart}
-            setAllInCart={setAllInCart}
+            // allInCart={allInCart}
+            // setAllInCart={setAllInCart}
           />
         )}
         ListHeaderComponent={() => (

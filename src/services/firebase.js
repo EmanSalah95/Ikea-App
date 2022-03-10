@@ -164,7 +164,7 @@ export const addFavItemsToUser = async (userID, productID) => {
     })
     .catch(err => console.log(err));
 
-  if (!cartItems.includes(productID))
+  if (!favItems.includes(productID))
     updateDoc(doc(fireStore, 'users', userID), {
       FavItems: [productID, ...favItems],
     })
@@ -174,6 +174,23 @@ export const addFavItemsToUser = async (userID, productID) => {
       .catch(err =>
         console.log('adding Favourite items to user ERROR: ' + err)
       );
+};
+
+export const addAllFavItemsToCart = async userID => {
+  const favItems = [];
+  const cartItems = [];
+  await getDoc(doc(fireStore, 'users', userID)).then(res => {
+    favItems.push(...res.data().FavItems);
+    cartItems.push(...res.data().CartItems);
+  });
+
+  const allItems = [...favItems, ...cartItems];
+
+  const uniqueItems = [...new Set(allItems)];
+
+  updateDoc(doc(fireStore, 'users', userID), {
+    CartItems: uniqueItems,
+  });
 };
 
 export const removeFavItemFromUser = async (userID, productID) => {
@@ -191,6 +208,12 @@ export const removeFavItemFromUser = async (userID, productID) => {
   });
 };
 
+export const removeAllFavItemsFromUser = async userID => {
+  await updateDoc(doc(fireStore, 'users', userID), {
+    FavItems: [],
+  });
+};
+
 export const getFavItemsFromUser = userID => {
   return getDoc(doc(fireStore, 'users', userID))
     .then(res => {
@@ -198,6 +221,7 @@ export const getFavItemsFromUser = userID => {
     })
     .catch(err => console.log(err));
 };
+
 // Search
 
 export const getFirst4Categories = async () => {

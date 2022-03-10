@@ -9,7 +9,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addCartItemToUser } from '../../services/firebase';
 
 export default function FavoritesCard({ item, allInCart, setAllInCart }) {
-  
   const productData = item.productData;
   const [quantityArr, setQuantityArr] = useState([]);
   const [selectedValue, setSelectedValue] = useState(1);
@@ -21,7 +20,7 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
 
   const dispatch = useDispatch();
 
-  const addCart = async() => {
+  const addCart = async () => {
     dispatch(
       addToCart({
         id: item.id,
@@ -29,16 +28,15 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
         PurchasedAmount: selectedValue,
       })
     );
-    setInCart(true);
+    // setInCart(true);
+
     const localID = await AsyncStorage.getItem('UID');
-    if (localID != null) {
-      addCartItemToUser(localID, item.id);
-    }
+    localID && addCartItemToUser(localID, item.id);
   };
 
   useEffect(() => {
     if (allInCart) {
-      setInCart(true);
+      // setInCart(true);
       // setAllInCart(false);
     }
   }, [allInCart]);

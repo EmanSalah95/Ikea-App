@@ -79,16 +79,20 @@ export default function cartReducer(state = initialState, action) {
     }
 
     case 'ADD_ALL_ITEMS_TO_CART': {
+      const prevCartProducts = state.cartProducts;
+      const favItems = action.payload;
+
+      const newCartProducts = [...prevCartProducts];
+
+      favItems.forEach(favItem => {
+        if (prevCartProducts.some(i => i.id !== favItem.id)) {
+          newCartProducts.push(favItem);
+        }
+      });
+
       return {
         ...state,
-        cartProducts: [
-          ...action.payload.filter(i => {
-            if (state.cartProducts.length === 0) return true;
-            return state.cartProducts.some(prod => {
-              return prod.id !== i.id;
-            });
-          }),
-        ],
+        cartProducts: newCartProducts,
       };
     }
 
