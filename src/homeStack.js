@@ -10,6 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProductDetails } from './screens/Product/productDetails';
 import SearchModalProvider from './context';
 import ProductsDrawer from './productDrawer';
+import SnackBar from './components/SnackBar';
+
 import { OrdersHistory } from './screens/User/OrdersHistory/ordersHistory';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -118,6 +120,7 @@ export default function HomeStack() {
         }}
         />
       </Stack.Navigator>
+     <SnackBar/>
     </SearchModalProvider>
   );
 }

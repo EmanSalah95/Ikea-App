@@ -4,6 +4,7 @@ import loaderReducer from './reducers/loader';
 import cartReducer from './reducers/cartProducts';
 import authReducer from './reducers/auth';
 import productsReducer from './reducers/products';
+import snackbar from './reducers/snackbar';
 
 export default combineReducers({
   favourits: favReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   cartProducts: cartReducer,
   user: authReducer,
   products:productsReducer,
+  snackbar:snackbar,
 });

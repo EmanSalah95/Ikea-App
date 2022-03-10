@@ -45,11 +45,19 @@ export default function ProductCard({ navigation, item, horizontal }) {
       addCartItemToUser(localID, item.id);
     }
     setInCart(true);
-    // addCartItemToUser(localStorage.getItem('UID'), item.id);
   };
 
-  const { Name, ProductName, Price, SalePrice, Width, Length, Images, Height } =
-    item.data();
+  const {
+    Name,
+    ProductName,
+    Price,
+    SalePrice,
+    Width,
+    Length,
+    Images,
+    Height,
+    Thickness,
+  } = item.data();
   return (
     <TouchableOpacity
       onPress={() => {
@@ -67,6 +75,7 @@ export default function ProductCard({ navigation, item, horizontal }) {
             size={24}
           />
         </TouchableOpacity>
+
         <Image
           style={styles.prodCardImg}
           source={{
@@ -76,13 +85,27 @@ export default function ProductCard({ navigation, item, horizontal }) {
           }}
           resizeMode='contain'
         />
+
         <Text style={[styles.boldTitle, styles.blueText]}>
           IKEA Family price
         </Text>
         <Text style={styles.boldTitle}>{ProductName}</Text>
         <Text style={styles.grayText}>{Name}</Text>
-        <View style={styles.marV}>
+        {(Width || Length) && (
+          <Text style={styles.grayText}>
+            {Width}{' '}
+            {Length
+              ? (Width && 'x ') + Length
+              : Height
+              ? 'x ' + Height
+              : Thickness
+              ? 'x ' + Thickness
+              : ''}{' '}
+            cm
+          </Text>
+        )}
 
+        <View style={styles.marV}>
           <Text style={styles.boldTitle}>{`EGP ${Price}`}</Text>
           {SalePrice && (
             <Text

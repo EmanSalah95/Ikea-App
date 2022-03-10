@@ -1,28 +1,46 @@
 let initialState = {
   allProducts: [],
   condition: 0,
-  filters: 0,
-  filteredProducts: [],
+  filters: {},
+  filteredList: null,
+  loading :true,
 };
 
 export default function productsReducer(state = initialState, action) {
   switch (action.type) {
     case 'PROD_LIST':
-        console.log('payl',action.payload.length);
-
       return {
         ...state,
-        allProducts: action.payload,
+        allProducts: action.payload.products,
+        condition: action.payload.condition,
+        filters: { condition: action.payload.condition },
+        loading:false,
       };
 
-    case 'CLEAR_DETAILS': {
-        console.log('caaaaaaaaled');
+    case 'UPDATE_FILTER':
+      return {
+        ...state,
+        filters: action.payload.filterObj,
+        filteredList: action.payload.filteredList,
+      };
+
+    case 'CLEAR_PRODUCTS': {
       return {
         ...state,
         allProducts: [],
-        filteredProducts: [],
-        condition: 0,
-        filters: 0,
+        filteredList: null,
+        condition: null,
+        filters: null,
+        loading:true,
+
+      };
+    }
+
+    case 'CLEAR_FILTERS': {
+      return {
+        ...state,
+        filteredList: null,
+        filters: { condition: state.condition },
       };
     }
 
