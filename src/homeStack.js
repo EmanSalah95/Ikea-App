@@ -3,7 +3,7 @@ import Product from './screens/Product/product';
 import Loginscreen from './screens/User/LogIn';
 import SignUpScreen from './screens/User/SignUp';
 import SignUpForm from './screens/User/SignUpForm';
-import {ProfileSettings} from './screens/User/setting';
+import { ProfileSettings } from './screens/User/setting';
 import Tabs from './tabs';
 import { w } from './constants/dimentions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,60 +15,49 @@ import SnackBar from './components/SnackBar';
 import { OrdersHistory } from './screens/User/OrdersHistory/ordersHistory';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCartItemsFromUser, getFavItemsFromUser, getProductDataById, updateUserStorageByID } from './services/firebase';
+import {
+  getCartItemsFromUser,
+  getFavItemsFromUser,
+  getProductDataById,
+  updateUserStorageByID,
+} from './services/firebase';
 import { addToCart } from './store/actions/cartProducts';
 import { addToFav } from './store/actions/favourits';
 const Stack = createNativeStackNavigator();
 
 export default function HomeStack() {
-  const [id, setID] = useState();
   const dispatch = useDispatch();
   const cartItems = useSelector(state => state.cartProducts.cartProducts);
   const favItems = useSelector(state => state.favourits.favourits);
 
-  useEffect(async () => {
-    const id = await AsyncStorage.getItem('UID');
-    if (id != null) {
-      setID(id)
-      updateUserStorageByID(id);
-      // Handle Add toCart
-      getCartItemsFromUser(id).then(productIDs => {
-        // console.log(productIDs);
-        productIDs &&
-          productIDs.forEach(productID => {
-            getProductDataById(productID).then(productData => {
-              // if there are cart items that already exist in store don't dispatch again and just skip it
-              if (!cartItems.some(item => item.id === productID))
-                // use this condition if the navbar will be rendered again, but as long as it is never rendered again this condition won't be needed
-                dispatch(
-                  addToCart({ id: productID, productData, PurchasedAmount: 1 })
-                );
-            })
-            .catch((err)=>console.log(err))
-          });
-      })
-      .catch((err)=>console.log(err))
+  const getItemsFromUser = async (cb, items, addFn) => {
+    const uid = await AsyncStorage.getItem('UID');
 
-      // Handle Add to Favourite
-      getFavItemsFromUser(id).then(productIDs => {
-        // console.log(productIDs);
+    if (uid) {
+      updateUserStorageByID(uid);
+      cb(uid).then(productIDs => {
         productIDs &&
           productIDs.forEach(productID => {
             getProductDataById(productID).then(productData => {
-              // if there are cart items that already exist in store don't dispatch again and just skip it
-              if (!favItems.some(item => item.id === productID))
-                // use this condition if the navbar will be rendered again, but as long as it is never rendered again this condition won't be needed
-                dispatch(addToFav({ id: productID, productData }));
-            })
-            .catch((err)=>console.log(err))
+              if (!items.some(item => item.id === productID))
+                dispatch(
+                  addFn({ id: productID, productData, PurchasedAmount: 1 })
+                );
+            });
           });
-      })
-      .catch((err)=>console.log(err));
+      });
     }
-    else {
-      setID(null)
+  };
+
+  useEffect(async () => {
+    const uid = await AsyncStorage.getItem('UID');
+
+    if (uid) {
+      getItemsFromUser(getCartItemsFromUser, cartItems, addToCart);
+      getItemsFromUser(getFavItemsFromUser, favItems, addToFav);
     }
-  }, [])
+  }, []);
+
   return (
     <SearchModalProvider>
       <Stack.Navigator
@@ -101,10 +90,7 @@ export default function HomeStack() {
             headerShown: true,
           }}
         />
-        <Stack.Screen
-          name='Products'
-          component={ProductsDrawer}
-        />
+        <Stack.Screen name='Products' component={ProductsDrawer} />
         <Stack.Screen
           name='ProfileSettings'
           component={ProfileSettings}
@@ -113,14 +99,14 @@ export default function HomeStack() {
           }}
         />
         <Stack.Screen
-        name='OrdersHistory'
-        component={OrdersHistory}
-        options={{
-          headerShown: true,
-        }}
+          name='OrdersHistory'
+          component={OrdersHistory}
+          options={{
+            headerShown: true,
+          }}
         />
       </Stack.Navigator>
-     <SnackBar/>
+      <SnackBar />
     </SearchModalProvider>
   );
 }
