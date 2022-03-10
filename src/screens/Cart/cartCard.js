@@ -18,7 +18,7 @@ export default function CartCard({ item, purchasedQuantity, id }) {
         const localID = await AsyncStorage.getItem('UID');
         if(localID!=null)
         {
-            removeCartItemFromUser(localID, id);
+            removeCartItemFromUser(localID, id).catch((err)=>{console.log(err)})
         }
     };
 
