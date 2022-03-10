@@ -5,7 +5,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingTop: 30,
+    paddingBottom: 10,
   },
   header: {
     marginVertical: 10,
@@ -103,9 +104,72 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     paddingVertical: 10,
   },
-  reviewCardsWrapper: {
+  reviewCard: {
+    borderWidth: 1,
+    borderColor: '#e9e9e9',
+    padding: 10,
+  },
+  reviewButtons: {
+    marginTop: 10,
+  },
+  locationsWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#e9e9e9',
+    marginVertical: 8,
+    paddingVertical: 15,
+  },
+  radioButtonsGroup: {
+    width: 70,
+    alignItems: 'center',
+  },
+  shippingAddressBtn: {
+    backgroundColor: '#efefee',
+    padding: 10,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  payContainer: {
+    marginVertical: 10,
+  },
+  paymentSelect: {
+    backgroundColor: '#ececec',
+    borderWidth: 1,
+    borderColor: '#d4d4d4',
+    borderRadius: 5,
+    padding: 10,
+  },
+  paymentRadioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  placeOrder: {
+    backgroundColor: '#ececec',
+    marginVertical: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#d4d4d4',
+    padding: 10,
+  },
+  placeOrderButtons: {
+    marginVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  cardBody: {},
+  orderCancelBtn: {
+    backgroundColor: '#dadada',
+    padding: 10,
+  },
+  placeOrderBtn: {
+    backgroundColor: '#0058a2',
+    padding: 10,
+  },
+  successfulOrderMessage: {
+    alignItems: 'center',
+  },
+  successfulOrderText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

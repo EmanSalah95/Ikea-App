@@ -79,16 +79,15 @@ export default function cartReducer(state = initialState, action) {
     }
 
     case 'ADD_ALL_ITEMS_TO_CART': {
+      const allItems = [...state.cartProducts, ...action.payload];
+
+      const newCartProduct = allItems.filter(
+        (value, idx, self) => idx === self.findIndex(t => t.id === value.id)
+      );
+
       return {
         ...state,
-        cartProducts: [
-          ...action.payload.filter(i => {
-            if (state.cartProducts.length === 0) return true;
-            return state.cartProducts.some(prod => {
-              return prod.id !== i.id;
-            });
-          }),
-        ],
+        cartProducts: newCartProduct,
       };
     }
 

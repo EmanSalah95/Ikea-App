@@ -25,8 +25,8 @@ export default function Product({ route, navigation }) {
   let found = favourits?.find((i) => i.id === route.params.id);
   let foundInCart = cartProducts?.find((i) => i.id === route.params.id);
 
-  const [isFavourite, setIsFavourite] = useState(found ? true : false);
-  const [inCart, setInCart] = useState(foundInCart ? true : false);
+  const [isFavourite, setIsFavourite] = useState(favourits?.find((i) => i.id === route.params.id) ? true : false);
+  const [inCart, setInCart] = useState(cartProducts?.find((i) => i.id === route.params.id) ? true : false);
 
   const dispatch = useDispatch();
   const toggleFavourite = async () => {

@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/actions/cartProducts';
 import { removeFromFav, setFavItemAmount } from '../../store/actions/favourits';
 import { styles } from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { addCartItemToUser } from '../../services/firebase';
 
 export default function FavoritesCard({ item, allInCart, setAllInCart }) {
   const productData = item.productData;
@@ -12,13 +14,13 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
   const [selectedValue, setSelectedValue] = useState(1);
 
   const { cartProducts } = useSelector(state => state.cartProducts);
-  let foundInCart = cartProducts?.find(i => i.id === item.id);
+  // let foundInCart = cartProducts?.find(i => i.id === item.id);
 
-  const [inCart, setInCart] = useState(foundInCart ? true : false);
+  // const [inCart, setInCart] = useState(foundInCart ? true : false);
 
   const dispatch = useDispatch();
 
-  const addCart = () => {
+  const addCart = async () => {
     dispatch(
       addToCart({
         id: item.id,
@@ -26,12 +28,15 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
         PurchasedAmount: selectedValue,
       })
     );
-    setInCart(true);
+    // setInCart(true);
+
+    const localID = await AsyncStorage.getItem('UID');
+    localID && addCartItemToUser(localID, item.id);
   };
 
   useEffect(() => {
     if (allInCart) {
-      setInCart(true);
+      // setInCart(true);
       // setAllInCart(false);
     }
   }, [allInCart]);
@@ -108,7 +113,7 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
       <TouchableOpacity
         style={styles.addToBagButton}
         onPress={addCart}
-        disabled={inCart}
+        disabled={cartProducts?.find(i => i.id === item.id)}
       >
         <Text style={styles.boldUpperCaseText}>Add To Bag</Text>
       </TouchableOpacity>

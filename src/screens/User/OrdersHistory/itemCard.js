@@ -13,7 +13,8 @@ const ItemCard = ({ item }) => {
     const getProductData = async () => {
         return getDocumentByID('Products', item.ProductID).then((product) => {
             setProduct(product);
-        });
+        })
+        .catch((err)=>console.log(err))
     };
     useEffect(() => {
         getProductData();

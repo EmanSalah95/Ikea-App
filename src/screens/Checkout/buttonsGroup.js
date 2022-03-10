@@ -34,7 +34,11 @@ export default function ButtonsGroup({
               : { ...styles.continueBtnWrappper, width: '100%' }
           }
         >
-          <Text style={styles.continueBtn}>CONTINUE</Text>
+          {showPaypal ? (
+            <Text style={styles.continueBtn}>CONTINUE WITH THE PAYMENT</Text>
+          ) : (
+            <Text style={styles.continueBtn}>CONTINUE</Text>
+          )}
         </TouchableOpacity>
       )}
     </View>
