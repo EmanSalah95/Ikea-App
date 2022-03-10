@@ -7,7 +7,12 @@ import { Timestamp } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createNewOrder } from '../../services/firebase';
 
-export default function Pay({ checkedAddress }) {
+export default function Pay({
+  checkedAddress,
+  resetSection,
+  orderIsPlaced,
+  setOrderIsPlaced,
+}) {
   const totalOrderPrice = useSelector(state => state.cartProducts.totalPrice);
   const purchasedItems = useSelector(state => state.cartProducts.cartProducts);
 
@@ -15,7 +20,6 @@ export default function Pay({ checkedAddress }) {
 
   const [isCashOnDelivery, setIsCashOnDelivery] = useState(false);
   const [checkedPayment, setCheckedPayment] = useState(0);
-  // 0058a2
 
   const placeOrder = async () => {
     const purchaseDate = Timestamp.fromDate(new Date());
@@ -30,6 +34,8 @@ export default function Pay({ checkedAddress }) {
         checkedAddress: checkedAddress,
       });
     }, 2000);
+    setOrderIsPlaced(true);
+    resetSection();
   };
 
   useEffect(() => {
@@ -47,55 +53,59 @@ export default function Pay({ checkedAddress }) {
 
   return (
     <View style={styles.payContainer}>
-      <View style={styles.paymentSelect}>
-        <RadioButton.Group
-          onValueChange={newValue => setCheckedPayment(newValue)}
-          value={checkedPayment}
-        >
-          <View style={styles.paymentRadioButton}>
-            <RadioButton
-              value={0}
-              status={checkedPayment === 0 ? 'checked' : 'unchecked'}
-              color='#0058a2'
-            />
-            <Text style={styles.dataText}>Pay with PayPal</Text>
+      {!orderIsPlaced && (
+        <>
+          <View style={styles.paymentSelect}>
+            <RadioButton.Group
+              onValueChange={newValue => setCheckedPayment(newValue)}
+              value={checkedPayment}
+            >
+              <View style={styles.paymentRadioButton}>
+                <RadioButton
+                  value={0}
+                  status={checkedPayment === 0 ? 'checked' : 'unchecked'}
+                  color='#0058a2'
+                />
+                <Text style={styles.dataText}>Pay with PayPal</Text>
+              </View>
+              <View style={styles.paymentRadioButton}>
+                <RadioButton
+                  value={1}
+                  status={checkedPayment === 1 ? 'checked' : 'unchecked'}
+                  color='#0058a2'
+                />
+                <Text style={styles.dataText}>Cash on Delivery</Text>
+              </View>
+            </RadioButton.Group>
           </View>
-          <View style={styles.paymentRadioButton}>
-            <RadioButton
-              value={1}
-              status={checkedPayment === 1 ? 'checked' : 'unchecked'}
-              color='#0058a2'
-            />
-            <Text style={styles.dataText}>Cash on Delivery</Text>
-          </View>
-        </RadioButton.Group>
-      </View>
 
-      <View style={styles.placeOrder}>
-        {isCashOnDelivery ? (
-          <>
-            <Text style={styles.dataText}>
-              Total amount incl VAT:{' '}
-              <Text style={{ ...styles.strongText, fontSize: 15 }}>
-                EGP {totalOrderPrice}
-              </Text>
-            </Text>
-            <View style={styles.placeOrderButtons}>
-              <TouchableOpacity style={styles.orderCancelBtn}>
-                <Text>CANCEL</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.placeOrderBtn}
-                onPress={placeOrder}
-              >
-                <Text style={{ color: '#fff' }}>PLACE ORDER</Text>
-              </TouchableOpacity>
-            </View>
-          </>
-        ) : (
-          <></>
-        )}
-      </View>
+          <View style={styles.placeOrder}>
+            {isCashOnDelivery ? (
+              <>
+                <Text style={styles.dataText}>
+                  Total amount incl VAT:{' '}
+                  <Text style={{ ...styles.strongText, fontSize: 15 }}>
+                    EGP {totalOrderPrice}
+                  </Text>
+                </Text>
+                <View style={styles.placeOrderButtons}>
+                  <TouchableOpacity style={styles.orderCancelBtn}>
+                    <Text>CANCEL</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.placeOrderBtn}
+                    onPress={placeOrder}
+                  >
+                    <Text style={{ color: '#fff' }}>PLACE ORDER</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : (
+              <></>
+            )}
+          </View>
+        </>
+      )}
     </View>
   );
 }

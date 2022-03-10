@@ -165,4 +165,11 @@ export const styles = StyleSheet.create({
     backgroundColor: '#0058a2',
     padding: 10,
   },
+  successfulOrderMessage: {
+    alignItems: 'center',
+  },
+  successfulOrderText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

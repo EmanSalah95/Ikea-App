@@ -54,6 +54,7 @@ export default function Checkout() {
   const totalOrderPrice = useSelector(state => state.cartProducts.totalPrice);
 
   const [continuePayment, setContinuePayment] = useState(false);
+  const [orderIsPlaced, setOrderIsPlaced] = useState(false);
 
   const handleAddressForm = async values => {
     setLocationsExist(true);
@@ -454,7 +455,14 @@ export default function Checkout() {
               setContinuePayment={setContinuePayment}
             />
 
-            {continuePayment && <Pay checkedAddress={checkedAddress} />}
+            {continuePayment && (
+              <Pay
+                checkedAddress={checkedAddress}
+                resetSection={() => setSections([])}
+                orderIsPlaced={orderIsPlaced}
+                setOrderIsPlaced={setOrderIsPlaced}
+              />
+            )}
           </View>
         </View>
       ),
@@ -512,6 +520,13 @@ export default function Checkout() {
 
   return (
     <SafeAreaView style={styles.container}>
+      {orderIsPlaced && (
+        <View style={styles.successfulOrderMessage}>
+          <Text style={styles.successfulOrderText}>
+            Your order is placed successfully!
+          </Text>
+        </View>
+      )}
       <View style={styles.container}>
         <ScrollView>
           <Accordion
