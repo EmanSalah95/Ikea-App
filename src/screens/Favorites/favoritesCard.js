@@ -9,14 +9,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addCartItemToUser } from '../../services/firebase';
 
 export default function FavoritesCard({ item, allInCart, setAllInCart }) {
+  
   const productData = item.productData;
   const [quantityArr, setQuantityArr] = useState([]);
   const [selectedValue, setSelectedValue] = useState(1);
 
   const { cartProducts } = useSelector(state => state.cartProducts);
-  let foundInCart = cartProducts?.find(i => i.id === item.id);
+  // let foundInCart = cartProducts?.find(i => i.id === item.id);
 
-  const [inCart, setInCart] = useState(foundInCart ? true : false);
+  // const [inCart, setInCart] = useState(foundInCart ? true : false);
 
   const dispatch = useDispatch();
 
@@ -114,7 +115,7 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
       <TouchableOpacity
         style={styles.addToBagButton}
         onPress={addCart}
-        disabled={inCart}
+        disabled={cartProducts?.find(i => i.id === item.id)}
       >
         <Text style={styles.boldUpperCaseText}>Add To Bag</Text>
       </TouchableOpacity>

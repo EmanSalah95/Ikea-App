@@ -6,7 +6,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToFav, removeFromFav } from '../../store/actions/favourits';
 import { addToCart } from '../../store/actions/cartProducts';
-import { addCartItemToUser, addFavItemsToUser } from '../../services/firebase';
+import { addCartItemToUser, addFavItemsToUser, removeFavItemFromUser } from '../../services/firebase';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -30,7 +30,9 @@ export default function ProductCard({ navigation, item, horizontal }) {
     // addFavItemsToUser(localStorage.getItem('UID'), item.id);
     const localID = await AsyncStorage.getItem('UID');
     if (localID != null) {
-      addFavItemsToUser(localID, item.id);
+      favourits?.find((i) => i.id === item.id)
+      ? removeFavItemFromUser(localID,item.id)
+      : addFavItemsToUser(localID, item.id)
     }
     setIsFavourite(!favourits?.find((i) => i.id === item.id));
     console.log('cart', cartProducts.length);
