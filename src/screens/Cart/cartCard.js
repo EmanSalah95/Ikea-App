@@ -18,7 +18,7 @@ export default function CartCard({ item, purchasedQuantity, id }) {
         const localID = await AsyncStorage.getItem('UID');
         if(localID!=null)
         {
-          removeCartItemFromUser(localID, id);
+            removeCartItemFromUser(localID, id);
         }
     };
 
@@ -91,7 +91,7 @@ export default function CartCard({ item, purchasedQuantity, id }) {
                         EGP {item.Price * selectedAmount}
                     </Text>
                 </Text>
-                <AwesomeIcon name="trash" size={25} style={{ textAlign: 'right' }} onPress={() => deleteItem()} />
+                <AwesomeIcon name="trash" size={25} style={{ textAlign: 'right' }} onPress={deleteItem} />
             </View>
         </View>
     )

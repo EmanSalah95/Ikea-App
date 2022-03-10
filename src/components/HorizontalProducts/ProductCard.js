@@ -6,7 +6,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToFav, removeFromFav } from '../../store/actions/favourits';
 import { addToCart } from '../../store/actions/cartProducts';
-import { addCartItemToUser, addFavItemsToUser } from '../../services/firebase';
+import { addCartItemToUser, addFavItemsToUser, removeFavItemFromUser } from '../../services/firebase';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -17,22 +17,24 @@ export default function ProductCard({ navigation, item, horizontal }) {
   let found = favourits?.find((i) => i.id === item.id);
   let foundInCart = cartProducts?.find((i) => i.id === item.id);
 
-  const [isFavourite, setIsFavourite] = useState(found ? true : false);
-  const [inCart, setInCart] = useState(foundInCart ? true : false);
+  const [isFavourite, setIsFavourite] = useState(favourits?.find((i) => i.id === item.id) ? true : false);
+  const [inCart, setInCart] = useState(cartProducts?.find((i) => i.id === item.id) ? true : false);
   const dispatch = useDispatch();
 
   const toggleFavourite = async () => {
     dispatch(
-      isFavourite
+      favourits?.find((i) => i.id === item.id)
         ? removeFromFav(item.id)
         : addToFav({ id: item.id, productData: item.data() })
     );
     // addFavItemsToUser(localStorage.getItem('UID'), item.id);
     const localID = await AsyncStorage.getItem('UID');
     if (localID != null) {
-      addFavItemsToUser(localID, item.id);
+      favourits?.find((i) => i.id === item.id)
+      ? removeFavItemFromUser(localID,item.id)
+      : addFavItemsToUser(localID, item.id)
     }
-    setIsFavourite(!isFavourite);
+    setIsFavourite(!favourits?.find((i) => i.id === item.id));
     console.log('cart', cartProducts.length);
   };
 
@@ -45,11 +47,19 @@ export default function ProductCard({ navigation, item, horizontal }) {
       addCartItemToUser(localID, item.id);
     }
     setInCart(true);
-    // addCartItemToUser(localStorage.getItem('UID'), item.id);
   };
 
-  const { Name, ProductName, Price, SalePrice, Width, Length, Images, Height } =
-    item.data();
+  const {
+    Name,
+    ProductName,
+    Price,
+    SalePrice,
+    Width,
+    Length,
+    Images,
+    Height,
+    Thickness,
+  } = item.data();
   return (
     <TouchableOpacity
       onPress={() => {
@@ -62,11 +72,12 @@ export default function ProductCard({ navigation, item, horizontal }) {
       <Card style={horizontal ? styles.prodCardH : [styles.prodCardH, styles.prodCardV]}>
         <TouchableOpacity style={styles.heart} onPress={toggleFavourite}>
           <FontAwesome
-            name={isFavourite ? 'heart' : 'heart-o'}
+            name={favourits?.find((i) => i.id === item.id)? 'heart' : 'heart-o'}
             color={'gray'}
             size={24}
           />
         </TouchableOpacity>
+
         <Image
           style={styles.prodCardImg}
           source={{
@@ -76,13 +87,27 @@ export default function ProductCard({ navigation, item, horizontal }) {
           }}
           resizeMode='contain'
         />
+
         <Text style={[styles.boldTitle, styles.blueText]}>
           IKEA Family price
         </Text>
         <Text style={styles.boldTitle}>{ProductName}</Text>
         <Text style={styles.grayText}>{Name}</Text>
-        <View style={styles.marV}>
+        {(Width || Length) && (
+          <Text style={styles.grayText}>
+            {Width}{' '}
+            {Length
+              ? (Width && 'x ') + Length
+              : Height
+              ? 'x ' + Height
+              : Thickness
+              ? 'x ' + Thickness
+              : ''}{' '}
+            cm
+          </Text>
+        )}
 
+        <View style={styles.marV}>
           <Text style={styles.boldTitle}>{`EGP ${Price}`}</Text>
           {SalePrice && (
             <Text

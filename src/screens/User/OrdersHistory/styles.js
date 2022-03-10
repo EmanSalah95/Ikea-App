@@ -3,8 +3,9 @@ import { h, w } from "../../../constants/dimentions";
 
 export const styles = StyleSheet.create({
     container:{
-        height:h,
-        backgroundColor:'#E7F0EF'
+        // height:h,
+        backgroundColor:'#E7F0EF',
+        flex:1
     },
     noOrders: {
         width: w * 0.55,

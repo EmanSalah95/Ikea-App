@@ -7,8 +7,7 @@ import SubCatSearch from './subCatSearch';
 import HorizontalProducts from '../../components/HorizontalProducts/HorizontalProducts.js';
 import { getCollection } from '../../services/firebase.js';
 import { useEffect, useState } from 'react';
-import SignUpScreen from '../../screens/User/SignUp'
-import Loginscreen from '../../screens/User/LogIn'
+import OfferRow from '../Home/offerRow'
 
 export default function SearchPage({navigation}) {
   const [products, setProducts] = useState(null);
@@ -23,7 +22,6 @@ export default function SearchPage({navigation}) {
   };
 
   const getSubCategories = async ()=>{
-    console.log('in sub');
     getCollection('subCategory').then((res) => {
     setSubCategories(res)
   }
@@ -41,8 +39,6 @@ export default function SearchPage({navigation}) {
     <><ScrollView>
       <View style={styles.container}>
         <SearchHeader products={products} />
-
-
 
         {subCategories &&
           <FlatList
