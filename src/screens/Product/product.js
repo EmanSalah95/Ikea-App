@@ -3,7 +3,7 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import { Button, ActivityIndicator } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import { addCartItemToUser, addFavItemsToUser, getCollection, getDocumentByID , removeFavItemFromUser} from '../../services/firebase';
+import { addCartItemToUser, addFavItemsToUser, getCollection, getDocumentByID, removeFavItemFromUser } from '../../services/firebase';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/actions/cartProducts';
@@ -38,12 +38,12 @@ export default function Product({ route, navigation }) {
     const localID = await AsyncStorage.getItem('UID');
     if (localID != null) {
       isFavourite
-      ? removeFavItemFromUser(localID,route.params.id)
-      : addFavItemsToUser(localID, route.params.id);
+        ? removeFavItemFromUser(localID, route.params.id)
+        : addFavItemsToUser(localID, route.params.id);
     }
     setIsFavourite(!isFavourite);
   };
-  const addCart = async() => {
+  const addCart = async () => {
     dispatch(
       addToCart({ id: route.params.id, productData: product, PurchasedAmount: 1 })
     );
@@ -55,24 +55,25 @@ export default function Product({ route, navigation }) {
   };
 
   const getProduct = () => {
-    getDocumentByID('Products', route.params.id).then((res) => {
-      return setProduct(res);
-    })
-      .catch((err) => console.log('error :', err));
-  };
+    getDocumentByID('Products', route.params.id)
+      .then((res) => {
+        setProduct(res);
 
-  const getSimilarProducts = () => {
-    getCollection('Products', ['SubCategory', '==', product.SubCategory])
-      .then((res) => {
-        return res.filter(prd => prd.id != route.params.id);
-      })
-      .then((res) => {
-        setSimilarProducts(res)
+        //to get similar products in carousel
+        getCollection('Products', ['SubCategory', '==', res.SubCategory])
+          .then((res) => {
+            return res.filter(prd => prd.id != route.params.id);
+          })
+          .then((res) => {
+            setSimilarProducts(res);
+            setLoader(false);
+          })
+          .catch((err) => console.log('error :', err));
       })
       .catch((err) => console.log('error :', err));
   };
   useEffect(() => {
-    getProduct();
+    getProduct()
   }, []);
   useEffect(() => {
     navigation.setOptions({
@@ -94,10 +95,8 @@ export default function Product({ route, navigation }) {
           </TouchableOpacity>
         </View>
       ),
-      title: product?.ProductName
+      title: product.ProductName
     })
-    getSimilarProducts();
-    setLoader(false);
   }, [product, isFavourite]);
 
   return (
