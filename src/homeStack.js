@@ -23,12 +23,14 @@ import {
 } from './services/firebase';
 import { addToCart } from './store/actions/cartProducts';
 import { addToFav } from './store/actions/favourits';
+import i18n from 'i18n-js';
 const Stack = createNativeStackNavigator();
 
 export default function HomeStack() {
   const dispatch = useDispatch();
   const cartItems = useSelector(state => state.cartProducts.cartProducts);
   const favItems = useSelector(state => state.favourits.favourits);
+  const lang = useSelector(state=>state.language.language);
 
   const getItemsFromUser = async (cb, items, addFn) => {
     const uid = await AsyncStorage.getItem('UID');
@@ -57,6 +59,8 @@ export default function HomeStack() {
       getItemsFromUser(getFavItemsFromUser, favItems, addToFav);
     }
   }, []);
+
+  useEffect(()=>{},[lang])
 
   return (
     <SearchModalProvider>
@@ -103,6 +107,7 @@ export default function HomeStack() {
           component={OrdersHistory}
           options={{
             headerShown: true,
+            title:i18n.t('OrderHistory')
           }}
         />
       </Stack.Navigator>

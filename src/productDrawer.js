@@ -5,6 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { DrawerActions } from '@react-navigation/native';
 import Products from './screens/Products/Products';
 import FilterMenu from './screens/Products/filterMenu';
+import i18n from 'i18n-js';
 
 const Drawer = createDrawerNavigator();
 
@@ -23,7 +24,7 @@ const ProductsDrawer = ({ navigation, route }) => {
           name='filter'
           size={25}
           color={'gray'}
-          style={{ marginStart: 10 }}
+          style={{ marginStart: i18n.locale=='en' ? 10 : 0, marginEnd: i18n.locale=='en' ? 0 : 10 }}
         />
       </TouchableOpacity>
     ),

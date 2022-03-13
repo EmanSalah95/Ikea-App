@@ -1,7 +1,8 @@
+import i18n from "i18n-js";
 import { useEffect, useState } from "react";
 import { View, Image, Text, FlatList } from "react-native"
-import { ActivityIndicator } from "react-native-paper";
 import { useSelector } from "react-redux";
+import Loading from "../../../components/Loading";
 import { h } from "../../../constants/dimentions";
 import { getDocumentByID } from "../../../services/firebase";
 import OrderCard from "./orderCard";
@@ -32,12 +33,12 @@ export const OrdersHistory = () => {
   }, [purchases]);
   return (
     <View style={styles.container}>
-      {loader && <ActivityIndicator color="white" style={{paddingVertical:20}}/>}
+      {loader && <Loading/>}
       {!purchases && (
         <View style={{ alignItems: 'center', justifyContent: 'center', height: h * 0.75 }}>
           <Image source={require('../../../assets/noCartItems.jpg')} style={styles.noOrders} />
           <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center', paddingHorizontal: 20 }}>
-            You have no orders
+            {i18n.t('NoOrders')}
           </Text>
         </View>
       )}

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import i18n from 'i18n-js';
 
 export const styles = StyleSheet.create({
   container: {
@@ -34,6 +35,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 15,
     marginVertical: 10,
+    textAlign:i18n.locale=='en'?'left':'right'
   },
   pickerWrapper: {
     borderRadius: 2,
@@ -50,7 +52,7 @@ export const styles = StyleSheet.create({
     color: '#000',
   },
   buttons: {
-    flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
     justifyContent: 'space-between',
   },
   continueBtnWrappper: {
@@ -79,12 +81,15 @@ export const styles = StyleSheet.create({
     borderTopColor: '#ccc',
     borderBottomColor: '#ccc',
     paddingVertical: 10,
-    flexDirection: 'row',
+    // flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   productData: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
   },
   imageCard: {
     margin: 5,
@@ -96,6 +101,7 @@ export const styles = StyleSheet.create({
   },
   dataText: {
     fontSize: 12,
+    textAlign:i18n.locale=='en'?'left':'right'
   },
   strongText: {
     fontWeight: 'bold',
@@ -113,7 +119,8 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
   locationsWrapper: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#e9e9e9',
@@ -141,7 +148,8 @@ export const styles = StyleSheet.create({
     padding: 10,
   },
   paymentRadioButton: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
     alignItems: 'center',
   },
   placeOrder: {
@@ -154,7 +162,8 @@ export const styles = StyleSheet.create({
   },
   placeOrderButtons: {
     marginVertical: 10,
-    flexDirection: 'row',
+    // flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
     justifyContent: 'space-between',
   },
   orderCancelBtn: {

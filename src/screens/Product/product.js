@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Button, ActivityIndicator } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { addCartItemToUser, addFavItemsToUser, getCollection, getDocumentByID, removeFavItemFromUser } from '../../services/firebase';
@@ -13,6 +13,9 @@ import HorizontalProducts from '../../components/HorizontalProducts/HorizontalPr
 import { InfoSection } from './infoSection';
 import { h, w } from '../../constants/dimentions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from 'i18n-js';
+import Loading from '../../components/Loading'
+
 export default function Product({ route, navigation }) {
 
   const [product, setProduct] = useState({});
@@ -102,11 +105,7 @@ export default function Product({ route, navigation }) {
   return (
     <View style={styles.container}>
       {
-        (loader) && (
-          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <ActivityIndicator animating={true} color='blue' />
-          </View>
-        )
+        (loader) && <Loading/>
       }
       {
         (!loader) && (
@@ -128,7 +127,7 @@ export default function Product({ route, navigation }) {
               <InfoSection product={product} navigation={navigation} />
               {similarProducts.length != 0 && (
                 <>
-                  <Text style={styles.InfoContainer}>Similar products</Text>
+                  <Text style={styles.InfoContainer}>{i18n.t('SimilarProducts')}</Text>
                   <HorizontalProducts navigation={navigation} products={similarProducts} />
                 </>
               )}
@@ -141,10 +140,10 @@ export default function Product({ route, navigation }) {
                 key={route.params.id}
               >
                 {
-                  (inCart) && <Text style={{ color: 'white' }}>Added to bag </Text>
+                  (inCart) && <Text style={{ color: 'white' }}>{i18n.t('AddedToBag')}</Text>
                 }
                 {
-                  (!inCart) && <Text style={{ color: 'white' }}>Add to bag <Text style={{ color: 'lightblue' }}> EGP {product.Price}</Text></Text>
+                  (!inCart) && <Text style={{ color: 'white' }}>{i18n.t('AddToBag')}<Text style={{ color: 'lightblue' }}> {i18n.t('EGP')} {product.Price}</Text></Text>
                 }
               </Button>
             </View>

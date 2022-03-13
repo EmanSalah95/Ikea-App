@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import i18n from 'i18n-js';
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,7 +15,7 @@ export const styles = StyleSheet.create({
     margin: 15,
     padding: 20,
     elevation: 2,
-    flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
   },
   boldUpperCaseText: {
     fontWeight: 'bold',
@@ -33,7 +34,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   contactStaffCard: {
-    flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 8,
@@ -55,7 +56,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   productData: {
-    flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
     padding: 15,
   },
   imageCard: {
@@ -65,6 +66,7 @@ export const styles = StyleSheet.create({
   },
   productName: {
     fontWeight: 'bold',
+    textAlign: i18n.locale=='en'?'left':'right'
   },
   productPrice: {
     fontWeight: 'bold',
@@ -123,7 +125,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   favTotalPriceWrapper: {
-    flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 14,

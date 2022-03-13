@@ -1,5 +1,6 @@
 import { Text, View, TouchableWithoutFeedback } from 'react-native';
 import { styles } from '../../styles';
+import i18n from 'i18n-js';
 
 export default function TextOffer({ navigation }) {
 
@@ -13,12 +14,12 @@ export default function TextOffer({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={pressHandler}>
       <View style={styles.offerContainer}>
-        <Text style={styles.textOffer}>IKEA Mall of Arabia</Text>
-        <Text style={styles.textOffer}>Anniversary offers</Text>
+        <Text style={styles.textOffer}>{i18n.t('IKEAmallOfArabia')}</Text>
+        <Text style={styles.textOffer}>{i18n.t('AnniversaryOffers')}</Text>
         <Text style={{ ...styles.offerParagraph, marginTop: 10 }}>
-          Exclusive offers for IKEA Family members
+          {i18n.t('IKEAoffers')}
         </Text>
-        <Text style={styles.offerParagraph}>Valid only till 8 March 2022</Text>
+        <Text style={styles.offerParagraph}>{i18n.t('DueDateValid')}</Text>
       </View>
     </TouchableWithoutFeedback>
   );

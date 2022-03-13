@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { h, w } from "../../constants/dimentions";
+import i18n from 'i18n-js';
 
 export const styles = StyleSheet.create({
     container: {
@@ -45,15 +46,16 @@ export const styles = StyleSheet.create({
     },
     detailsTabs:{
         display:'flex',
-        flexDirection:'row',
+        flexDirection:i18n.locale=='en'?'row':'row-reverse',
         justifyContent:'space-between',
         marginVertical:15
     },
     sizeDetails:{ 
         display: 'flex', 
-        flexDirection: 'row', 
+        flexDirection: i18n.locale=='en'?'row':'row-reverse', 
         justifyContent: 'space-between', 
-        width: w * 0.60 
+        width: w * 0.60,
+        alignSelf:i18n.locale=='en'?'flex-start':'flex-end'
     },
     detailsDivider:{
         backgroundColor: 'darkgrey'  

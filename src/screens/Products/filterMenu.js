@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearFilters } from '../../store/actions/productsList';
 import { styles } from '../../styles/filterStyles';
 import FilterField from './filterField';
+import i18n from 'i18n-js';
 
 export default function FilterMenu() {
   let { allProducts, filteredList } = useSelector((state) => state.products);
@@ -24,13 +25,13 @@ export default function FilterMenu() {
       let lengthes = [];
       let heights = [];
       allProducts.forEach((product) => {
-        const { Color, Material ,Width,Length,Height} = product.data();
+        const { Color, ColorAr , Material , MaterialAr ,Width,Length,Height} = product.data();
 
-        let foundColor = colors.find((col) => col === Color);
-        !foundColor && colors.push(Color);
+        let foundColor = colors.find((col) => col === (i18n.locale=='en'?Color:ColorAr));
+        !foundColor && colors.push(i18n.locale=='en'?Color:ColorAr);
 
-        let foundMaterial = materials.find((mat) => mat === Material);
-        !foundMaterial && Material != undefined && materials.push(Material);
+        let foundMaterial = materials.find((mat) => mat === (i18n.locale=='en'?Material:MaterialAr));
+        !foundMaterial && Material != undefined && materials.push(i18n.locale=='en'?Material:MaterialAr);
 
         let foundWidth= widthes.find((wid) => wid === Width);
         !foundWidth && Width != undefined && widthes.push(Width);
@@ -59,13 +60,13 @@ export default function FilterMenu() {
       <ScrollView style={styles.scrollContainer}>
 
         {/* objectOP prop mean every option item is object */}
-        <FilterField title='Sort' options={sortOptions} objectOP />
-        {colors && <FilterField title='Color' options={colors} />}
-        {materials && <FilterField title='Material' options={materials} />}
-        <FilterField title='Price' options={priceOptions} objectOP/>
-        {widthes && <FilterField title='Width' options={widthes} />}
-        {lengthes && <FilterField title='Length' options={lengthes} />}
-        {heights && <FilterField title='Height' options={heights} />}
+        <FilterField title={i18n.t('Sort')} options={sortOptions} objectOP />
+        {colors && <FilterField title={i18n.t('Color')} options={colors} field={i18n.locale=='en'?'Color':'ColorAr'}/>}
+        {materials && <FilterField title={i18n.t('Material')} options={materials} field={i18n.locale=='en'?'Material':'MaterialAr'}/>}
+        <FilterField title={i18n.t('Price')} options={priceOptions} objectOP />
+        {widthes && <FilterField title={i18n.t('Width')} options={widthes} field='Width'/>}
+        {lengthes && <FilterField title={i18n.t('Length')} options={lengthes} field='Length'/>}
+        {heights && <FilterField title={i18n.t('Height')} options={heights} field='Height'/>}
 
       </ScrollView>
 
@@ -75,14 +76,14 @@ export default function FilterMenu() {
           mode='outlined'
           onPress={() => dispatch(clearFilters())}
         >
-          <Text style={{ color: '#000' }}>Clear all</Text>
+          <Text style={{ color: '#000' }}>{i18n.t('ClearAll')}</Text>
         </Button>
         <Button
           style={[styles.btn, styles.view]}
           mode='contained'
           onPress={() => console.log('Pressed')}
         >
-          {`View ${filteredList?.length > 0 ? filteredList.length : ''}`}
+          {`${i18n.t('View')} ${filteredList?.length > 0 ? filteredList.length : ''}`}
         </Button>
       </View>
     </View>
@@ -91,47 +92,47 @@ export default function FilterMenu() {
 
 const sortOptions = [
   {
-    label: 'Newest',
+    label: i18n.t('Newest'),
     sortBy: ['CreatedAt', 'desc'],
   },
   {
-    label: 'Price: low to high',
+    label: i18n.t('PriceLowToHigh'),
     sortBy: ['Price', 'asc'],
   },
   {
-    label: 'Price: high to low',
+    label: i18n.t('PriceHighToLow'),
     sortBy: ['Price', 'desc'],
   },
   {
-    label: 'Name',
+    label: i18n.t('Name'),
     sortBy: ['Name', 'asc'],
   },{
-    label: 'Width',
+    label: i18n.t('Width'),
     sortBy: ['Width', 'asc'],
   },{
-    label: 'Length',
+    label: i18n.t('Length'),
     sortBy: ['Length', 'asc'],
   },
 ];
 
 const priceOptions = [
   {
-    label: 'less than 100',
+    label: i18n.t('LessThan100'),
     condition: ['Price','<=', 100],
   },{
-    label: 'less than 250',
+    label: i18n.t('LessThan250'),
     condition: ['Price','<=', 250],
   },{
-    label: 'less than 500',
+    label: i18n.t('LessThan500'),
     condition: ['Price','<=', 500],
   },{
-    label: 'less than 1000',
+    label: i18n.t('LessThan1000'),
     condition: ['Price','<=', 1000],
   },{
-    label: 'less than 5000',
+    label: i18n.t('LessThan5000'),
     condition: ['Price','<=', 5000],
   },{
-    label: 'less than 10000',
+    label: i18n.t('LessThan10000'),
     condition: ['Price','<=', 10000],
   },
   

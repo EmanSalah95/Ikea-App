@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import i18n from 'i18n-js';
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,7 +10,7 @@ export const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flex: 0.2,
-    flexDirection:'row',
+    flexDirection:i18n.locale=='en'?'row':'row-reverse',
     paddingHorizontal:5,
     justifyContent:'space-between',
     alignItems:'center',

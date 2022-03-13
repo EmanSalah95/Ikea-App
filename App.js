@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Tabs from './src/tabs';
 // import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import store from './src/store/store';
 import { LogBox } from 'react-native';
 import HomeStack from './src/homeStack';
@@ -14,6 +14,7 @@ const Stack = createNativeStackNavigator();
 import { useEffect, useState } from 'react';
 import { updateUserStorageByID } from './src/services/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from 'i18n-js';
 
 export default function App() {
   const [id, setID] = useState();

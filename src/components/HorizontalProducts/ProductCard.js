@@ -13,6 +13,7 @@ import {
 } from '../../services/firebase';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from 'i18n-js';
 
 export default function ProductCard({ navigation, item, horizontal }) {
   const { favourits } = useSelector(state => state.favourits);
@@ -65,6 +66,7 @@ export default function ProductCard({ navigation, item, horizontal }) {
 
   const {
     Name,
+    NameAr,
     ProductName,
     Price,
     SalePrice,
@@ -107,10 +109,10 @@ export default function ProductCard({ navigation, item, horizontal }) {
         />
 
         <Text style={[styles.boldTitle, styles.blueText]}>
-          IKEA Family price
+          {i18n.t('IKEAfamilyPrice')}
         </Text>
         <Text style={styles.boldTitle}>{ProductName}</Text>
-        <Text style={styles.grayText}>{Name}</Text>
+        <Text style={styles.grayText}>{i18n.locale=='en'?Name:NameAr}</Text>
         {(Width || Length) && (
           <Text style={styles.grayText}>
             {Width}{' '}
@@ -121,16 +123,16 @@ export default function ProductCard({ navigation, item, horizontal }) {
               : Thickness
               ? 'x ' + Thickness
               : ''}{' '}
-            cm
+            {i18n.t('CM')}
           </Text>
         )}
 
         <View style={styles.marV}>
-          <Text style={styles.boldTitle}>{`EGP ${Price}`}</Text>
+          <Text style={styles.boldTitle}>{`${i18n.t('EGP')} ${Price}`}</Text>
           {SalePrice && (
             <Text
               style={styles.grayText}
-            >{`regular price EGP${SalePrice}`}</Text>
+            >{i18n.t('RegularPrice')} {i18n.t('EGP')} {SalePrice}</Text>
           )}
           {!cartProducts?.find(i => i.id === item.id) && (
             <TouchableOpacity

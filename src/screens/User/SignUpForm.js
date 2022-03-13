@@ -6,6 +6,7 @@ import { signup } from '../../Firebase/fireStoreAuthConfig';
 import React, { useState, useEffect } from 'react'
 import { addDocByID, updateUserStorageByID } from '../../services/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from 'i18n-js'
 
 export default function SignUpForm({ navigation }) {
 
@@ -33,7 +34,7 @@ export default function SignUpForm({ navigation }) {
         // Validate Name Input
         if (firstName) {
             if (!regName.test(firstName)) {
-                setFirstNameErr('Name is not Allowed')
+                setFirstNameErr(i18n.t('NameInvalid'))
 
             } else {
                 setFirstNameErr('')
@@ -42,7 +43,7 @@ export default function SignUpForm({ navigation }) {
         }
         if (surName) {
             if (!regName.test(surName)) {
-                setSurNameErr('Name is not Allowed')
+                setSurNameErr(i18n.t('NameInvalid'))
 
             } else {
                 setSurNameErr('')
@@ -53,7 +54,7 @@ export default function SignUpForm({ navigation }) {
         // // // Validate Email Input
         if (Email) {
             if (!regEmail.test(Email)) {
-                setEmailErr('Email is not valid')
+                setEmailErr(i18n.t('EmailInvalid'))
 
             } else {
                 setEmailErr('')
@@ -64,7 +65,7 @@ export default function SignUpForm({ navigation }) {
         // // // Validate Password Input
         if (Password) {
             if (!regPassword.test(Password)) {
-                setPasswordErr('Password is not valid')
+                setPasswordErr(i18n.t('PasswordInvalid'))
 
             } else {
                 setPasswordErr('')
@@ -103,10 +104,10 @@ export default function SignUpForm({ navigation }) {
                     });
                 }
             )
-            .catch(err => {
-                Alert.alert('Email is alredy exist!');
-                console.log('function signIn Failed', err);
-            })
+                .catch(err => {
+                    Alert.alert(i18n.t('EmailExist'));
+                    console.log('function signIn Failed', err);
+                })
         }
 
         console.log(userObj);
@@ -120,7 +121,7 @@ export default function SignUpForm({ navigation }) {
         <View style={styles.container}>
             <View style={styles.signForm}>
                 <TextInput
-                    placeholder="First Name"
+                    placeholder={i18n.t('FirstName')}
                     style={styles.input}
                     onChangeText={(firstName) => setFirstName(firstName)}
                     value={firstName}
@@ -128,7 +129,7 @@ export default function SignUpForm({ navigation }) {
                 <Text style={styles.textDanger}>{firstNameErr}</Text>
 
                 <TextInput
-                    placeholder="Surname"
+                    placeholder={i18n.t('Surname')}
                     style={styles.input}
                     onChangeText={(surName) => setSurName(surName)}
                     value={surName}
@@ -136,7 +137,7 @@ export default function SignUpForm({ navigation }) {
                 <Text style={styles.textDanger}>{surNameErr}</Text>
 
                 <TextInput
-                    placeholder="Email"
+                    placeholder={i18n.t('EmailPlaceholder')}
                     style={styles.input}
                     onChangeText={(Email) => setEmail(Email)}
                     value={Email}
@@ -144,7 +145,7 @@ export default function SignUpForm({ navigation }) {
                 <Text style={styles.textDanger}>{EmailErr}</Text>
 
                 <TextInput
-                    placeholder="Password"
+                    placeholder={i18n.t('Password')}
                     secureTextEntry={true}
                     style={styles.input}
                     onChangeText={(Password) => setPassword(Password)}
@@ -152,7 +153,11 @@ export default function SignUpForm({ navigation }) {
                 />
                 <Text style={styles.textDanger}>{PasswordErr}</Text>
 
-                <Button style={styles.logBtn} mode='contained' onPress={handleSignup} disabled={firstName == '' || surName == '' || Email == '' || Password == ''} >SIGN UP</Button>
+                <Button style={styles.logBtn} mode='contained' onPress={handleSignup} disabled={firstName == '' || surName == '' || Email == '' || Password == ''} >
+                    <Text style={{ color: 'white' }}>
+                        {i18n.t('SignUp')}
+                    </Text>
+                </Button>
             </View>
         </View>
     );

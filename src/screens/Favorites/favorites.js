@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import FavoritesList from './favoritesList';
 import { useEffect } from 'react';
+import i18n from 'i18n-js';
 
 export default function Favorites() {
   const favItems = useSelector(state => state.favourits.favourits);
@@ -23,7 +24,7 @@ export default function Favorites() {
               style={{ marginRight: 20 }}
             />
             <View>
-              <Text>Products at</Text>
+              <Text style={{textAlign:i18n.locale=='en'?'left':'right'}}>{i18n.t('ProductsAt')}</Text>
               <Text style={styles.boldUpperCaseText}>
                 IKEA Cairo Mall of Arabia
               </Text>
@@ -36,7 +37,7 @@ export default function Favorites() {
             />
 
             <Text style={styles.waitingText}>
-              Your shopping list is waiting for its first product!
+              {i18n.t('EmptyShoppingList')}
             </Text>
           </View>
         </View>
@@ -45,8 +46,8 @@ export default function Favorites() {
           <FavoritesList favItems={favItems} />
 
           <View style={styles.favTotalPriceWrapper}>
-            <Text>Total price</Text>
-            <Text style={styles.favTotalPrice}>EGP {favTotalPrice}</Text>
+            <Text>{i18n.t('TotalPrice')}</Text>
+            <Text style={styles.favTotalPrice}>{i18n.t('EGP')} {favTotalPrice}</Text>
           </View>
         </View>
       )}

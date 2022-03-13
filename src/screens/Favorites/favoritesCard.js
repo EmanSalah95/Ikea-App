@@ -7,6 +7,7 @@ import { removeFromFav, setFavItemAmount } from '../../store/actions/favourits';
 import { styles } from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addCartItemToUser } from '../../services/firebase';
+import i18n from 'i18n-js'
 
 export default function FavoritesCard({ item, allInCart, setAllInCart }) {
   const productData = item.productData;
@@ -62,13 +63,13 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
         />
         <View>
           <Text style={styles.productName}>{productData.ProductName}</Text>
-          <Text>{productData.Name}</Text>
+          <Text>{i18n.locale=='en'?productData.Name:productData.NameAr}</Text>
           <Text>
-            {productData.Material}, {productData.Color}
+            {i18n.locale=='en'?productData.Material:productData.MaterialAr}, {i18n.locale=='en'?productData.Color:productData.ColorAr}
           </Text>
-          <Text style={styles.productPrice}>EGP {productData.Price}</Text>
+          <Text style={styles.productPrice}>{i18n.t('EGP')} {productData.Price}</Text>
           <Text style={styles.productSalePrice}>
-            Regular price EGP {productData.SalePrice}
+            {i18n.t('RegularPrice')} {i18n.t('EGP')} {productData.SalePrice}
           </Text>
           <View style={styles.pickerWrapper}>
             <RNPickerSelect
@@ -80,16 +81,16 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
                   console.log('alert');
                   return Alert.alert(
                     '',
-                    'Do you want to remove this product?',
+                    i18n.t('RemoveProductConfirmation'),
                     [
                       {
-                        text: 'No',
+                        text: i18n.t('No'),
                         onPress: () => {
                           setSelectedValue(1);
                         },
                       },
                       {
-                        text: 'Yes',
+                        text: i18n.t('Yes'),
                         onPress: () => {
                           dispatch(removeFromFav(item.id));
                         },
@@ -100,7 +101,7 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
               }}
               items={quantityArr}
               placeholder={{
-                label: 'Select Quantity',
+                label: i18n.t('SelectQuantity'),
                 value: selectedValue,
                 color: '#0e2d64',
               }}
@@ -115,7 +116,7 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
         onPress={addCart}
         disabled={cartProducts?.find(i => i.id === item.id)}
       >
-        <Text style={styles.boldUpperCaseText}>Add To Bag</Text>
+        <Text style={styles.boldUpperCaseText}>{i18n.t('AddToBag')}</Text>
       </TouchableOpacity>
     </View>
   );

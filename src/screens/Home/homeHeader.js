@@ -7,6 +7,7 @@ import { styles } from '../../styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useContext } from 'react';
 import { ModalContext } from '../../context';
+import i18n from'i18n-js'
 
 export default function HomeHeader() {
   const { isSearchVisible, setSearchVisible}=useContext(ModalContext);
@@ -26,7 +27,7 @@ export default function HomeHeader() {
         style={styles.searchText}
         onPress={() => setSearchVisible(true)}
       >
-          <Text>Search</Text>
+          <Text>{i18n.t('Search')}</Text>
       </TouchableHighlight>
 
     </View>
