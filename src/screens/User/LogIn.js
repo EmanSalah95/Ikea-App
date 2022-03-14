@@ -94,7 +94,11 @@ export default function Loginscreen({navigation}){
           value={password}
         />
         <Text style={styles.textDanger}>{PasswordErr}</Text>   
-        <Button style={styles.logBtn} mode='contained' onPress={handleLogIn} disabled={email=='' || password==''} >{i18n.t('Login')}</Button>
+        <Button style={styles.logBtn} mode='contained' onPress={handleLogIn} disabled={email=='' || password==''} >
+          <Text style={{color:'white'}}>
+          {i18n.t('Login')}
+          </Text>
+        </Button>
         </View>
 
         <View style={styles.displayTxt}>

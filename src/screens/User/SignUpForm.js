@@ -14,12 +14,16 @@ export default function SignUpForm({ navigation }) {
     const [surName, setSurName] = useState('')
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
+    const [PhoneNum, setPhoneNum] = useState('')
+
     const [firstNameErr, setFirstNameErr] = useState('')
     const [surNameErr, setSurNameErr] = useState('')
     const [EmailErr, setEmailErr] = useState('')
     const [PasswordErr, setPasswordErr] = useState('')
+    const [PhoneNumErr, setPhoneNumErr] = useState('')
+
     const [allValid, setAllValid] = useState(
-        firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === ''
+        firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === '' && PhoneNumErr == ''
     );
 
 
@@ -29,7 +33,7 @@ export default function SignUpForm({ navigation }) {
         const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
         const regPassword =
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?_&])[A-Za-z\d@$!%*?&]{8,}$/;
-
+        const regPhoneNum = /^01[0125][0-9]{8}$/;
 
         // Validate Name Input
         if (firstName) {
@@ -48,6 +52,15 @@ export default function SignUpForm({ navigation }) {
             } else {
                 setSurNameErr('')
 
+            }
+        }
+
+        // Validate Phone Input
+        if (PhoneNum) {
+            if (!regPhoneNum.test(PhoneNum)) {
+                setPhoneNumErr(i18n.t('PhoneInvalid'))
+            } else {
+                setSurNameErr('')
             }
         }
 
@@ -80,6 +93,7 @@ export default function SignUpForm({ navigation }) {
             FirstName: firstName,
             LastName: surName,
             Email: Email,
+            PhoneNum: PhoneNum
             // Password: Password,
         };
 
@@ -96,7 +110,7 @@ export default function SignUpForm({ navigation }) {
                         try {
                             AsyncStorage.setItem('UID', userCredentials.user.uid)
                             updateUserStorageByID(userCredentials.user.uid)
-                            navigation.navigate('HomeStack')
+                            navigation.navigate('User')
                             console.log('function signIn Success and data stored in firebase');
                         } catch (e) {
                             console.log(e);
@@ -105,8 +119,11 @@ export default function SignUpForm({ navigation }) {
                 }
             )
                 .catch(err => {
-                    Alert.alert(i18n.t('EmailExist'));
-                    console.log('function signIn Failed', err);
+                    if(allValid)
+                    {
+                        Alert.alert(i18n.t('EmailExist'));
+                        console.log('function signIn Failed', err);
+                    }
                 })
         }
 
@@ -114,8 +131,8 @@ export default function SignUpForm({ navigation }) {
     }
 
     useEffect(() => {
-        setAllValid(firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === '');
-    }, [])
+        setAllValid(firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === '' && PhoneNumErr === '');
+    }, [firstNameErr,surNameErr,EmailErr,PasswordErr,PhoneNumErr])
 
     return (
         <View style={styles.container}>
@@ -137,6 +154,14 @@ export default function SignUpForm({ navigation }) {
                 <Text style={styles.textDanger}>{surNameErr}</Text>
 
                 <TextInput
+                    placeholder={i18n.t('Mobile')}
+                    style={styles.input}
+                    onChangeText={(PhoneNum) => setPhoneNum(PhoneNum)}
+                    value={PhoneNum}
+                />
+                <Text style={styles.textDanger}>{PhoneNumErr}</Text>
+
+                <TextInput
                     placeholder={i18n.t('EmailPlaceholder')}
                     style={styles.input}
                     onChangeText={(Email) => setEmail(Email)}
@@ -153,7 +178,7 @@ export default function SignUpForm({ navigation }) {
                 />
                 <Text style={styles.textDanger}>{PasswordErr}</Text>
 
-                <Button style={styles.logBtn} mode='contained' onPress={handleSignup} disabled={firstName == '' || surName == '' || Email == '' || Password == ''} >
+                <Button style={styles.logBtn} mode='contained' onPress={handleSignup} disabled={firstName == '' || surName == '' || Email == '' || Password == '' || PhoneNum == ''} >
                     <Text style={{ color: 'white' }}>
                         {i18n.t('SignUp')}
                     </Text>

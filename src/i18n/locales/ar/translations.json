@@ -94,6 +94,7 @@
     "PasswordInvalid":"كلمة المرور غير صالحة",
     "PayWithPaypal":"الدفع عن طريق PayPal",
     "Pending":"لم يسلم بعد",
+    "PhoneInvalid":"رقم الهاتف المحمول غير صالح",
     "PlaceOrder":"وضع الطلب",
     "Price":"السعر",
     "PriceLowToHigh":"السعر من الارخص للاعلى",

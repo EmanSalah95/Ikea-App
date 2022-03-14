@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     },
     
     txtQues: {
-        color: "blue",
+        color: "#2e73b8",
         fontSize: 18,
         margin: 10,
         textAlign: 'center',

@@ -94,6 +94,7 @@
     "PasswordInvalid":"Password is not valid",
     "PayWithPaypal":"Pay with PayPal",
     "Pending":"Pending",
+    "PhoneInvalid":"Mobile number is not valid",
     "PlaceOrder":"PLACE ORDER",
     "Price":"Price",
     "PriceLowToHigh":"Price: low to high",
