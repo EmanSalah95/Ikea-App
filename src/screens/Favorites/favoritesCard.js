@@ -110,7 +110,8 @@ export default function FavoritesCard({ item }) {
           <TouchableOpacity
             style={styles.addToBagButton}
             onPress={addCart}
-            disabled={cartProducts?.find(i => i.id === item.id)}
+            disabled={cartProducts?.find(i => i.id === item.id) ||
+              productData.Quantity === 0}
           >
             <Text style={styles.boldUpperCaseText}>{i18n.t('AddToBag')}</Text>
           </TouchableOpacity>
