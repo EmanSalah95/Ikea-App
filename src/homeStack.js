@@ -13,8 +13,9 @@ import ProductsDrawer from './productDrawer';
 import SnackBar from './components/SnackBar';
 
 import { OrdersHistory } from './screens/User/OrdersHistory/ordersHistory';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   getCartItemsFromUser,
   getFavItemsFromUser,
@@ -30,31 +31,51 @@ export default function HomeStack() {
   const cartItems = useSelector(state => state.cartProducts.cartProducts);
   const favItems = useSelector(state => state.favourits.favourits);
 
-  const getItemsFromUser = async (cb, items, addFn) => {
-    const uid = await AsyncStorage.getItem('UID');
-
-    if (uid) {
-      updateUserStorageByID(uid);
-      cb(uid).then(productIDs => {
-        productIDs &&
-          productIDs.forEach(productID => {
-            getProductDataById(productID).then(productData => {
-              if (!items.some(item => item.id === productID))
-                dispatch(
-                  addFn({ id: productID, productData, PurchasedAmount: 1 })
-                );
-            });
-          });
-      });
-    }
-  };
-
   useEffect(async () => {
-    const uid = await AsyncStorage.getItem('UID');
+    const id = await AsyncStorage.getItem('UID');
+    if (id != null) {
+      updateUserStorageByID(id);
+      // Handle Add toCart
+      getCartItemsFromUser(id)
+        .then(productIDs => {
+          // console.log(productIDs);
+          productIDs &&
+            productIDs.forEach(productID => {
+              getProductDataById(productID)
+                .then(productData => {
+                  // if there are cart items that already exist in store don't dispatch again and just skip it
+                  if (!cartItems.some(item => item.id === productID))
+                    // use this condition if the navbar will be rendered again, but as long as it is never rendered again this condition won't be needed
+                    dispatch(
+                      addToCart({
+                        id: productID,
+                        productData,
+                        PurchasedAmount: 1,
+                      })
+                    );
+                })
+                .catch(err => console.log(err));
+            });
+        })
+        .catch(err => console.log(err));
 
-    if (uid) {
-      getItemsFromUser(getCartItemsFromUser, cartItems, addToCart);
-      getItemsFromUser(getFavItemsFromUser, favItems, addToFav);
+      // Handle Add to Favourite
+      getFavItemsFromUser(id)
+        .then(productIDs => {
+          // console.log(productIDs);
+          productIDs &&
+            productIDs.forEach(productID => {
+              getProductDataById(productID)
+                .then(productData => {
+                  // if there are cart items that already exist in store don't dispatch again and just skip it
+                  if (!favItems.some(item => item.id === productID))
+                    // use this condition if the navbar will be rendered again, but as long as it is never rendered again this condition won't be needed
+                    dispatch(addToFav({ id: productID, productData }));
+                })
+                .catch(err => console.log(err));
+            });
+        })
+        .catch(err => console.log(err));
     }
   }, []);
 
