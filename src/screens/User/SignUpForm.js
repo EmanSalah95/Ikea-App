@@ -1,4 +1,4 @@
-import { Text, View, Alert } from 'react-native';
+import { Text, View, Alert,KeyboardAvoidingView,Platform ,Keyboard,TouchableWithoutFeedback,ScrollView} from 'react-native';
 import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
 import { styles } from './style';
@@ -135,13 +135,19 @@ export default function SignUpForm({ navigation }) {
     }, [firstNameErr,surNameErr,EmailErr,PasswordErr,PhoneNumErr])
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView >
             <View style={styles.signForm}>
                 <TextInput
                     placeholder={i18n.t('FirstName')}
                     style={styles.input}
                     onChangeText={(firstName) => setFirstName(firstName)}
                     value={firstName}
+                    theme={{ colors: { primary: "#2e73b8"}}}
                 />
                 <Text style={styles.textDanger}>{firstNameErr}</Text>
 
@@ -150,6 +156,8 @@ export default function SignUpForm({ navigation }) {
                     style={styles.input}
                     onChangeText={(surName) => setSurName(surName)}
                     value={surName}
+                    theme={{ colors: { primary: "#2e73b8"}}}
+
                 />
                 <Text style={styles.textDanger}>{surNameErr}</Text>
 
@@ -158,6 +166,7 @@ export default function SignUpForm({ navigation }) {
                     style={styles.input}
                     onChangeText={(PhoneNum) => setPhoneNum(PhoneNum)}
                     value={PhoneNum}
+                    theme={{ colors: { primary: "#2e73b8"}}}
                 />
                 <Text style={styles.textDanger}>{PhoneNumErr}</Text>
 
@@ -166,6 +175,7 @@ export default function SignUpForm({ navigation }) {
                     style={styles.input}
                     onChangeText={(Email) => setEmail(Email)}
                     value={Email}
+                    theme={{ colors: { primary: "#2e73b8"}}}
                 />
                 <Text style={styles.textDanger}>{EmailErr}</Text>
 
@@ -175,6 +185,7 @@ export default function SignUpForm({ navigation }) {
                     style={styles.input}
                     onChangeText={(Password) => setPassword(Password)}
                     value={Password}
+                    theme={{ colors: { primary: "#2e73b8"}}}
                 />
                 <Text style={styles.textDanger}>{PasswordErr}</Text>
 
@@ -184,6 +195,8 @@ export default function SignUpForm({ navigation }) {
                     </Text>
                 </Button>
             </View>
-        </View>
+        </ScrollView>
+        </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 }

@@ -6,8 +6,7 @@ export const styles = StyleSheet.create({
     // Start Style For UserPage
     container: {
         backgroundColor: "white",
-        height: "100%", 
-        textAlign: "center",
+        flex: 1
     },
 
     firstSec: {
