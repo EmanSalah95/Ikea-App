@@ -7,6 +7,7 @@ import { removeFromFav, setFavItemAmount } from '../../store/actions/favourits';
 import { styles } from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addCartItemToUser } from '../../services/firebase';
+import i18n from 'i18n-js'
 
 export default function FavoritesCard({ item }) {
   const productData = item.productData;
@@ -111,7 +112,7 @@ export default function FavoritesCard({ item }) {
             onPress={addCart}
             disabled={cartProducts?.find(i => i.id === item.id)}
           >
-            <Text style={styles.boldUpperCaseText}>Add To Bag</Text>
+            <Text style={styles.boldUpperCaseText}>{i18n.t('AddToBag')}</Text>
           </TouchableOpacity>
         </View>
       )}

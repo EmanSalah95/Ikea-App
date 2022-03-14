@@ -1,3 +1,4 @@
+import i18n from 'i18n-js';
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { styles } from './styles';
@@ -18,7 +19,7 @@ export default function ButtonsGroup({
           }}
           style={styles.backBtnWrappper}
         >
-          <Text style={styles.backBtn}>BACK</Text>
+          <Text style={styles.backBtn}>{i18n.t('Back')}</Text>
         </TouchableOpacity>
       )}
 
@@ -35,9 +36,9 @@ export default function ButtonsGroup({
           }
         >
           {showPaypal ? (
-            <Text style={styles.continueBtn}>CONTINUE WITH THE PAYMENT</Text>
+            <Text style={styles.continueBtn}>{i18n.t('ContinueWithPayment')}</Text>
           ) : (
-            <Text style={styles.continueBtn}>CONTINUE</Text>
+            <Text style={styles.continueBtn}>{i18n.t('Continue')}</Text>
           )}
         </TouchableOpacity>
       )}

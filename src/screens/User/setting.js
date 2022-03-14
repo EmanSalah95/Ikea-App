@@ -7,9 +7,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import store from "../../store/store"
 import { clearUser } from "../../store/actions/auth"
 import RNPickerSelect from 'react-native-picker-select';
-
+import {setLanguage} from "../../i18n/config"
+import i18n from "i18n-js"
+import { useDispatch } from "react-redux"
+import changeLanguage from '../../store/actions/language'
 export const ProfileSettings = ({ navigation }) => {
     const [logged, setLogged] = useState(false);
+    const [lang,setLang]=useState();
+    const dispatch = useDispatch();
     const getLogged = async () => {
         try {
             const id = await AsyncStorage.getItem('UID');
@@ -32,29 +37,32 @@ export const ProfileSettings = ({ navigation }) => {
         })
         .catch((err)=>console.log(err))
     }
+    const handleLanguage = (value) =>{
+        setLanguage(value);
+        setLang(value);
+        // dispatch(changeLanguage(value));
+    }
     useEffect(() => {
         navigation.setOptions({
-            title: 'SETTINGS'
+            title: i18n.t('Settings')
         });
         getLogged();
-    }, [])
+    }, [i18n.locale])
     return (
         <View style={styles.settingsContainer}>
-            <View>
+            <View style={{direction:i18n.locale=='en'?'left':'right'}}>
                 <RNPickerSelect
-                onValueChange={()=>{}}
+                onValueChange={handleLanguage}
                 items={[{
                     label:'English',
-                    value:'en'
+                    value:'en',
+                    color:'black'
                 },{
                     label:'العربية',
-                    value:'ar'
+                    value:'ar',
+                    color:'blacl'
                 }]}
-                placeholder={{
-                    label: 'Select Language',
-                    value: "Language",
-                    // color: '#0e2d64',
-                  }}                  
+                value={lang}
                 />
             </View>
             <Divider style={styles.dividerStyle} />
@@ -62,7 +70,7 @@ export const ProfileSettings = ({ navigation }) => {
                 <TouchableOpacity
                     onPress={handleLogout}
                 >
-                    <Text>Log out</Text>
+                    <Text style={{textAlign:i18n.locale=='en'?'left':'right'}}>{i18n.t('Logout')}</Text>
                 </TouchableOpacity>}
         </View>
     )

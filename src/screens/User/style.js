@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 import { h, w } from "../../constants/dimentions";
+import i18n from 'i18n-js';
+
 export const styles = StyleSheet.create({
     // Start Style For UserPage
     container: {
@@ -45,17 +47,18 @@ export const styles = StyleSheet.create({
     },
     
     txtQues: {
-        color: "blue",
+        color: "#2e73b8",
         fontSize: 18,
         margin: 10,
         textAlign: 'center',
     },
 
     secondSec: {
-        marginLeft: 15,
+        marginLeft: i18n.locale=='en'?15:0,
+        marginRight: i18n.locale=='en'?0:15,
         paddingTop: 20,
         fontSize: 18,
-        textAlign: "left"
+        textAlign: i18n.locale=='en'?"right":"left"
     },
 
     space: {
@@ -91,7 +94,8 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'white',
         marginBottom: 10,
-        backgroundColor: "white"
+        backgroundColor: "white",
+        textAlign:i18n.locale=='en'?'left':'right'
     },
 
     inputext: {

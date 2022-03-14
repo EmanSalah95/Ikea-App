@@ -34,6 +34,7 @@ import {
   removeFromCart,
   setCartItemAmount,
 } from '../../store/actions/cartProducts';
+import i18n from 'i18n-js';
 
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -87,7 +88,7 @@ export default function Checkout({}) {
       const newLocations = [];
 
       data.Governorates.forEach(d => {
-        const obj = { label: d.Name, value: d };
+        const obj = { label: i18n.locale=='en'?d.Name:d.NameAr, value: d };
         newLocations.push(obj);
       });
       setLocations(newLocations);
@@ -135,12 +136,13 @@ export default function Checkout({}) {
     });
   }, []);
 
+  
   const CONTENT = [
     {
-      title: 'Billing and Shipping Address',
+      title: i18n.t('BillingShippingAddress'),
       content: (
         <View>
-          <Text>Billing Address</Text>
+          <Text>{i18n.t('BillingAddress')}</Text>
 
           {userLocations.length !== 0 ? (
             <>
@@ -168,15 +170,15 @@ export default function Checkout({}) {
                     </View>
                     <View>
                       <Text style={styles.dataText}>
-                        <Text style={styles.strongText}>Name:</Text>{' '}
+                        <Text style={styles.strongText}>{i18n.t('Name')}:</Text>{' '}
                         {user.FirstName} {user.LastName}
                       </Text>
                       <Text style={styles.dataText}>
-                        <Text style={styles.strongText}>Mobile:</Text>{' '}
+                        <Text style={styles.strongText}>{i18n.t('Mobile')}:</Text>{' '}
                         {user.PhoneNum}
                       </Text>
                       <Text style={styles.dataText}>
-                        <Text style={styles.strongText}>Address:</Text>{' '}
+                        <Text style={styles.strongText}>{i18n.t('Address')}:</Text>{' '}
                         {loc.address}
                         {'\n'}
                         {loc.building}
@@ -192,7 +194,7 @@ export default function Checkout({}) {
                   setAddressCollapse(!addressCollapse);
                 }}
               >
-                <Text style={styles.dataText}>ADD NEW SHIPPING ADDRESS</Text>
+                <Text style={styles.dataText}>{i18n.t('AddNewAddress')}</Text>
               </TouchableOpacity>
 
               <Collapsible collapsed={addressCollapse}>
@@ -216,7 +218,7 @@ export default function Checkout({}) {
                         onChangeText={handleChange('name')}
                         value={values.name}
                         style={styles.input}
-                        placeholder='Full Name'
+                        placeholder={i18n.t('FullName')}
                       />
                       <TextInput
                         onChangeText={handleChange('email')}
@@ -235,12 +237,12 @@ export default function Checkout({}) {
                                 value !== undefined
                               ) {
                                 setSelectedValue(value);
-                                setFieldValue('gov', value.Name);
+                                setFieldValue('gov', i18n.locale=='en'?value.Name:value.NameAr);
                               }
                             }}
                             items={locations}
                             placeholder={{
-                              label: 'Select Governorate',
+                              label: i18n.t('SelectGovernorate'),
                               value: selectedValue,
                             }}
                             placeholderTextColor='red'
@@ -253,14 +255,14 @@ export default function Checkout({}) {
                         onChangeText={handleChange('address')}
                         value={values.address}
                         style={styles.input}
-                        placeholder='Address'
+                        placeholder={i18n.t('Address')}
                       />
 
                       <TextInput
                         onChangeText={handleChange('building')}
                         value={values.building}
                         style={styles.input}
-                        placeholder='Building Name/Apartment No./Floor No.'
+                        placeholder={i18n.t('BuildingNoPlaceHolder')}
                       />
 
                       <TouchableOpacity
@@ -270,7 +272,7 @@ export default function Checkout({}) {
                         }}
                         style={styles.continueBtnWrappper}
                       >
-                        <Text style={styles.continueBtn}>Submit</Text>
+                        <Text style={styles.continueBtn}>{i18n.t('Submit')}</Text>
                       </TouchableOpacity>
                     </View>
                   )}
@@ -298,7 +300,7 @@ export default function Checkout({}) {
                     onChangeText={handleChange('name')}
                     value={values.name}
                     style={styles.input}
-                    placeholder='Full Name'
+                    placeholder={i18n.t('FullName')}
                   />
                   <TextInput
                     onChangeText={handleChange('email')}
@@ -314,12 +316,12 @@ export default function Checkout({}) {
                         onValueChange={value => {
                           if (value !== selectedValue && value !== undefined) {
                             setSelectedValue(value);
-                            setFieldValue('gov', value.Name);
+                            setFieldValue('gov', i18n.locale=='en'?value.Name:value.NameAr);
                           }
                         }}
                         items={locations}
                         placeholder={{
-                          label: 'Select Governorate',
+                          label: i18n.t('SelectGovernorate'),
                           value: selectedValue,
                         }}
                         placeholderTextColor='red'
@@ -332,21 +334,21 @@ export default function Checkout({}) {
                     onChangeText={handleChange('address')}
                     value={values.address}
                     style={styles.input}
-                    placeholder='Address'
+                    placeholder={i18n.t('Address')}
                   />
 
                   <TextInput
                     onChangeText={handleChange('building')}
                     value={values.building}
                     style={styles.input}
-                    placeholder='Building Name/Apartment No./Floor No.'
+                    placeholder={i18n.t('BuildingNoPlaceHolder')}
                   />
 
                   <TouchableOpacity
                     onPress={handleSubmit}
                     style={styles.continueBtnWrappper}
                   >
-                    <Text style={styles.continueBtn}>Submit</Text>
+                    <Text style={styles.continueBtn}>{i18n.t('Submit')}</Text>
                   </TouchableOpacity>
 
                   <ButtonsGroup
@@ -368,7 +370,7 @@ export default function Checkout({}) {
       ),
     },
     {
-      title: 'Delivery Invoice',
+      title: i18n.t('DeliveryInvoice'),
       content: (
         <View>
           {purchasedItems.map(item => {
@@ -387,24 +389,24 @@ export default function Checkout({}) {
                       </Text>
                     </Text>
                     <Text style={styles.dataText}>
-                      {item.productData.ProductName} {item.productData.Name}
+                      {item.productData.ProductName} {i18n.locale=='en'?item.productData.Name:item.productData.NameAr}
                     </Text>
                     <Text style={styles.dataText}>
                       <Text style={styles.strongText}>
-                        EGP {item.productData.Price}
+                        {i18n.t('EGP')} {item.productData.Price}
                       </Text>
                     </Text>
                   </View>
                 </View>
                 <Text style={{ ...styles.strongText, ...styles.dataText }}>
-                  EGP {item.PurchasedAmount * item.productData.Price}
+                {i18n.t('EGP')} {item.PurchasedAmount * item.productData.Price}
                 </Text>
               </View>
             );
           })}
           <Text style={{ ...styles.totalPriceText, ...styles.dataText }}>
-            Order Total:
-            <Text style={styles.strongText}> EGP {totalOrderPrice}</Text>
+            {i18n.t('OrderTotal')}:
+            <Text style={styles.strongText}> {i18n.t('EGP')} {totalOrderPrice}</Text>
           </Text>
 
           {message !== '' && (
@@ -453,24 +455,24 @@ export default function Checkout({}) {
       ),
     },
     {
-      title: 'Reviews and Confirm',
+      title: i18n.t('ReviewConfirm'),
       content: (
         <View>
           <View style={styles.reviewCardsWrapper}>
             <View style={styles.reviewCard}>
-              <Text style={styles.dataText}>Billing Address</Text>
+              <Text style={styles.dataText}>{i18n.t('BillingAddress')}</Text>
 
               <View style={styles.cardBody}>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>Name: </Text> {user.FirstName}{' '}
+                  <Text style={styles.strongText}>{i18n.t('Name')}: </Text> {user.FirstName}{' '}
                   {user.LastName}
                 </Text>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>Mobile: </Text>{' '}
+                  <Text style={styles.strongText}>{i18n.t('Mobile')}: </Text>{' '}
                   {user.PhoneNum}
                 </Text>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>Address: </Text>{' '}
+                  <Text style={styles.strongText}>{i18n.t('Address')}: </Text>{' '}
                   {userLocations.length !== 0 &&
                     userLocations[checkedAddress].address}
                   {'\n'}
@@ -480,19 +482,19 @@ export default function Checkout({}) {
               </View>
             </View>
             <View style={styles.reviewCard}>
-              <Text style={styles.dataText}>Shipping Address</Text>
+              <Text style={styles.dataText}>{i18n.t('ShippingAddress')}</Text>
 
               <View style={styles.cardBody}>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>Name: </Text> {user.FirstName}{' '}
+                  <Text style={styles.strongText}>{i18n.t('Name')}: </Text> {user.FirstName}{' '}
                   {user.LastName}
                 </Text>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>Mobile: </Text>{' '}
+                  <Text style={styles.strongText}>{i18n.t('Mobile')}: </Text>{' '}
                   {user.PhoneNum}
                 </Text>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>Address: </Text>{' '}
+                  <Text style={styles.strongText}>{i18n.t('Address')}: </Text>{' '}
                   {userLocations.length !== 0 &&
                     userLocations[checkedAddress].address}
                   {'\n'}
@@ -502,17 +504,17 @@ export default function Checkout({}) {
               </View>
             </View>
             <View style={styles.reviewCard}>
-              <Text style={styles.dataText}>Delivery date and time</Text>
+              <Text style={styles.dataText}>{i18n.t('DeliveryDateTime')}</Text>
 
               <View style={styles.cardBody}>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>Delivery Date:</Text>
+                  <Text style={styles.strongText}>{i18n.t('DeliveryDate')}:</Text>
                 </Text>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>Delivery Time:</Text>
+                  <Text style={styles.strongText}>{i18n.t('DeliveryTime')}:</Text>
                 </Text>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>Assembly Time:</Text>
+                  <Text style={styles.strongText}>{i18n.t('AssemblyTime')}:</Text>
                 </Text>
               </View>
             </View>

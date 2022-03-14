@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { updateUserStorageByID } from '../../services/firebase';
 import { useSelector } from 'react-redux';
+import i18n from 'i18n-js';
 
 export default function User({ navigation }) {
   const user = useSelector((state) => state.user)
@@ -28,18 +29,18 @@ export default function User({ navigation }) {
     <View style={styles.container}>
       {user && user.id != '' ?
         <View style={styles.profileContainer}>
-          <Text style={{ fontWeight: 'bold', textTransform: 'uppercase', fontSize: 15 }}>Welcome</Text>
+          <Text style={{ fontWeight: 'bold', textTransform: 'uppercase', fontSize: 15 }}>{i18n.t('Welcome')}</Text>
           <Text style={{ color: 'black' }}>{user?.user?.FirstName} {user?.user?.LastName}</Text>
         </View>
         :
         <>
           <View style={styles.firstSec}>
-            <Text style={styles.userHeading}>PROFILE</Text>
-            <Text style={styles.userSubHeading}>Log in to save your shopping lists</Text>
-            <Text style={styles.userSubHeading}>and access them from any device.</Text>
-            <Button style={styles.logBtn} mode='contained' onPress={() => navigation.navigate('Login')} >Login</Button>
-            <Button style={styles.signBtn} mode='contained' onPress={() => navigation.navigate('Sign')} >Sign Up</Button>
-            <Text style={styles.txtQues}>Forget Password?</Text>
+            <Text style={styles.userHeading}>{i18n.t('Profile')}</Text>
+            <Text style={styles.userSubHeading}>{i18n.t('LoginDescription')}</Text>
+            {/* <Text style={styles.userSubHeading}>and access them from any device.</Text> */}
+            <Button style={styles.logBtn} mode='contained' onPress={() => navigation.navigate('Login')} >{i18n.t('Login')}</Button>
+            <Button style={styles.signBtn} mode='contained' onPress={() => navigation.navigate('Sign')} >{i18n.t('SignUp')}</Button>
+            <Text style={styles.txtQues}>{i18n.t('ForgotPassword')}</Text>
           </View>
           <View style={styles.space}></View>
         </>
@@ -48,14 +49,14 @@ export default function User({ navigation }) {
         <TouchableOpacity
           onPress={() => navigation.navigate('ProfileSettings')}
         >
-          <Text >Settings</Text>
+          <Text style={{textTransform:'capitalize'}}>{i18n.t('Settings')}</Text>
         </TouchableOpacity>
         <View style={styles.line}></View>
         {user.id != '' &&
           <TouchableOpacity
-            onPress={() => navigation.navigate('OrdersHistory')}
+            onPress={() => navigation.navigate('OrdersTabs')}
           >
-            <Text >Your orders</Text>
+            <Text >{i18n.t('YourOrders')}</Text>
           </TouchableOpacity>
         }
       </View>

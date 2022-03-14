@@ -6,6 +6,7 @@ import { signup } from '../../Firebase/fireStoreAuthConfig';
 import React, { useState, useEffect } from 'react'
 import { addDocByID, updateUserStorageByID } from '../../services/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from 'i18n-js'
 
 export default function SignUpForm({ navigation }) {
 
@@ -13,12 +14,16 @@ export default function SignUpForm({ navigation }) {
     const [surName, setSurName] = useState('')
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
+    const [PhoneNum, setPhoneNum] = useState('')
+
     const [firstNameErr, setFirstNameErr] = useState('')
     const [surNameErr, setSurNameErr] = useState('')
     const [EmailErr, setEmailErr] = useState('')
     const [PasswordErr, setPasswordErr] = useState('')
+    const [PhoneNumErr, setPhoneNumErr] = useState('')
+
     const [allValid, setAllValid] = useState(
-        firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === ''
+        firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === '' && PhoneNumErr == ''
     );
 
 
@@ -28,12 +33,12 @@ export default function SignUpForm({ navigation }) {
         const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
         const regPassword =
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?_&])[A-Za-z\d@$!%*?&]{8,}$/;
-
+        const regPhoneNum = /^01[0125][0-9]{8}$/;
 
         // Validate Name Input
         if (firstName) {
             if (!regName.test(firstName)) {
-                setFirstNameErr('Name is not Allowed')
+                setFirstNameErr(i18n.t('NameInvalid'))
 
             } else {
                 setFirstNameErr('')
@@ -42,7 +47,7 @@ export default function SignUpForm({ navigation }) {
         }
         if (surName) {
             if (!regName.test(surName)) {
-                setSurNameErr('Name is not Allowed')
+                setSurNameErr(i18n.t('NameInvalid'))
 
             } else {
                 setSurNameErr('')
@@ -50,10 +55,19 @@ export default function SignUpForm({ navigation }) {
             }
         }
 
+        // Validate Phone Input
+        if (PhoneNum) {
+            if (!regPhoneNum.test(PhoneNum)) {
+                setPhoneNumErr(i18n.t('PhoneInvalid'))
+            } else {
+                setSurNameErr('')
+            }
+        }
+
         // // // Validate Email Input
         if (Email) {
             if (!regEmail.test(Email)) {
-                setEmailErr('Email is not valid')
+                setEmailErr(i18n.t('EmailInvalid'))
 
             } else {
                 setEmailErr('')
@@ -64,7 +78,7 @@ export default function SignUpForm({ navigation }) {
         // // // Validate Password Input
         if (Password) {
             if (!regPassword.test(Password)) {
-                setPasswordErr('Password is not valid')
+                setPasswordErr(i18n.t('PasswordInvalid'))
 
             } else {
                 setPasswordErr('')
@@ -79,6 +93,7 @@ export default function SignUpForm({ navigation }) {
             FirstName: firstName,
             LastName: surName,
             Email: Email,
+            PhoneNum: PhoneNum
             // Password: Password,
         };
 
@@ -95,7 +110,7 @@ export default function SignUpForm({ navigation }) {
                         try {
                             AsyncStorage.setItem('UID', userCredentials.user.uid)
                             updateUserStorageByID(userCredentials.user.uid)
-                            navigation.navigate('HomeStack')
+                            navigation.navigate('User')
                             console.log('function signIn Success and data stored in firebase');
                         } catch (e) {
                             console.log(e);
@@ -103,24 +118,27 @@ export default function SignUpForm({ navigation }) {
                     });
                 }
             )
-            .catch(err => {
-                Alert.alert('Email is alredy exist!');
-                console.log('function signIn Failed', err);
-            })
+                .catch(err => {
+                    if(allValid)
+                    {
+                        Alert.alert(i18n.t('EmailExist'));
+                        console.log('function signIn Failed', err);
+                    }
+                })
         }
 
         console.log(userObj);
     }
 
     useEffect(() => {
-        setAllValid(firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === '');
-    }, [])
+        setAllValid(firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === '' && PhoneNumErr === '');
+    }, [firstNameErr,surNameErr,EmailErr,PasswordErr,PhoneNumErr])
 
     return (
         <View style={styles.container}>
             <View style={styles.signForm}>
                 <TextInput
-                    placeholder="First Name"
+                    placeholder={i18n.t('FirstName')}
                     style={styles.input}
                     onChangeText={(firstName) => setFirstName(firstName)}
                     value={firstName}
@@ -128,7 +146,7 @@ export default function SignUpForm({ navigation }) {
                 <Text style={styles.textDanger}>{firstNameErr}</Text>
 
                 <TextInput
-                    placeholder="Surname"
+                    placeholder={i18n.t('Surname')}
                     style={styles.input}
                     onChangeText={(surName) => setSurName(surName)}
                     value={surName}
@@ -136,7 +154,15 @@ export default function SignUpForm({ navigation }) {
                 <Text style={styles.textDanger}>{surNameErr}</Text>
 
                 <TextInput
-                    placeholder="Email"
+                    placeholder={i18n.t('Mobile')}
+                    style={styles.input}
+                    onChangeText={(PhoneNum) => setPhoneNum(PhoneNum)}
+                    value={PhoneNum}
+                />
+                <Text style={styles.textDanger}>{PhoneNumErr}</Text>
+
+                <TextInput
+                    placeholder={i18n.t('EmailPlaceholder')}
                     style={styles.input}
                     onChangeText={(Email) => setEmail(Email)}
                     value={Email}
@@ -144,7 +170,7 @@ export default function SignUpForm({ navigation }) {
                 <Text style={styles.textDanger}>{EmailErr}</Text>
 
                 <TextInput
-                    placeholder="Password"
+                    placeholder={i18n.t('Password')}
                     secureTextEntry={true}
                     style={styles.input}
                     onChangeText={(Password) => setPassword(Password)}
@@ -152,7 +178,11 @@ export default function SignUpForm({ navigation }) {
                 />
                 <Text style={styles.textDanger}>{PasswordErr}</Text>
 
-                <Button style={styles.logBtn} mode='contained' onPress={handleSignup} disabled={firstName == '' || surName == '' || Email == '' || Password == ''} >SIGN UP</Button>
+                <Button style={styles.logBtn} mode='contained' onPress={handleSignup} disabled={firstName == '' || surName == '' || Email == '' || Password == '' || PhoneNum == ''} >
+                    <Text style={{ color: 'white' }}>
+                        {i18n.t('SignUp')}
+                    </Text>
+                </Button>
             </View>
         </View>
     );

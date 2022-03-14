@@ -2,43 +2,44 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { Divider } from "react-native-paper";
 import { styles } from "./styles";
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import i18n from 'i18n-js';
 
 export const InfoSection = ({ product, navigation }) => {
     return (
         <View style={styles.InfoContainer}>
-            <Text style={{ fontWeight: 'bold', fontSize: 12 }}>{product.ProductName}</Text>
-            <Text style={{ color: 'grey' }}>{product.Name}</Text>
-            <View style={{ display: 'flex', flexDirection: 'row' }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 12 , textAlign:i18n.locale=='en'?'left':'right'}}>{product.ProductName}</Text>
+            <Text style={{ color: 'grey'}}>{i18n.locale=='en'?product.Name:product.NameAr}</Text>
+            <View style={{ display: 'flex', flexDirection: i18n.locale=='en'?'row':'row-reverse' }}>
                 <Text style={{ color: 'gray' }}>
-                    {product.Color}
+                    {i18n.locale=='en'?product.Color:product.ColorAr}
                 </Text>
                 {
                     (product.Height && product.Width && product.Thickness) && (
-                        <Text style={{ color: 'gray' }}>, {product.Height} x {product.Width} x {product.Thickness} cm</Text>
+                        <Text style={{ color: 'gray' }}>, {product.Height} x {product.Width} x {product.Thickness} {i18n.t('CM')}</Text>
                     )
                 }
                 {
                     (product.Height && product.Width && !product.Thickness) && (
-                        <Text style={{ color: 'gray' }}>, {product.Height} x {product.Width} cm</Text>
+                        <Text style={{ color: 'gray' }}>, {product.Height} x {product.Width} {i18n.t('CM')}</Text>
                     )
                 }
                 {
                     (product.Width && !product.Height && !product.Thickness) && (
-                        <Text style={{ color: 'gray' }}>, {product.Width} cm</Text>
+                        <Text style={{ color: 'gray' }}>, {product.Width} {i18n.t('CM')}</Text>
                     )
                 }
                 {
                     (product.Thickness && !product.Width && !product.Height) && (
-                        <Text style={{ color: 'gray' }}>, {product.Thickness} cm</Text>
+                        <Text style={{ color: 'gray' }}>, {product.Thickness} {i18n.t('CM')}</Text>
                     )
                 }
                 {
                     (product.Height && !product.Width && !product.Thickness) && (
-                        <Text style={{ color: 'gray' }}>, {product.Height} cm</Text>
+                        <Text style={{ color: 'gray' }}>, {product.Height} {i18n.t('CM')}</Text>
                     )
                 }
             </View>
-            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>EGP {product.Price}</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{i18n.t('EGP')} {product.Price}</Text>
             <Divider style={styles.divider} />
             {/* product details */}
             <TouchableOpacity
@@ -52,9 +53,9 @@ export const InfoSection = ({ product, navigation }) => {
                     );
                 }}
             >
-                <Text style={{fontWeight:'bold'}}>More info</Text>
+                <Text style={{fontWeight:'bold'}}>{i18n.t('MoreInfo')}</Text>
                 <AntDesign
-                    name='right'
+                    name={i18n.locale=='en'?'right':'left'}
                     size={15}
                 />
             </TouchableOpacity>

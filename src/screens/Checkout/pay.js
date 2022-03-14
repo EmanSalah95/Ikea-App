@@ -10,6 +10,7 @@ import {
   removeAllCartItemFromUser,
 } from '../../services/firebase';
 import { removeAllFromCart } from '../../store/actions/cartProducts';
+import i18n from 'i18n-js';
 
 export default function Pay({
   checkedAddress,
@@ -78,7 +79,7 @@ export default function Pay({
                   status={checkedPayment === 0 ? 'checked' : 'unchecked'}
                   color='#0058a2'
                 />
-                <Text style={styles.dataText}>Pay with PayPal</Text>
+                <Text style={styles.dataText}>{i18n.t('PayWithPaypal')}</Text>
               </View>
               <View style={styles.paymentRadioButton}>
                 <RadioButton
@@ -86,7 +87,7 @@ export default function Pay({
                   status={checkedPayment === 1 ? 'checked' : 'unchecked'}
                   color='#0058a2'
                 />
-                <Text style={styles.dataText}>Cash on Delivery</Text>
+                <Text style={styles.dataText}>{i18n.t('CashOnDelivery')}</Text>
               </View>
             </RadioButton.Group>
           </View>
@@ -95,20 +96,20 @@ export default function Pay({
             {isCashOnDelivery ? (
               <>
                 <Text style={styles.dataText}>
-                  Total amount incl VAT:{' '}
+                  {i18n.t('TotalAmount')}:{' '}
                   <Text style={{ ...styles.strongText, fontSize: 15 }}>
-                    EGP {totalOrderPrice}
+                    {i18n.t('EGP')} {totalOrderPrice}
                   </Text>
                 </Text>
                 <View style={styles.placeOrderButtons}>
                   <TouchableOpacity style={styles.orderCancelBtn}>
-                    <Text>CANCEL</Text>
+                    <Text>{i18n.t('Cancel')}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.placeOrderBtn}
                     onPress={placeOrder}
                   >
-                    <Text style={{ color: '#fff' }}>PLACE ORDER</Text>
+                    <Text style={{ color: '#fff' }}>{i18n.t('PlaceOrder')}</Text>
                   </TouchableOpacity>
                 </View>
               </>

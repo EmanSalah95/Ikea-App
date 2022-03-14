@@ -6,8 +6,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { styles } from '../../styles/filterStyles';
 import Options from './options';
 import { updateFilter } from '../../store/actions/productsList';
-
-export default function FilterField({ title, options, objectOP }) {
+import i18n from 'i18n-js';
+export default function FilterField({ title, options, objectOP, field }) {
   const [opened, setOpened] = useState(false);
   let { filters, filteredList } = useSelector((state) => state.products);
   const [selectedOPtion, setSelectedOp] = useState('');
@@ -18,12 +18,12 @@ export default function FilterField({ title, options, objectOP }) {
     let updateFilters = {};
 
     setSelectedOp(newValue);
-    if (title == 'Sort') {
+    if (title == i18n.t('Sort')) {
       updateFilters = { ...filters, Sort: newValue.sortBy };
-    } else if (title == 'Price') {
+    } else if (title == i18n.t('Price')) {
       updateFilters = { ...filters, Price: newValue.condition };
     }else{
-      updateFilters = { ...filters, [title]: [title, '==', newValue] };
+      updateFilters = { ...filters, [field]: [field, '==', newValue] };
     }
 
     dispatsh(await updateFilter(updateFilters));
@@ -43,8 +43,8 @@ export default function FilterField({ title, options, objectOP }) {
         }}
       >
         <View style={[styles.fieldRow, opened ? {} : styles.borderBottom]}>
+            <Text style={styles.bold}>{title ? title : i18n.t('Filter')}</Text>
           <View>
-            <Text style={styles.bold}>{title ? title : 'filter'}</Text>
             {!opened && selectedOPtion != '' && (
               <Text style={styles.grayText}>
                 {!objectOP ? selectedOPtion : selectedOPtion?.label}

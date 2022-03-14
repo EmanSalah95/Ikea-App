@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native'
+import i18n from 'i18n-js';
 
 export const styles = StyleSheet.create({
     container:{
@@ -17,13 +18,12 @@ export const styles = StyleSheet.create({
   
     inputHead:{
       display:'flex',
-      flexDirection:'row',
+      flexDirection:i18n.locale=='en'?'row':'row-reverse',
       backgroundColor: '#F1EAF1',
       width:360,
       borderRadius: 25, 
       paddingVertical: 3,
-      paddingHorizontal: 3,
-  
+      paddingHorizontal: 3,  
     },
   
     input:{
@@ -37,6 +37,7 @@ export const styles = StyleSheet.create({
       fontSize: 17,
     //  border:0,
      borderRadius: 20, 
+     textAlign:i18n.locale=='en'?'left':'right'
     },
     icon:{
       paddingRight:7,
@@ -47,7 +48,7 @@ export const styles = StyleSheet.create({
     proShow:{
       display:'flex',
       marginTop:45,
-      flexDirection:'row',
+      flexDirection:i18n.locale=='en'?'row':'row-reverse',
       justifyContent:"space-between"
           },
 

@@ -14,6 +14,7 @@ import {
   addAllFavItemsToCart,
   removeAllFavItemsFromUser,
 } from '../../services/firebase';
+import i18n from 'i18n-js';
 
 export default function FavoritesList({ favItems }) {
   // const [allInCart, setAllInCart] = useState(false);
@@ -29,12 +30,12 @@ export default function FavoritesList({ favItems }) {
   };
 
   const clearFavItems = () => {
-    return Alert.alert('Do you want to clear shopping list?', null, [
+    return Alert.alert(i18n.t('ClearShoppingListConfirmation'), null, [
       {
-        text: 'No',
+        text: i18n.t('No'),
       },
       {
-        text: 'Yes',
+        text: i18n.t('Yes'),
         onPress: async () => {
           dispatch(removeAllFromFav());
 
@@ -60,7 +61,7 @@ export default function FavoritesList({ favItems }) {
                 style={{ marginRight: 20 }}
               />
               <View>
-                <Text>Products at</Text>
+                <Text>{i18n.t('ProductsAt')}</Text>
                 <Text style={styles.boldUpperCaseText}>
                   IKEA Cairo Mall of Arabia
                 </Text>
@@ -73,7 +74,7 @@ export default function FavoritesList({ favItems }) {
                 size={30}
                 style={{ marginHorizontal: 10 }}
               />
-              <Text style={styles.boldUpperCaseText}>Contact Staff</Text>
+              <Text style={styles.boldUpperCaseText}>{i18n.t('ContactStaff')}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -87,7 +88,7 @@ export default function FavoritesList({ favItems }) {
               onPress={addAllFavItemsToBag}
             >
               <Text style={styles.addAllItemsButtonText}>
-                Add all items to shopping bag
+               {i18n.t('AddAllToBag')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -98,7 +99,7 @@ export default function FavoritesList({ favItems }) {
               disabled
             >
               <Text style={styles.removeCollectedItemsButtonText}>
-                Remove collected products
+                {i18n.t('RemoveAllProducts')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -109,7 +110,7 @@ export default function FavoritesList({ favItems }) {
               onPress={clearFavItems}
             >
               <Text style={styles.clearItemsButtonText}>
-                Clear shopping list
+                {i18n.t('ClearShoppingList')}
               </Text>
             </TouchableOpacity>
           </View>

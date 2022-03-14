@@ -7,6 +7,7 @@ import { styles } from './style';
 import { login } from '../../Firebase/fireStoreAuthConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { updateUserStorageByID } from '../../services/firebase';
+import i18n from 'i18n-js';
 
 export default function Loginscreen({navigation}){
   const [email, setEmail] = useState('');
@@ -21,7 +22,7 @@ export default function Loginscreen({navigation}){
   
       if (email) {
         if (!regEmail.test(email)) {
-          setEmailErr('Email is not valid') ,
+          setEmailErr(i18n.t('EmailInvalid')) ,
           console.log(email)
         }
           else {
@@ -33,7 +34,7 @@ export default function Loginscreen({navigation}){
 
       if (password) {
         if (!regPassword.test(password)) {
-          setPasswordErr('Password is not valid'),
+          setPasswordErr(i18n.t('PasswordInvalid')),
           console.log(password)
         }
         else {
@@ -59,13 +60,13 @@ export default function Loginscreen({navigation}){
     await login(email, password).then(
       userCredentials => {
         AsyncStorage.setItem('UID', userCredentials.user.uid);
-        navigation.navigate('HomeStack');
+        navigation.navigate('User');
         updateUserStorageByID(userCredentials.user.uid)
         // console.log('function LogIn Success',userCredentials);
       }
     )
     .catch(err=>{
-        Alert.alert('User not found you can signup!')
+        Alert.alert(i18n.t('UserNotFound'))
           console.log('Failed LogIn',err)
           navigation.navigate('SignForm')
     })
@@ -75,31 +76,35 @@ export default function Loginscreen({navigation}){
   
     return (
       <View style={styles.container}>
-        <Text style={styles.userHeading}>LogIn</Text>
-         <Text style={styles.userSubbHeading}>Log in to save your shopping lists and access them from any device.</Text>
+        <Text style={styles.userHeading}>{i18n.t('Login')}</Text>
+         <Text style={styles.userSubbHeading}>{i18n.t('LoginDescription')}</Text>
          <View style={styles.view}>
         <TextInput
-          placeholder="Email Address"
+          placeholder={i18n.t('EmailPlaceholder')}
           style={styles.input}
           onChangeText={(email) => setEmail(email)}
           value={email}
         />
         <Text style={styles.textDanger}>{EmailErr}</Text>
         <TextInput
-          placeholder="Password"
+          placeholder={i18n.t('Password')}
           style={styles.input}
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
           value={password}
         />
         <Text style={styles.textDanger}>{PasswordErr}</Text>   
-        <Button style={styles.logBtn} mode='contained' onPress={handleLogIn} disabled={email=='' || password==''} >LogIn</Button>
+        <Button style={styles.logBtn} mode='contained' onPress={handleLogIn} disabled={email=='' || password==''} >
+          <Text style={{color:'white'}}>
+          {i18n.t('Login')}
+          </Text>
+        </Button>
         </View>
 
         <View style={styles.displayTxt}>
-            <Text style={styles.txxt} onPress={() => navigation.navigate('SignForm')}>Sign up</Text>
+            <Text style={styles.txxt} onPress={() => navigation.navigate('SignForm')}>{i18n.t('SignUp')}</Text>
             <Text style={[styles.txxt, styles.txxtColor]}>|</Text>
-            <Text style={styles.txxt}>Forget Password?</Text>
+            <Text style={styles.txxt}>{i18n.t('ForgotPassword')}</Text>
         </View>
       </View>
     );

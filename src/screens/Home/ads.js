@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { styles } from '../../styles';
+import i18n from 'i18n-js';
+
 const ads = [
-  'Delivery all across Egypt 1',
-  '90 days return policy 2',
-  'Cash on delivery available 3',
-  'Cash & Collect available 4',
+  i18n.locale=='en'?'Delivery all across Egypt 1':'التوصيل لجميع انحاء مصر',
+  i18n.locale=='en'?'90 days return policy 2':'سياسة الإرجاع خلال 90 يومًا',
+  i18n.locale=='en'?'Cash on delivery available 3':'الدفع نقدا عند التسليم متاح',
+  i18n.locale=='en'?'Cash & Collect available 4':'الطلب و الاستلام متاح',
 ];
 
 export default function Ads() {

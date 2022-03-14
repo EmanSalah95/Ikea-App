@@ -1,3 +1,4 @@
+import i18n from 'i18n-js';
 import { Text, View, FlatList, Image } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useSelector } from 'react-redux';
@@ -12,12 +13,12 @@ export default function Cart({ navigation }) {
   );
   const cartItems = useSelector(state => state.cartProducts.cartProducts);
   const totalOrderPrice = useSelector(state => state.cartProducts.totalPrice);
-
+  
   return (
     <>
       <View style={styles.container}>
         <View style={styles.ListHeader}>
-          <Text style={styles.HeaderText}>Shopping bag</Text>
+          <Text style={styles.HeaderText}>{i18n.t('ShoppingBag')}</Text>
         </View>
         {cartItems.length === 0 && (
           <View
@@ -39,18 +40,10 @@ export default function Cart({ navigation }) {
                 paddingHorizontal: 20,
               }}
             >
-              Your shopping bag is waiting for it's first product
+              {i18n.t('EmptyShoppingBag')}
             </Text>
           </View>
         )}
-        {/* <Text>Cart</Text>
-       <Button
-         icon='camera'
-         mode='contained'
-         onPress={() => navigation.navigate('Product')}
-       >
-         Press me
-       </Button> */}
 
         {cartItems.length !== 0 && (
           <>
@@ -68,12 +61,12 @@ export default function Cart({ navigation }) {
             />
             <View style={styles.totalPriceCard}>
               <View style={{ flexDirection: 'column' }}>
-                <Text style={{ textTransform: 'uppercase' }}>Total Price</Text>
-                <Text>(Inc. VAT)</Text>
-                <Text style={{ paddingTop: 10 }}>{itemsCount} items</Text>
+                <Text style={{ textTransform: 'uppercase' }}>{i18n.t('TotalPrice')}</Text>
+                <Text>{i18n.t('VAT')}</Text>
+                <Text style={{ paddingTop: 10 }}>{itemsCount} {i18n.t('Items')}</Text>
               </View>
               <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                EGP {totalOrderPrice}
+                {i18n.t('EGP')} {totalOrderPrice}
               </Text>
             </View>
             <View style={{ alignItems: 'center' }}>
@@ -83,7 +76,7 @@ export default function Cart({ navigation }) {
                 onPress={() => navigation.navigate('Checkout')}
               >
                 <Text style={{ fontWeight: 'bold', fontSize: 12 }}>
-                  PROCEED TO CHECKOUT
+                  {i18n.t('Checkout')}
                 </Text>
               </Button>
             </View>

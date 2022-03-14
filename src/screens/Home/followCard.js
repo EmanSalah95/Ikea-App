@@ -2,13 +2,13 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { Card } from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { styles } from '../../styles';
-
+import i18n from 'i18n-js'
 export default function FollowCard() {
   return (
     <Card style={styles.followCard}>
-      <Text style={[styles.boldTitle, styles.center]}>Follow us!</Text>
+      <Text style={[styles.boldTitle, styles.center]}>{i18n.t('Follow')}</Text>
       <Text style={[styles.news, styles.grayText]}>
-        Get news, inspiration and much more
+        {i18n.t('Inspiration')}
       </Text>
 
       <View style={styles.social}>

@@ -6,11 +6,12 @@ import {
 } from 'react-native';
 import { styles } from '../../styles';
 import { BlurView } from 'expo-blur';
+import i18n from 'i18n-js';
 
 export default function OfferRow({ navigation, item }) {
   const pressHandler = () => {
     navigation.navigate('Products', {
-      screenTitle: item.data().Name,
+      screenTitle: i18n.locale=='en'?item.data().Name:item.data().NameAr,
       condition: ['SubCategory', '==', item.id],
     });
   };
@@ -22,7 +23,7 @@ export default function OfferRow({ navigation, item }) {
         source={{ uri: item.data().Image }}
       >
         <BlurView intensity={180} style={styles.blurContainer}>
-          <Text style={styles.description}>{item.data().Title}</Text>
+          <Text style={styles.description}>{i18n.locale=='en'?item.data().Title:item.data().TitleAr}</Text>
         </BlurView>
       </ImageBackground>
     </TouchableWithoutFeedback>

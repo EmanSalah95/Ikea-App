@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
 import { w, h } from '../../constants/dimentions';
+import i18n from 'i18n-js';
 
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: '#E7F0EF',
     // height: h,
-    flex:1
+    flex:1,
   },
   ListHeader: {
     backgroundColor: 'white',
@@ -30,7 +31,7 @@ export const styles = StyleSheet.create({
     marginTop: 15,
     padding: 20,
     backgroundColor: 'white',
-    flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
     justifyContent: 'space-between',
   },
   checkoutBtn: {
@@ -44,18 +45,19 @@ export const styles = StyleSheet.create({
     width: w,
     marginTop: 10,
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: i18n.locale=='en'?'row':'row-reverse',
     alignItems: 'center',
     padding: 10,
   },
   cartImage: {
-    width: w * 0.5,
-    height: h * 0.25,
+    width: w * 0.4,
+    height: h * 0.20,
   },
   infoContainer: {
     display: 'flex',
     flexDirection: 'column',
     padding: 20,
     width: w * 0.5,
+    alignItems:i18n.locale=='en'?'flex-start':'flex-end'
   },
 });

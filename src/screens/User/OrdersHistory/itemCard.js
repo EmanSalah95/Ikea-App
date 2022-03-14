@@ -1,3 +1,4 @@
+import i18n from 'i18n-js';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { View, Image, Text } from 'react-native';
@@ -20,15 +21,15 @@ const ItemCard = ({ item }) => {
         getProductData();
     }, [item]);
     return (
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <View style={{ display: 'flex', flexDirection: i18n.locale=='en'?'row':'row-reverse' }}>
             <Image
                 source={{ uri: product.Images[0] }}
                 style={styles.productImg}
             />
             <View style={styles.productInfo}>
-                <Text style={{fontWeight:'bold'}}>{product.Name}</Text>
-                <Text>EGP {product.Price}</Text>
-                <Text>Amount: {item.Amount}</Text>
+                <Text style={{fontWeight:'bold'}}>{i18n.locale=='en'?product.Name:product.NameAr}</Text>
+                <Text>{i18n.t('EGP')} {product.Price}</Text>
+                <Text>{i18n.t('Amount')}: {item.Amount}</Text>
             </View>
         </View>
     );

@@ -12,7 +12,6 @@ import SearchModalProvider from './context';
 import ProductsDrawer from './productDrawer';
 import SnackBar from './components/SnackBar';
 
-import { OrdersHistory } from './screens/User/OrdersHistory/ordersHistory';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -23,12 +22,15 @@ import {
 } from './services/firebase';
 import { addToCart } from './store/actions/cartProducts';
 import { addToFav } from './store/actions/favourits';
+import i18n from 'i18n-js';
+import { OrdersTabs } from './screens/User/OrdersHistory/OrdersTabs';
 const Stack = createNativeStackNavigator();
 
 export default function HomeStack() {
   const dispatch = useDispatch();
   const cartItems = useSelector(state => state.cartProducts.cartProducts);
   const favItems = useSelector(state => state.favourits.favourits);
+  const lang = useSelector(state=>state.language.language);
 
   const getItemsFromUser = async (cb, items, addFn) => {
     const uid = await AsyncStorage.getItem('UID');
@@ -57,6 +59,8 @@ export default function HomeStack() {
       getItemsFromUser(getFavItemsFromUser, favItems, addToFav);
     }
   }, []);
+
+  useEffect(()=>{},[lang])
 
   return (
     <SearchModalProvider>
@@ -99,10 +103,11 @@ export default function HomeStack() {
           }}
         />
         <Stack.Screen
-          name='OrdersHistory'
-          component={OrdersHistory}
+          name='OrdersTabs'
+          component={OrdersTabs}
           options={{
             headerShown: true,
+            title:i18n.t('OrderHistory')
           }}
         />
       </Stack.Navigator>

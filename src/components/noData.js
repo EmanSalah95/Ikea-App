@@ -3,6 +3,7 @@ import { View, Image, Text } from 'react-native';
 import { Colors } from '../constants/colors';
 import { h, w } from '../constants/dimentions';
 import { styles } from '../screens/Favorites/styles';
+import i18n from 'i18n-js';
 
 export default function NoData() {
   return (
@@ -15,7 +16,7 @@ export default function NoData() {
       />
 
       <Text style={styles.waitingText}>
-          There is no products to display
+          {i18n.t('NoData')}
       </Text>
     </View>
   );

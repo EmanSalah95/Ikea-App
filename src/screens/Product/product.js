@@ -10,12 +10,7 @@ import {
 import { Button, ActivityIndicator } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import {
-  addCartItemToUser,
-  addFavItemsToUser,
-  getCollection,
-  getDocumentByID,
-} from '../../services/firebase';
+import { addCartItemToUser, addFavItemsToUser, getCollection, getDocumentByID, removeFavItemFromUser } from '../../services/firebase';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../store/actions/cartProducts';
@@ -75,19 +70,19 @@ export default function Product({ route, navigation }) {
 
   const getProduct = () => {
     getDocumentByID('Products', route.params.id)
-      .then(res => {
-        return setProduct(res);
-      })
-      .catch(err => console.log('error :', err));
-  };
+      .then((res) => {
+        setProduct(res);
 
-  const getSimilarProducts = () => {
-    getCollection('Products', ['SubCategory', '==', product.SubCategory])
-      .then(res => {
-        return res.filter(prd => prd.id != route.params.id);
-      })
-      .then(res => {
-        setSimilarProducts(res);
+        //to get similar products in carousel
+        getCollection('Products', ['SubCategory', '==', res.SubCategory])
+          .then((res) => {
+            return res.filter(prd => prd.id != route.params.id);
+          })
+          .then((res) => {
+            setSimilarProducts(res);
+            setLoader(false);
+          })
+          .catch((err) => console.log('error :', err));
       })
       .catch(err => console.log('error :', err));
   };
@@ -110,10 +105,8 @@ export default function Product({ route, navigation }) {
           </TouchableOpacity>
         </View>
       ),
-      title: product.ProductName,
-    });
-    getSimilarProducts();
-    setLoader(false);
+      title: product.ProductName
+    })
   }, [product, isFavourite]);
 
   return (

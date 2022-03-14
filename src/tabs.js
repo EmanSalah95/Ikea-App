@@ -26,7 +26,7 @@ export default function Tabs() {
         activeColor='black'
         inactiveColor='#DDD'
         labeled={false}
-        barStyle={{ backgroundColor: '#fff' }}
+        barStyle={{ backgroundColor: '#fff'}}
       >
         <Tab.Screen
           name='HomeStack'

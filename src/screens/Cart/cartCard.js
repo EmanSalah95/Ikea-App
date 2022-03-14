@@ -13,6 +13,7 @@ import {
   removeCartItemFromUser,
 } from '../../services/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from 'i18n-js';
 
 export default function CartCard({ item, purchasedQuantity, id }) {
   const [selectedAmount, setSelectedAmount] = useState(purchasedQuantity);
@@ -43,6 +44,7 @@ export default function CartCard({ item, purchasedQuantity, id }) {
     dispatch(setCartItemAmount({ id: id, PurchasedAmount: selectedAmount }));
   }, [dispatch, id, selectedAmount]);
 
+  
   return (
     <View style={styles.cartBox}>
       <Image source={{ uri: item.Images[0] }} style={styles.cartImage} />
@@ -56,31 +58,31 @@ export default function CartCard({ item, purchasedQuantity, id }) {
         >
           {item.ProductName}
         </Text>
-        <Text>{item.Name}</Text>
+        <Text>{i18n.locale=='en'?item.Name:item.NameAr}</Text>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-          <Text style={{ color: 'gray' }}>{item.Color}</Text>
+          <Text style={{ color: 'gray' }}>{i18n.locale=='en'?item.Color:item.ColorAr}</Text>
           {item.Height && item.Width && item.Thickness && (
             <Text style={{ color: 'gray' }}>
-              , {item.Height} x {item.Width} x {item.Thickness} cm
+               {item.Height} x {item.Width} x {item.Thickness} {i18n.t('CM')}
             </Text>
           )}
           {item.Height && item.Width && !item.Thickness && (
             <Text style={{ color: 'gray' }}>
-              , {item.Height} x {item.Width} cm
+               {item.Height} x {item.Width} {i18n.t('CM')}
             </Text>
           )}
           {item.Width && !item.Height && !item.Thickness && (
-            <Text style={{ color: 'gray' }}>, {item.Width} cm</Text>
+            <Text style={{ color: 'gray' }}> {item.Width} {i18n.t('CM')}</Text>
           )}
           {item.Thickness && !item.Width && !item.Height && (
-            <Text style={{ color: 'gray' }}>, {item.Thickness} cm</Text>
+            <Text style={{ color: 'gray' }}> {item.Thickness} {i18n.t('CM')}</Text>
           )}
           {item.Height && !item.Width && !item.Thickness && (
-            <Text style={{ color: 'gray' }}>, {item.Height} cm</Text>
+            <Text style={{ color: 'gray' }}> {item.Height} {i18n.t('CM')}</Text>
           )}
         </View>
         <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>
-          EGP {item.Price}
+          {i18n.t('EGP')} {item.Price}
         </Text>
         <NumericInput
           editable={false}
@@ -93,18 +95,18 @@ export default function CartCard({ item, purchasedQuantity, id }) {
           iconSize={25}
         />
         <Text style={{ marginTop: 5 }}>
-          SubTotal:
+          {i18n.t('SubTotal')} : 
           <Text style={{ fontWeight: 'bold' }}>
-            EGP {item.Price * selectedAmount}
+           {i18n.t('EGP')} {item.Price * selectedAmount}
           </Text>
         </Text>
-        <AwesomeIcon
+      </View>
+      <AwesomeIcon
           name='trash'
           size={25}
-          style={{ textAlign: 'right' }}
           onPress={deleteItem}
+          style={{alignSelf:'flex-start'}}
         />
-      </View>
     </View>
   );
 }
