@@ -54,7 +54,7 @@ export default function User({ navigation }) {
         <View style={styles.line}></View>
         {user.id != '' &&
           <TouchableOpacity
-            onPress={() => navigation.navigate('OrdersHistory')}
+            onPress={() => navigation.navigate('OrdersTabs')}
           >
             <Text >{i18n.t('YourOrders')}</Text>
           </TouchableOpacity>

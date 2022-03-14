@@ -60,7 +60,7 @@ export default function Loginscreen({navigation}){
     await login(email, password).then(
       userCredentials => {
         AsyncStorage.setItem('UID', userCredentials.user.uid);
-        navigation.navigate('HomeStack');
+        navigation.navigate('User');
         updateUserStorageByID(userCredentials.user.uid)
         // console.log('function LogIn Success',userCredentials);
       }
