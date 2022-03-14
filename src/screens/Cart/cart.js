@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { h } from '../../constants/dimentions';
 import CartCard from './cartCard';
 import { styles } from './styles';
+import { useEffect } from 'react';
 
 export default function Cart({ navigation }) {
   const itemsCount = useSelector(

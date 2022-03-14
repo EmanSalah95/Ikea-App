@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RadioButton } from 'react-native-paper';
 import { styles } from './styles';
 import { Timestamp } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createNewOrder } from '../../services/firebase';
+import {
+  createNewOrder,
+  removeAllCartItemFromUser,
+} from '../../services/firebase';
+import { removeAllFromCart } from '../../store/actions/cartProducts';
 
 export default function Pay({
   checkedAddress,
@@ -15,6 +19,7 @@ export default function Pay({
 }) {
   const totalOrderPrice = useSelector(state => state.cartProducts.totalPrice);
   const purchasedItems = useSelector(state => state.cartProducts.cartProducts);
+  const dispatch = useDispatch();
 
   const [items, setItems] = useState([]);
 
@@ -35,7 +40,14 @@ export default function Pay({
       });
     }, 2000);
     setOrderIsPlaced(true);
+    // reset inputs
     resetSection();
+
+    // firebase
+    removeAllCartItemFromUser(uid);
+
+    // redux
+    dispatch(removeAllFromCart());
   };
 
   useEffect(() => {
