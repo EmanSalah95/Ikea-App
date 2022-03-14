@@ -19,6 +19,12 @@ export const removeFromCart = data => {
   };
 };
 
+export const removeAllFromCart = () => {
+  return {
+    type: 'REMOVE_ALL_FROM_CART',
+  };
+};
+
 export const setCartItemAmount = data => {
   return {
     type: 'SET_AMOUNT',

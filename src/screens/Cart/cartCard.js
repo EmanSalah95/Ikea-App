@@ -8,12 +8,16 @@ import {
   setCartItemAmount,
   removeFromCart,
 } from '../../store/actions/cartProducts';
-import { removeCartItemFromUser } from '../../services/firebase';
+import {
+  getDocumentByID,
+  removeCartItemFromUser,
+} from '../../services/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CartCard({ item, purchasedQuantity, id }) {
   const [selectedAmount, setSelectedAmount] = useState(purchasedQuantity);
   const dispatch = useDispatch();
+  const [product, setProduct] = useState({});
 
   const deleteItem = async () => {
     dispatch(removeFromCart(id));
@@ -30,8 +34,15 @@ export default function CartCard({ item, purchasedQuantity, id }) {
   };
 
   useEffect(() => {
+    getDocumentByID('Products', id).then(res => {
+      setProduct(res);
+    });
+  }, []);
+
+  useEffect(() => {
     dispatch(setCartItemAmount({ id: id, PurchasedAmount: selectedAmount }));
   }, [dispatch, id, selectedAmount]);
+
   return (
     <View style={styles.cartBox}>
       <Image source={{ uri: item.Images[0] }} style={styles.cartImage} />
@@ -76,7 +87,7 @@ export default function CartCard({ item, purchasedQuantity, id }) {
           type='plus-minus'
           onChange={selectAmount}
           minValue={1}
-          maxValue={item.Quantity}
+          maxValue={product.Quantity}
           value={selectedAmount}
           separatorWidth={0}
           iconSize={25}
