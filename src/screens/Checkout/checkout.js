@@ -88,7 +88,10 @@ export default function Checkout({}) {
       const newLocations = [];
 
       data.Governorates.forEach(d => {
-        const obj = { label: i18n.locale=='en'?d.Name:d.NameAr, value: d };
+        const obj = {
+          label: i18n.locale == 'en' ? d.Name : d.NameAr,
+          value: d,
+        };
         newLocations.push(obj);
       });
       setLocations(newLocations);
@@ -103,7 +106,9 @@ export default function Checkout({}) {
     //////////////////////////////////////////////////////////////////
     onSnapshot(doc(fireStore, 'users', uid), userDoc => {
       const userLoc = userDoc.data().Locations;
-      userLoc?.length !== 0 ? setLocationsExist(true) : setLocationsExist(false);
+      userLoc && userLoc?.length !== 0
+        ? setLocationsExist(true)
+        : setLocationsExist(false);
 
       if (userLoc instanceof Array && userLoc?.length !== 0) {
         setUserLocations([...userLoc]);
@@ -120,7 +125,7 @@ export default function Checkout({}) {
     let removed = [];
     purchasedItems.forEach((item, indx) => {
       getDocumentByID('Products', item.id).then(res => {
-        if (res.Quantity < item.PurchasedAmount) {
+        if (Number(res.Quantity) < item.PurchasedAmount) {
           removeCartItemFromUser(uid, item.id);
           dispatch(removeFromCart(item.id));
           dispatch(setCartItemAmount(item.id, 0));
@@ -134,7 +139,6 @@ export default function Checkout({}) {
     });
   }, []);
 
-  
   const CONTENT = [
     {
       title: i18n.t('BillingShippingAddress'),
@@ -172,11 +176,15 @@ export default function Checkout({}) {
                         {user.FirstName} {user.LastName}
                       </Text>
                       <Text style={styles.dataText}>
-                        <Text style={styles.strongText}>{i18n.t('Mobile')}:</Text>{' '}
+                        <Text style={styles.strongText}>
+                          {i18n.t('Mobile')}:
+                        </Text>{' '}
                         {user.PhoneNum}
                       </Text>
                       <Text style={styles.dataText}>
-                        <Text style={styles.strongText}>{i18n.t('Address')}:</Text>{' '}
+                        <Text style={styles.strongText}>
+                          {i18n.t('Address')}:
+                        </Text>{' '}
                         {loc.address}
                         {'\n'}
                         {loc.building}
@@ -234,8 +242,13 @@ export default function Checkout({}) {
                                 value !== selectedValue &&
                                 value !== undefined
                               ) {
-                                setSelectedValue(value);
-                                setFieldValue('gov', i18n.locale=='en'?value.Name:value.NameAr);
+                                setSelectedValue(Number(value));
+                                setFieldValue(
+                                  'gov',
+                                  i18n.locale == 'en'
+                                    ? value.Name
+                                    : value.NameAr
+                                );
                               }
                             }}
                             items={locations}
@@ -270,7 +283,9 @@ export default function Checkout({}) {
                         }}
                         style={styles.continueBtnWrappper}
                       >
-                        <Text style={styles.continueBtn}>{i18n.t('Submit')}</Text>
+                        <Text style={styles.continueBtn}>
+                          {i18n.t('Submit')}
+                        </Text>
                       </TouchableOpacity>
                     </View>
                   )}
@@ -314,7 +329,10 @@ export default function Checkout({}) {
                         onValueChange={value => {
                           if (value !== selectedValue && value !== undefined) {
                             setSelectedValue(value);
-                            setFieldValue('gov', i18n.locale=='en'?value.Name:value.NameAr);
+                            setFieldValue(
+                              'gov',
+                              i18n.locale == 'en' ? value.Name : value.NameAr
+                            );
                           }
                         }}
                         items={locations}
@@ -348,11 +366,6 @@ export default function Checkout({}) {
                   >
                     <Text style={styles.continueBtn}>{i18n.t('Submit')}</Text>
                   </TouchableOpacity>
-
-                  <ButtonsGroup
-                    setSectionNext={() => setSections([1])}
-                    locationsExist={locationsExist}
-                  />
                 </View>
               )}
             </Formik>
@@ -387,7 +400,10 @@ export default function Checkout({}) {
                       </Text>
                     </Text>
                     <Text style={styles.dataText}>
-                      {item.productData.ProductName} {i18n.locale=='en'?item.productData.Name:item.productData.NameAr}
+                      {item.productData.ProductName}{' '}
+                      {i18n.locale == 'en'
+                        ? item.productData.Name
+                        : item.productData.NameAr}
                     </Text>
                     <Text style={styles.dataText}>
                       <Text style={styles.strongText}>
@@ -397,14 +413,18 @@ export default function Checkout({}) {
                   </View>
                 </View>
                 <Text style={{ ...styles.strongText, ...styles.dataText }}>
-                {i18n.t('EGP')} {item.PurchasedAmount * item.productData.Price}
+                  {i18n.t('EGP')}{' '}
+                  {item.PurchasedAmount * item.productData.Price}
                 </Text>
               </View>
             );
           })}
           <Text style={{ ...styles.totalPriceText, ...styles.dataText }}>
             {i18n.t('OrderTotal')}:
-            <Text style={styles.strongText}> {i18n.t('EGP')} {totalOrderPrice}</Text>
+            <Text style={styles.strongText}>
+              {' '}
+              {i18n.t('EGP')} {totalOrderPrice}
+            </Text>
           </Text>
 
           {message !== '' && (
@@ -428,11 +448,13 @@ export default function Checkout({}) {
                           </Text>
                           <Text style={styles.dataText}>
                             {item.productData.ProductName}{' '}
-                            {i18n.locale=='en'?item.productData.Name:item.productData.NameAr}
+                            {i18n.locale == 'en'
+                              ? item.productData.Name
+                              : item.productData.NameAr}
                           </Text>
                           <Text style={styles.dataText}>
                             <Text style={styles.strongText}>
-                              {i18n.t("EGP")} {item.productData.Price}
+                              {i18n.t('EGP')} {item.productData.Price}
                             </Text>
                           </Text>
                         </View>
@@ -462,8 +484,8 @@ export default function Checkout({}) {
 
               <View style={styles.cardBody}>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>{i18n.t('Name')}: </Text> {user.FirstName}{' '}
-                  {user.LastName}
+                  <Text style={styles.strongText}>{i18n.t('Name')}: </Text>{' '}
+                  {user.FirstName} {user.LastName}
                 </Text>
                 <Text style={styles.dataText}>
                   <Text style={styles.strongText}>{i18n.t('Mobile')}: </Text>{' '}
@@ -484,8 +506,8 @@ export default function Checkout({}) {
 
               <View style={styles.cardBody}>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>{i18n.t('Name')}: </Text> {user.FirstName}{' '}
-                  {user.LastName}
+                  <Text style={styles.strongText}>{i18n.t('Name')}: </Text>{' '}
+                  {user.FirstName} {user.LastName}
                 </Text>
                 <Text style={styles.dataText}>
                   <Text style={styles.strongText}>{i18n.t('Mobile')}: </Text>{' '}
@@ -506,13 +528,19 @@ export default function Checkout({}) {
 
               <View style={styles.cardBody}>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>{i18n.t('DeliveryDate')}:</Text>
+                  <Text style={styles.strongText}>
+                    {i18n.t('DeliveryDate')}:
+                  </Text>
                 </Text>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>{i18n.t('DeliveryTime')}:</Text>
+                  <Text style={styles.strongText}>
+                    {i18n.t('DeliveryTime')}:
+                  </Text>
                 </Text>
                 <Text style={styles.dataText}>
-                  <Text style={styles.strongText}>{i18n.t('AssemblyTime')}:</Text>
+                  <Text style={styles.strongText}>
+                    {i18n.t('AssemblyTime')}:
+                  </Text>
                 </Text>
               </View>
             </View>
