@@ -9,11 +9,13 @@ import { getCollection } from '../../services/firebase.js';
 import { useEffect, useState } from 'react';
 import OfferRow from '../Home/offerRow';
 import i18n from 'i18n-js';
+import { useSelector } from 'react-redux';
 
 export default function SearchPage({ navigation }) {
   const [products, setProducts] = useState(null);
   const [subCategories, setSubCategories] = useState([])
   const [loader, setLoader] = useState(false);
+  const user = useSelector((state) => state.user);
 
   const getProducts = () => {
     getCollection('Products', ['SalePrice', '>=', 0])
@@ -70,30 +72,32 @@ export default function SearchPage({ navigation }) {
 
       </View>
 
-      <View style={{ backgroundColor: '#F1EAF1', marginTop: 20, padding: 10, marginBottom: 20 }}>
+      {user.id == '' &&
+        <View style={{ backgroundColor: '#F1EAF1', marginTop: 20, padding: 10, marginBottom: 20 }}>
 
-        <Text style={{ fontSize: 19, fontWeight: 'bold', marginTop: 15 }}>{i18n.t('MakeTheMostOfIkea')}</Text>
-        <Text style={{ color: "gray", marginTop: 10, fontSize: 17 }}>{i18n.t('SignUpAdvice')}</Text>
+          <Text style={{ fontSize: 19, fontWeight: 'bold', marginTop: 15 }}>{i18n.t('MakeTheMostOfIkea')}</Text>
+          <Text style={{ color: "gray", marginTop: 10, fontSize: 17 }}>{i18n.t('SignUpAdvice')}</Text>
 
-        <View style={{
-          display: 'flex', flexDirection: 'row', justifyContent: 'space-around',
-          marginTop: 25
-        }}>
+          <View style={{
+            display: 'flex', flexDirection: 'row', justifyContent: 'space-around',
+            marginTop: 25
+          }}>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Sign')}
-            style={styles.sign}>
-            <Text>{i18n.t('SignUp')}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Sign')}
+              style={styles.sign}>
+              <Text>{i18n.t('SignUp')}</Text>
 
-          </TouchableOpacity>
+            </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}
-            style={styles.login}>
-            <Text style={{ color: 'white' }}>{i18n.t('Login')}</Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}
+              style={styles.login}>
+              <Text style={{ color: 'white' }}>{i18n.t('Login')}</Text>
+            </TouchableOpacity>
+
+          </View>
 
         </View>
-
-      </View>
+      }
 
 
     </ScrollView>
