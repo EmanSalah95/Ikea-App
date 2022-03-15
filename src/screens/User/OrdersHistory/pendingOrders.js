@@ -14,6 +14,7 @@ export const PendingOrders = () => {
     const [orders, setOrders] = useState([]);
     const getUserOrders = () => {
         let orderList = [];
+        setLoader(true);
         purchases.forEach((element, index) => {
             getDocumentByID('Orders', element).then((order) => {
                 if (!order.Status) {

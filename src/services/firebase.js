@@ -292,6 +292,7 @@ export const createNewOrder = async data => {
       updateDoc(doc(fireStore, 'users', data.userId), {
         Purchased: [newDoc.id, ...purchased],
       });
+      updateUserStorageByID(data.userId);
     })
     .then(() => {
       data.items.map(async item => {
