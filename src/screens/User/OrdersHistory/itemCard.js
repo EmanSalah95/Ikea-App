@@ -9,7 +9,7 @@ const ItemCard = ({ item }) => {
     const [product, setProduct] = useState({
         Images: [],
         Name: '',
-        NameAr,
+        NameAr:'',
         Price: 0,
     });
     const getProductData = async () => {

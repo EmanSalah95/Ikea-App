@@ -103,9 +103,9 @@ export default function Checkout({}) {
     //////////////////////////////////////////////////////////////////
     onSnapshot(doc(fireStore, 'users', uid), userDoc => {
       const userLoc = userDoc.data().Locations;
-      userLoc.length !== 0 ? setLocationsExist(true) : setLocationsExist(false);
+      userLoc?.length !== 0 ? setLocationsExist(true) : setLocationsExist(false);
 
-      if (userLoc instanceof Array && userLoc.length !== 0) {
+      if (userLoc instanceof Array && userLoc?.length !== 0) {
         setUserLocations([...userLoc]);
       }
     });
@@ -127,9 +127,7 @@ export default function Checkout({}) {
           removed.push(item);
         }
         if (indx === purchasedItems.length - 1 && removed.length != 0) {
-          setMessage(
-            'Below items were removed because selected amount is not available now'
-          );
+          setMessage(i18n.t('UnavailableMessage'));
           setItemsRemoved(removed);
         }
       });
@@ -430,11 +428,11 @@ export default function Checkout({}) {
                           </Text>
                           <Text style={styles.dataText}>
                             {item.productData.ProductName}{' '}
-                            {item.productData.Name}
+                            {i18n.locale=='en'?item.productData.Name:item.productData.NameAr}
                           </Text>
                           <Text style={styles.dataText}>
                             <Text style={styles.strongText}>
-                              EGP {item.productData.Price}
+                              {i18n.t("EGP")} {item.productData.Price}
                             </Text>
                           </Text>
                         </View>
@@ -595,7 +593,7 @@ export default function Checkout({}) {
       {orderIsPlaced && (
         <View style={styles.successfulOrderMessage}>
           <Text style={styles.successfulOrderText}>
-            Your order is placed successfully!
+            {i18n.t('SuccessfulOrder')}
           </Text>
         </View>
       )}

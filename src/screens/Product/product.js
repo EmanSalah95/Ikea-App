@@ -20,6 +20,7 @@ import HorizontalProducts from '../../components/HorizontalProducts/HorizontalPr
 import { InfoSection } from './infoSection';
 import { h, w } from '../../constants/dimentions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from 'i18n-js';
 export default function Product({ route, navigation }) {
   const [product, setProduct] = useState({});
   const [similarProducts, setSimilarProducts] = useState([]);
@@ -136,21 +137,21 @@ export default function Product({ route, navigation }) {
 
             <View style={{ alignItems: 'center' }}>
               {product.Quantity > 2 && (
-                <Text>Available In Stock : {product.Quantity}</Text>
+                <Text>{i18n.t('AvailableInStock')} : {product.Quantity}</Text>
               )}
               {product.Quantity <= 2 && product.Quantity !== 0 && (
                 <Text style={styles.textDanger}>
-                  {product.Quantity} Only In Stock
+                  {product.Quantity} {i18n.t('OnlyInStock')}
                 </Text>
               )}
               {product.Quantity === 0 && (
-                <Text style={styles.textDanger}>Out of stock</Text>
+                <Text style={styles.textDanger}>{i18n.t('OutOfStock')}</Text>
               )}
             </View>
 
             {similarProducts.length != 0 && (
               <>
-                <Text style={styles.InfoContainer}>Similar products</Text>
+                <Text style={styles.InfoContainer}>{i18n.t('SimilarProducts')}</Text>
                 <HorizontalProducts
                   navigation={navigation}
                   products={similarProducts}
@@ -175,14 +176,14 @@ export default function Product({ route, navigation }) {
                 key={route.params.id}
               >
                 {inCart && (
-                  <Text style={{ color: 'white' }}>Added to bag </Text>
+                  <Text style={{ color: 'white' }}>{i18n.t('AddedToBag')}</Text>
                 )}
                 {!inCart && (
                   <Text style={{ color: 'white' }}>
-                    Add to bag{' '}
+                    {i18n.t('AddToBag')}{' '}
                     <Text style={{ color: 'lightblue' }}>
                       {' '}
-                      EGP {product.Price}
+                      {i18n.t('EGP')} {product.Price}
                     </Text>
                   </Text>
                 )}

@@ -7,6 +7,7 @@
     "Amount":"Amount",
     "AnniversaryOffers":"Anniversary offers",
     "AssemblyTime":"Assembly Time",
+    "AvailableInStock":"Available In Stock",
 
     "Back":"Back",
     "Bed":"bed",
@@ -88,6 +89,8 @@
     "NoOrders":"You have no orders",
     "No":"No",
 
+    "OnlyInStock":"Only In Stock",
+    "OutOfStock":"Out Of Stock",
     "OrderHistory":"Orders History",
     "OrderTotal":"Order Total",
 
@@ -132,6 +135,7 @@
     "Sort":"Sort",
     "SubTotal":"SubTotal",
     "Submit":"Submit",
+    "SuccessfulOrder":"Your order is placed successfully!",
     "Surname":"Surname",
     
     "Table":"table",
@@ -140,6 +144,7 @@
     "TotalAmount":"Total amount incl VAT",
     "Try":"Try",
 
+    "UnavailableMessage":"Below items were removed because selected amount is not available now",
     "UserNotFound":"User not found you can signup!",
     
     "VAT":"(Inc. VAT)",

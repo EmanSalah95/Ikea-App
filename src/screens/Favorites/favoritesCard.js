@@ -59,13 +59,13 @@ export default function FavoritesCard({ item }) {
             />
             <View>
               <Text style={styles.productName}>{productData.ProductName}</Text>
-              <Text>{productData.Name}</Text>
+              <Text>{i18n.locale=='en'?productData.Name:productData.NameAr}</Text>
               <Text>
                 {productData.Material}, {productData.Color}
               </Text>
-              <Text style={styles.productPrice}>EGP {productData.Price}</Text>
+              <Text style={styles.productPrice}>{i18n.t('EGP')} {productData.Price}</Text>
               <Text style={styles.productSalePrice}>
-                Regular price EGP {productData.SalePrice}
+                {i18n.t('RegularPrice')} {i18n.t('EGP')} {productData.SalePrice}
               </Text>
               <View style={styles.pickerWrapper}>
                 <RNPickerSelect
@@ -77,16 +77,16 @@ export default function FavoritesCard({ item }) {
                       console.log('alert');
                       return Alert.alert(
                         '',
-                        'Do you want to remove this product?',
+                        i18n.t('RemoveProductConfirmation'),
                         [
                           {
-                            text: 'No',
+                            text: i18n.t('No'),
                             onPress: () => {
                               setSelectedValue(1);
                             },
                           },
                           {
-                            text: 'Yes',
+                            text: i18n.t('Yes'),
                             onPress: () => {
                               dispatch(removeFromFav(item.id));
                             },
@@ -97,7 +97,7 @@ export default function FavoritesCard({ item }) {
                   }}
                   items={quantityArr}
                   placeholder={{
-                    label: 'Select Quantity',
+                    label: i18n.t('SelectQuantity'),
                     value: selectedValue,
                     color: '#0e2d64',
                   }}
