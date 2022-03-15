@@ -56,7 +56,11 @@ export default function User({ navigation }) {
             <Button
               style={styles.logBtn}
               mode='contained'
-              onPress={() => navigation.navigate('Login')}
+              onPress={() =>
+                navigation.navigate('Login', {
+                  navigatedFromShoppingList: false,
+                })
+              }
             >
               {i18n.t('Login')}
             </Button>

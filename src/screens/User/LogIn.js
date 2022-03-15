@@ -52,7 +52,7 @@ export default function Loginscreen({ navigation, route }) {
 
     await login(email, password)
       .then(userCredentials => {
-        if (isnavigatedFromShoppingList) {
+        if (isNavigatedFromShoppingList) {
           navigation.navigate('Favorites');
         } else {
           navigation.navigate('HomeStack');
