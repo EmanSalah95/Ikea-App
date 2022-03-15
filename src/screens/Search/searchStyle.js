@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   
     inputHead:{
       display:'flex',
-      flexDirection:i18n.locale=='en'?'row':'row-reverse',
+      flexDirection:'row',
       backgroundColor: '#F1EAF1',
       width:360,
       borderRadius: 25, 
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
       fontSize: 17,
     //  border:0,
      borderRadius: 20, 
-     textAlign:i18n.locale=='en'?'left':'right'
+     textAlign:'left'
     },
     icon:{
       paddingRight:7,
@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
     proShow:{
       display:'flex',
       marginTop:45,
-      flexDirection:i18n.locale=='en'?'row':'row-reverse',
+      flexDirection:'row',
       justifyContent:"space-between"
           },
 

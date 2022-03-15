@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flex: 0.2,
-    flexDirection:i18n.locale=='en'?'row':'row-reverse',
+    flexDirection:'row',
     paddingHorizontal:5,
     justifyContent:'space-between',
     alignItems:'center',

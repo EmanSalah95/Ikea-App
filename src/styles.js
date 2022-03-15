@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 10,
     backgroundColor: '#F5F5F5',
-    flexDirection: i18n.locale=='en' ? 'row' : 'row-reverse',
+    flexDirection: 'row',
     paddingHorizontal: 10,
     paddingVertical: 2,
     alignItems: 'center',
@@ -74,15 +74,15 @@ export const styles = StyleSheet.create({
     padding: 5,
     width: w * 0.6,
     elevation: 10,
-    alignSelf: i18n.locale=='en' ? 'flex-start' : 'flex-end'
+    alignSelf: 'flex-start'
   },
   description: {
     fontSize: 16,
     fontWeight: 'bold'
   },
   prodListH: {
-    paddingStart: i18n.locale=='en' ? 20 : 0,
-    paddingEnd: i18n.locale=='en' ? 0 : 20,
+    paddingStart: 20,
+    paddingEnd: 0,
   },
   prodCardImg: {
     width: 150,
@@ -103,21 +103,21 @@ export const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   listHeader: {
-    flexDirection: i18n.locale=='en' ? 'row' : 'row-reverse',
+    flexDirection: 'row' ,
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 15,
   },
   boldTitle: {
     fontWeight: 'bold',
-    textAlign: i18n.locale=='en' ? 'left' : 'right'
+    textAlign: 'left'
   },
   bigText: {
     fontSize: 15,
   },
   grayText: {
     color: 'gray',
-    textAlign: i18n.locale=='en' ? 'left' : 'right'
+    textAlign: 'left'
   },
   blueText: {
     color: '#2e73b8'
@@ -127,7 +127,7 @@ export const styles = StyleSheet.create({
   },
   cartIcon: {
     position: 'absolute',
-    right: i18n.locale=='en' ? -5 : 152,
+    right: -5,
     bottom: -5,
     elevation: 1,
     backgroundColor: '#0058a3',
@@ -149,7 +149,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
-    alignSelf: i18n.locale=='en'?'flex-end':'flex-start'
+    alignSelf: 'flex-end'
   },
   heart: {
     alignSelf: 'flex-end'
@@ -162,7 +162,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   social: {
-    flexDirection: i18n.locale=='en' ? 'row' : 'row-reverse',
+    flexDirection: 'row' ,
     alignSelf: 'center'
   },
   socialIcon: {

@@ -54,7 +54,7 @@ export default function SearchInput({ closeModal }) {
       <View
         style={{
           flexWrap: 'wrap',
-          flexDirection: i18n.locale=='en'?'row':'row-reverse',
+          flexDirection: 'row',
           marginTop: 15,
         }}
       >

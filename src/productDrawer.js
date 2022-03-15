@@ -24,7 +24,7 @@ const ProductsDrawer = ({ navigation, route }) => {
           name='filter'
           size={25}
           color={'gray'}
-          style={{ marginStart: i18n.locale=='en' ? 10 : 0, marginEnd: i18n.locale=='en' ? 0 : 10 }}
+          style={{ marginStart:10}}
         />
       </TouchableOpacity>
     ),

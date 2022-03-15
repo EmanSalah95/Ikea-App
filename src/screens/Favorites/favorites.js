@@ -24,7 +24,7 @@ export default function Favorites() {
               style={{ marginRight: 20 }}
             />
             <View>
-              <Text style={{textAlign:i18n.locale=='en'?'left':'right'}}>{i18n.t('ProductsAt')}</Text>
+              <Text style={{textAlign:'left'}}>{i18n.t('ProductsAt')}</Text>
               <Text style={styles.boldUpperCaseText}>
                 IKEA Cairo Mall of Arabia
               </Text>

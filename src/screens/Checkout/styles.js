@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 15,
     marginVertical: 10,
-    textAlign:i18n.locale=='en'?'left':'right'
+    textAlign:'left'
   },
   pickerWrapper: {
     borderRadius: 2,
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     color: '#000',
   },
   buttons: {
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
     justifyContent: 'space-between',
   },
   continueBtnWrappper: {
@@ -82,14 +82,14 @@ export const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     paddingVertical: 10,
     // flexDirection: 'row',
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
 
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   productData: {
     // flexDirection: 'row',
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
   },
   imageCard: {
     margin: 5,
@@ -101,7 +101,7 @@ export const styles = StyleSheet.create({
   },
   dataText: {
     fontSize: 12,
-    textAlign:i18n.locale=='en'?'left':'right'
+    textAlign:'left'
   },
   strongText: {
     fontWeight: 'bold',
@@ -120,7 +120,7 @@ export const styles = StyleSheet.create({
   },
   locationsWrapper: {
     // flexDirection: 'row',
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#e9e9e9',
@@ -149,7 +149,7 @@ export const styles = StyleSheet.create({
   },
   paymentRadioButton: {
     // flexDirection: 'row',
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
     alignItems: 'center',
   },
   placeOrder: {
@@ -163,7 +163,7 @@ export const styles = StyleSheet.create({
   placeOrderButtons: {
     marginVertical: 10,
     // flexDirection: 'row',
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
     justifyContent: 'space-between',
   },
   orderCancelBtn: {

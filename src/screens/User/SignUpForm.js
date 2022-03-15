@@ -23,12 +23,16 @@ export default function SignUpForm({ navigation }) {
     const [PhoneNumErr, setPhoneNumErr] = useState('')
 
     const [allValid, setAllValid] = useState(
-        firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === '' && PhoneNumErr == ''
+        firstNameErr === '' &&
+        surNameErr === '' &&
+        EmailErr === '' &&
+        PasswordErr === '' &&
+        PhoneNumErr == ''
     );
 
 
     // Function to hadndle change in any input and write into it
-    const handleValidateInput = () => {
+    const handleValidateInput = (value, target) => {
         const regName = /^\w[a-zA-Z]{2,}/;
         const regEmail = /^([a-zA-Z0-9_\-\.]+){3,}@([a-zA-Z0-9_\-\.]+){3,}(.com)$/;
         const regPassword =
@@ -36,54 +40,51 @@ export default function SignUpForm({ navigation }) {
         const regPhoneNum = /^01[0125][0-9]{8}$/;
 
         // Validate Name Input
-        if (firstName) {
-            if (!regName.test(firstName)) {
+        if (target == 'firstname') {
+            if (!regName.test(value)) {
                 setFirstNameErr(i18n.t('NameInvalid'))
-
             } else {
                 setFirstNameErr('')
-
             }
+            setFirstName(value)
         }
-        if (surName) {
-            if (!regName.test(surName)) {
+        if (target == 'surname') {
+            if (!regName.test(value)) {
                 setSurNameErr(i18n.t('NameInvalid'))
-
             } else {
                 setSurNameErr('')
-
             }
+            setSurName(value)
         }
 
         // Validate Phone Input
-        if (PhoneNum) {
-            if (!regPhoneNum.test(PhoneNum)) {
+        if (target == 'mobile') {
+            if (!regPhoneNum.test(value)) {
                 setPhoneNumErr(i18n.t('PhoneInvalid'))
             } else {
-                setSurNameErr('')
+                setPhoneNumErr('')
             }
+            setPhoneNum(value)
         }
 
         // // // Validate Email Input
-        if (Email) {
-            if (!regEmail.test(Email)) {
+        if (target == 'email') {
+            if (!regEmail.test(value)) {
                 setEmailErr(i18n.t('EmailInvalid'))
-
             } else {
                 setEmailErr('')
-
             }
+            setEmail(value)
         }
 
         // // // Validate Password Input
-        if (Password) {
-            if (!regPassword.test(Password)) {
+        if (target == 'password') {
+            if (!regPassword.test(value)) {
                 setPasswordErr(i18n.t('PasswordInvalid'))
-
             } else {
                 setPasswordErr('')
-
             }
+            setPassword(value)
         }
     };
 
@@ -97,7 +98,7 @@ export default function SignUpForm({ navigation }) {
             // Password: Password,
         };
 
-        handleValidateInput()
+        // handleValidateInput()
 
         if (!allValid) {
             e.preventDefault();
@@ -119,8 +120,7 @@ export default function SignUpForm({ navigation }) {
                 }
             )
                 .catch(err => {
-                    if(allValid)
-                    {
+                    if (allValid) {
                         Alert.alert(i18n.t('EmailExist'));
                         console.log('function signIn Failed', err);
                     }
@@ -132,7 +132,7 @@ export default function SignUpForm({ navigation }) {
 
     useEffect(() => {
         setAllValid(firstNameErr === '' && surNameErr === '' && EmailErr === '' && PasswordErr === '' && PhoneNumErr === '');
-    }, [firstNameErr,surNameErr,EmailErr,PasswordErr,PhoneNumErr])
+    }, [firstNameErr, surNameErr, EmailErr, PasswordErr, PhoneNumErr])
 
     return (
         <View style={styles.container}>
@@ -140,7 +140,7 @@ export default function SignUpForm({ navigation }) {
                 <TextInput
                     placeholder={i18n.t('FirstName')}
                     style={styles.input}
-                    onChangeText={(firstName) => setFirstName(firstName)}
+                    onChangeText={(value) => { handleValidateInput(value, 'firstname') }}
                     value={firstName}
                 />
                 <Text style={styles.textDanger}>{firstNameErr}</Text>
@@ -148,7 +148,7 @@ export default function SignUpForm({ navigation }) {
                 <TextInput
                     placeholder={i18n.t('Surname')}
                     style={styles.input}
-                    onChangeText={(surName) => setSurName(surName)}
+                    onChangeText={(value) => { handleValidateInput(value, 'surname') }}
                     value={surName}
                 />
                 <Text style={styles.textDanger}>{surNameErr}</Text>
@@ -156,7 +156,7 @@ export default function SignUpForm({ navigation }) {
                 <TextInput
                     placeholder={i18n.t('Mobile')}
                     style={styles.input}
-                    onChangeText={(PhoneNum) => setPhoneNum(PhoneNum)}
+                    onChangeText={(value) => { handleValidateInput(value, 'mobile') }}
                     value={PhoneNum}
                 />
                 <Text style={styles.textDanger}>{PhoneNumErr}</Text>
@@ -164,7 +164,7 @@ export default function SignUpForm({ navigation }) {
                 <TextInput
                     placeholder={i18n.t('EmailPlaceholder')}
                     style={styles.input}
-                    onChangeText={(Email) => setEmail(Email)}
+                    onChangeText={(value) => { handleValidateInput(value, 'email') }}
                     value={Email}
                 />
                 <Text style={styles.textDanger}>{EmailErr}</Text>
@@ -173,7 +173,7 @@ export default function SignUpForm({ navigation }) {
                     placeholder={i18n.t('Password')}
                     secureTextEntry={true}
                     style={styles.input}
-                    onChangeText={(Password) => setPassword(Password)}
+                    onChangeText={(value) => { handleValidateInput(value, 'password') }}
                     value={Password}
                 />
                 <Text style={styles.textDanger}>{PasswordErr}</Text>

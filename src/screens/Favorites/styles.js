@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     margin: 15,
     padding: 20,
     elevation: 2,
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
   },
   boldUpperCaseText: {
     fontWeight: 'bold',
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   contactStaffCard: {
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 8,
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   productData: {
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
     padding: 15,
   },
   imageCard: {
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
   },
   productName: {
     fontWeight: 'bold',
-    textAlign: i18n.locale=='en'?'left':'right'
+    textAlign: 'left'
   },
   productPrice: {
     fontWeight: 'bold',
@@ -125,7 +125,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   favTotalPriceWrapper: {
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 14,

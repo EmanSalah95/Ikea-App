@@ -13,6 +13,7 @@ import i18n from 'i18n-js';
 export default function SearchPage({ navigation }) {
   const [products, setProducts] = useState(null);
   const [subCategories, setSubCategories] = useState([])
+  const [loader, setLoader] = useState(false);
 
   const getProducts = () => {
     getCollection('Products', ['SalePrice', '>=', 0])
@@ -26,8 +27,11 @@ export default function SearchPage({ navigation }) {
     getCollection('subCategory').then((res) => {
       setSubCategories(res)
     }
-
-    ).catch(err => console.log(err))
+    )
+      .then(() => {
+        setLoader(true);
+      })
+      .catch(err => console.log(err))
   }
 
   useEffect(() => {
@@ -41,15 +45,15 @@ export default function SearchPage({ navigation }) {
       <View style={styles.container}>
         <SearchHeader products={products} />
 
-        {subCategories &&
-          <FlatList
-            data={subCategories}
-            renderItem={({ item }) => <SubCatSearch item={item} navigation={navigation} />}
-            keyExtractor={(item, index) => index}
+        {subCategories && loader &&
+          <ScrollView
             horizontal
-          // columnWrapperStyle={{ flex: 3, justifyContent: 'space-around' }}
-          // numColumns={2}
-          />}
+          >
+            {
+              subCategories.map((item) => <SubCatSearch item={item} navigation={navigation} key={item.id} />)
+            }
+          </ScrollView>
+        }
 
 
 
@@ -72,7 +76,7 @@ export default function SearchPage({ navigation }) {
         <Text style={{ color: "gray", marginTop: 10, fontSize: 17 }}>{i18n.t('SignUpAdvice')}</Text>
 
         <View style={{
-          display: 'flex', flexDirection: i18n.locale=='en'?'row':'row-reverse', justifyContent: 'space-around',
+          display: 'flex', flexDirection: 'row', justifyContent: 'space-around',
           marginTop: 25
         }}>
 
@@ -84,7 +88,7 @@ export default function SearchPage({ navigation }) {
 
           <TouchableOpacity onPress={() => navigation.navigate('Login')}
             style={styles.login}>
-            <Text style={{color:'white'}}>{i18n.t('Login')}</Text>
+            <Text style={{ color: 'white' }}>{i18n.t('Login')}</Text>
           </TouchableOpacity>
 
         </View>

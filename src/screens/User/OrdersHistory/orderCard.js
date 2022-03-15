@@ -9,10 +9,10 @@ const OrderCard = ({ order }) => {
             <Card.Title 
             style={{ fontWeight: 'bold', fontSize: 10}} 
             title={`${i18n.t('TotalPrice')}: ${i18n.t('EGP')}${order.TotalPrice}`}
-            titleStyle={{alignSelf:i18n.locale=='en'?'flex-start':'flex-end'}}
+            titleStyle={{alignSelf:'flex-start'}}
             />
             <Card.Content>
-                <View style={{display:'flex',alignItems:i18n.locale=='en'?'flex-start':'flex-end'}}>
+                <View style={{display:'flex',alignItems:'flex-start'}}>
                 <Text>{order.id}</Text>
                 <Text style={{ fontStyle: 'italic' }}>{order.CreatedAt.toDate().toString()}</Text>
                 {order.Status && <Text style={{ color: 'green' }}>{i18n.t('Delivered')}</Text>}

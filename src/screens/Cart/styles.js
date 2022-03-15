@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     marginTop: 15,
     padding: 20,
     backgroundColor: 'white',
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
     justifyContent: 'space-between',
   },
   checkoutBtn: {
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     width: w,
     marginTop: 10,
     display: 'flex',
-    flexDirection: i18n.locale=='en'?'row':'row-reverse',
+    flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
   },
@@ -58,6 +58,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: 20,
     width: w * 0.5,
-    alignItems:i18n.locale=='en'?'flex-start':'flex-end'
+    alignItems:'flex-start'
   },
 });

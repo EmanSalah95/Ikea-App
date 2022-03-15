@@ -35,8 +35,8 @@ export const PendingOrders = () => {
     }, [purchases]);
     return (
         <View style={styles.container}>
-            {loader && <Loading />}
-            {orders.length==0 && !loader  && (
+            {loader && purchases && <Loading />}
+            {orders.length==0 && (
                 <View style={{ alignItems: 'center', justifyContent: 'center', height: h * 0.75 }}>
                     <Image source={require('../../../assets/noCartItems.jpg')} style={styles.noOrders} />
                     <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center', paddingHorizontal: 20 }}>

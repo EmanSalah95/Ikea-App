@@ -9,6 +9,7 @@ const ItemCard = ({ item }) => {
     const [product, setProduct] = useState({
         Images: [],
         Name: '',
+        NameAr,
         Price: 0,
     });
     const getProductData = async () => {
@@ -21,7 +22,7 @@ const ItemCard = ({ item }) => {
         getProductData();
     }, [item]);
     return (
-        <View style={{ display: 'flex', flexDirection: i18n.locale=='en'?'row':'row-reverse' }}>
+        <View style={{ display: 'flex', flexDirection: 'row'}}>
             <Image
                 source={{ uri: product.Images[0] }}
                 style={styles.productImg}

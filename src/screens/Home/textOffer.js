@@ -6,7 +6,7 @@ export default function TextOffer({ navigation }) {
 
   const pressHandler = () => {
     navigation.navigate('Products', {
-      screenTitle: 'Mall of Arabia anniversary offers',
+      screenTitle: i18n.t('IKEAanniversary'),
       condition: ['SalePrice', '>=', 0],
     });
   };

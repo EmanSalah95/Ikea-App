@@ -15,9 +15,12 @@ import { useEffect, useState } from 'react';
 import { updateUserStorageByID } from './src/services/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from 'i18n-js';
+import Loading from './src/components/Loading';
 
 export default function App() {
   const [id, setID] = useState();
+  const [updateLang,setUpdateLang]=useState(false);
+
   useEffect(async () => {
     const id = await AsyncStorage.getItem('UID');
     if (id != null) {
@@ -26,8 +29,27 @@ export default function App() {
     } else {
       setID(null);
     }
+    AsyncStorage.getItem("language")
+			.then(language => {
+        if(language==null)
+				{
+          i18n.locale = 'en';
+        }
+        else{
+          i18n.locale = language;
+        }
+			})
+      .then(()=>{
+        setUpdateLang(true);
+      })
   }, []);
+  useEffect(()=>{
+    console.log(updateLang)
+  },[updateLang])
   return (
+    <>
+    {!updateLang? <Loading/>
+    :
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
@@ -40,7 +62,7 @@ export default function App() {
             name='Checkout'
             component={Checkout}
             options={({ navigation }) => ({
-              title: 'CHECKOUT',
+              title: i18n.t('Checkout'),
               headerTitleAlign: 'center',
               headerTitleStyle: { fontSize: 16 },
               headerLeft: () => (
@@ -56,6 +78,8 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
+    }
+    </>
   );
 }
 LogBox.ignoreLogs([

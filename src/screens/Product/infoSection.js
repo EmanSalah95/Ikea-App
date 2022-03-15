@@ -7,9 +7,9 @@ import i18n from 'i18n-js';
 export const InfoSection = ({ product, navigation }) => {
     return (
         <View style={styles.InfoContainer}>
-            <Text style={{ fontWeight: 'bold', fontSize: 12 , textAlign:i18n.locale=='en'?'left':'right'}}>{product.ProductName}</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 12 , textAlign:'left'}}>{product.ProductName}</Text>
             <Text style={{ color: 'grey'}}>{i18n.locale=='en'?product.Name:product.NameAr}</Text>
-            <View style={{ display: 'flex', flexDirection: i18n.locale=='en'?'row':'row-reverse' }}>
+            <View style={{ display: 'flex', flexDirection:'row' }}>
                 <Text style={{ color: 'gray' }}>
                     {i18n.locale=='en'?product.Color:product.ColorAr}
                 </Text>

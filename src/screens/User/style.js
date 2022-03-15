@@ -54,11 +54,10 @@ export const styles = StyleSheet.create({
     },
 
     secondSec: {
-        marginLeft: i18n.locale=='en'?15:0,
-        marginRight: i18n.locale=='en'?0:15,
+        marginLeft: 15,
         paddingTop: 20,
         fontSize: 18,
-        textAlign: i18n.locale=='en'?"right":"left"
+        textAlign: "right"
     },
 
     space: {
@@ -95,7 +94,7 @@ export const styles = StyleSheet.create({
         borderColor: 'white',
         marginBottom: 10,
         backgroundColor: "white",
-        textAlign:i18n.locale=='en'?'left':'right'
+        textAlign:'left'
     },
 
     inputext: {

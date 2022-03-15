@@ -46,16 +46,16 @@ export const styles = StyleSheet.create({
     },
     detailsTabs:{
         display:'flex',
-        flexDirection:i18n.locale=='en'?'row':'row-reverse',
+        flexDirection:'row',
         justifyContent:'space-between',
         marginVertical:15
     },
     sizeDetails:{ 
         display: 'flex', 
-        flexDirection: i18n.locale=='en'?'row':'row-reverse', 
+        flexDirection: 'row', 
         justifyContent: 'space-between', 
         width: w * 0.60,
-        alignSelf:i18n.locale=='en'?'flex-start':'flex-end'
+        alignSelf:'flex-start'
     },
     detailsDivider:{
         backgroundColor: 'darkgrey'  

@@ -37,7 +37,7 @@ export default function DrawerContent() {
           <View
             style={{
               backgroundColor: '#f4f8f8',
-              flexDirection: i18n.locale=='en' ? 'row' : 'row-reverse',
+              flexDirection: 'row',
               justifyContent: 'space-between',
               padding: 20,
               marginVertical: 10,
@@ -48,14 +48,14 @@ export default function DrawerContent() {
             </Text>
             <Text style={{ color: '#0051ba', fontWeight: 'bold' }}>0</Text>
           </View>
-          <View style={{ margin: 20, flexDirection: i18n.locale=='en' ? 'row' : 'row-reverse' }}>
+          <View style={{ margin: 20, flexDirection: 'row' }}>
             <FontAwesome
               name='warning'
               color='#8a8a8c'
               size={15}
-              style={{ marginRight: i18n.locale=='en' ? 10 : 0, marginLeft: i18n.locale=='en' ? 0 : 10 }}
+              style={{ marginRight: 10, marginLeft: 0 }}
             />
-            <Text style={{ marginRight: i18n.locale=='en' ? 10 : 0, marginLeft: i18n.locale=='en' ? 0 : 10,textAlign: i18n.locale=='en' ? 'left' : 'right' }}>
+            <Text style={{ marginRight: 10 , marginLeft: 0,textAlign: 'left'  }}>
               {i18n.t('DrawerNote')}
             </Text>
           </View>
@@ -63,7 +63,7 @@ export default function DrawerContent() {
       </DrawerContentScrollView>
       <Drawer.Section>
         <View style={{ padding: 15 }}>
-          <Text style={{ paddingBottom: 15, paddingRight: 8, textAlign: i18n.locale=='en' ? 'left' : 'right' }}>
+          <Text style={{ paddingBottom: 15, paddingRight: 8, textAlign: 'left'  }}>
             {i18n.t('LoginShoppingList')}
           </Text>
           <TouchableOpacity
