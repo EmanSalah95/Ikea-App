@@ -40,7 +40,7 @@ export default function FavoritesList({ favItems }) {
           dispatch(removeAllFromFav());
 
           const uid = await AsyncStorage.getItem('UID');
-          removeAllFavItemsFromUser(uid);
+          uid && removeAllFavItemsFromUser(uid);
         },
       },
     ]);

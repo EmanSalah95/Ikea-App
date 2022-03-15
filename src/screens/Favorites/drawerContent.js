@@ -1,24 +1,15 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import i18n from 'i18n-js'
-import {
-  Avatar,
-  Title,
-  Caption,
-  Paragraph,
-  Drawer,
-  Text,
-  TouchableRipple,
-  Switch,
-} from 'react-native-paper';
+import i18n from 'i18n-js';
+import { Drawer, Text } from 'react-native-paper';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { h, w } from '../../constants/dimentions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default function DrawerContent() {
+import { DrawerContentScrollView } from '@react-navigation/drawer';
+
+export default function DrawerContent({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView>
@@ -31,7 +22,9 @@ export default function DrawerContent() {
             paddingBottom: 20,
           }}
         >
-          <Text style={{ color: '#fff', fontSize: 25 }}>{i18n.t('SelectList')}</Text>
+          <Text style={{ color: '#fff', fontSize: 25 }}>
+            {i18n.t('SelectList')}
+          </Text>
         </View>
         <View>
           <View
@@ -55,7 +48,7 @@ export default function DrawerContent() {
               size={15}
               style={{ marginRight: 10, marginLeft: 0 }}
             />
-            <Text style={{ marginRight: 10 , marginLeft: 0,textAlign: 'left'  }}>
+            <Text style={{ marginRight: 10, marginLeft: 0, textAlign: 'left' }}>
               {i18n.t('DrawerNote')}
             </Text>
           </View>
@@ -63,7 +56,9 @@ export default function DrawerContent() {
       </DrawerContentScrollView>
       <Drawer.Section>
         <View style={{ padding: 15 }}>
-          <Text style={{ paddingBottom: 15, paddingRight: 8, textAlign: 'left'  }}>
+          <Text
+            style={{ paddingBottom: 15, paddingRight: 8, textAlign: 'left' }}
+          >
             {i18n.t('LoginShoppingList')}
           </Text>
           <TouchableOpacity
@@ -72,8 +67,13 @@ export default function DrawerContent() {
               padding: 18,
               alignItems: 'center',
             }}
+            onPress={() => {
+              navigation.navigate('Login', { navigatedFromShoppingList: true });
+            }}
           >
-            <Text style={{ color: '#fff', fontWeight: 'bold' }}>{i18n.t('LOGIN')}</Text>
+            <Text style={{ color: '#fff', fontWeight: 'bold' }}>
+              {i18n.t('LOGIN')}
+            </Text>
           </TouchableOpacity>
         </View>
       </Drawer.Section>

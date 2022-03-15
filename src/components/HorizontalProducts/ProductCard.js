@@ -38,6 +38,42 @@ export default function ProductCard({ navigation, item, horizontal }) {
         ? removeFromFav(item.id)
         : addToFav({ id: item.id, productData: item.data() })
     );
+
+    const shoppingListInStorage = await AsyncStorage.getItem('shopping-list');
+
+    if (shoppingListInStorage) {
+      const shoppingList = JSON.parse(shoppingListInStorage);
+      const items = [...shoppingList.items];
+
+      if (favourits?.find(i => i.id === item.id)) {
+        // const filteredItems = items.filter(
+        //   itemFromStorage => itemFromStorage.id !== item.id
+        // );
+
+        const itemsObj = { items: newCartProduct };
+        await AsyncStorage.setItem('shopping-list', JSON.stringify(itemsObj));
+      } else {
+        items.push(item.data());
+        const itemsObj = { items: items };
+        await AsyncStorage.setItem('shopping-list', JSON.stringify(itemsObj));
+      }
+
+      console.log('items in storage');
+      console.log(shoppingList.items.length);
+      // console.log('Items in storage');
+      // const itemsss = await AsyncStorage.getItem('shopping-list');
+      // console.log(JSON.parse(itemsss).items.length);
+    } else {
+      const items = [];
+      items.push(item.data());
+      const itemsObj = { items: items };
+      await AsyncStorage.setItem('shopping-list', JSON.stringify(itemsObj));
+
+      // console.log('Items in storage');
+      // const itemsss = await AsyncStorage.getItem('shopping-list');
+      // console.log(JSON.parse(itemsss).items.length);
+    }
+
     // addFavItemsToUser(localStorage.getItem('UID'), item.id);
     const localID = await AsyncStorage.getItem('UID');
     if (localID != null) {
