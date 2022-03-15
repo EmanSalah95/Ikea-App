@@ -44,7 +44,6 @@ export default function CartCard({ item, purchasedQuantity, id }) {
     dispatch(setCartItemAmount({ id: id, PurchasedAmount: selectedAmount }));
   }, [dispatch, id, selectedAmount]);
 
-  
   return (
     <View style={styles.cartBox}>
       <Image source={{ uri: item.Images[0] }} style={styles.cartImage} />
