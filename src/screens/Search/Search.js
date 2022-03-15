@@ -7,11 +7,13 @@ import HorizontalProducts from '../../components/HorizontalProducts/HorizontalPr
 import { getCollection } from '../../services/firebase.js';
 import { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
+import { useSelector } from 'react-redux';
 
 export default function SearchPage({ navigation }) {
   const [products, setProducts] = useState(null);
   const [subCategories, setSubCategories] = useState([]);
   const [loader, setLoader] = useState(false);
+  const user = useSelector((state) => state.user);
 
   const getProducts = () => {
     getCollection('Products', ['SalePrice', '>=', 0])
@@ -70,7 +72,7 @@ export default function SearchPage({ navigation }) {
           )}
           <HorizontalProducts />
         </View>
-
+        {user.id == '' &&
         <View
           style={{
             backgroundColor: '#F1EAF1',
@@ -111,6 +113,7 @@ export default function SearchPage({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
+        }
       </ScrollView>
     </>
   );
