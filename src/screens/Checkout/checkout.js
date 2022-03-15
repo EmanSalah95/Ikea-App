@@ -13,10 +13,13 @@ import { styles } from './styles';
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import RNPickerSelect from 'react-native-picker-select';
-import { getDocumentByID } from '../../services/firebase';
+import {
+  getDocumentByID,
+  removeCartItemFromUser,
+} from '../../services/firebase';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ButtonsGroup from './buttonsGroup';
 
 import { RadioButton } from 'react-native-paper';
@@ -27,6 +30,10 @@ import { setUserLocation } from './../../services/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { fireStore } from '../../config/firebaseConfig';
 import Pay from './pay';
+import {
+  removeFromCart,
+  setCartItemAmount,
+} from '../../store/actions/cartProducts';
 import i18n from 'i18n-js';
 
 const schema = yup.object().shape({
@@ -37,7 +44,7 @@ const schema = yup.object().shape({
   gov: yup.string().required(),
 });
 
-export default function Checkout() {
+export default function Checkout({}) {
   const [locations, setLocations] = useState();
 
   const [activeSections, setActiveSections] = useState([]);
@@ -53,6 +60,7 @@ export default function Checkout() {
   const user = useSelector(state => state.user.user);
   const purchasedItems = useSelector(state => state.cartProducts.cartProducts);
   const totalOrderPrice = useSelector(state => state.cartProducts.totalPrice);
+  const dispatch = useDispatch();
 
   const [continuePayment, setContinuePayment] = useState(false);
   const [orderIsPlaced, setOrderIsPlaced] = useState(false);
@@ -102,6 +110,32 @@ export default function Checkout() {
       }
     });
   }, []);
+
+  const [message, setMessage] = useState('');
+  const [itemsRemoved, setItemsRemoved] = useState([]);
+
+  useEffect(async () => {
+    const uid = await AsyncStorage.getItem('UID');
+
+    let removed = [];
+    purchasedItems.forEach((item, indx) => {
+      getDocumentByID('Products', item.id).then(res => {
+        if (res.Quantity < item.PurchasedAmount) {
+          removeCartItemFromUser(uid, item.id);
+          dispatch(removeFromCart(item.id));
+          dispatch(setCartItemAmount(item.id, 0));
+          removed.push(item);
+        }
+        if (indx === purchasedItems.length - 1 && removed.length != 0) {
+          setMessage(
+            'Below items were removed because selected amount is not available now'
+          );
+          setItemsRemoved(removed);
+        }
+      });
+    });
+  }, []);
+
   
   const CONTENT = [
     {
@@ -374,6 +408,43 @@ export default function Checkout() {
             {i18n.t('OrderTotal')}:
             <Text style={styles.strongText}> {i18n.t('EGP')} {totalOrderPrice}</Text>
           </Text>
+
+          {message !== '' && (
+            <>
+              <Text style={{ color: 'red' }}>{message}</Text>
+              <View>
+                {itemsRemoved.map(item => {
+                  return (
+                    <View key={item.id}>
+                      <View style={styles.productData}>
+                        <Image
+                          source={{ uri: item.productData.Images[0] }}
+                          style={styles.imageCard}
+                        />
+                        <View style={styles.productDetails}>
+                          <Text style={styles.dataText}>
+                            <Text>{item.PurchasedAmount} x </Text>
+                            <Text style={styles.strongText}>
+                              {item.productData.ProductName}
+                            </Text>
+                          </Text>
+                          <Text style={styles.dataText}>
+                            {item.productData.ProductName}{' '}
+                            {item.productData.Name}
+                          </Text>
+                          <Text style={styles.dataText}>
+                            <Text style={styles.strongText}>
+                              EGP {item.productData.Price}
+                            </Text>
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+            </>
+          )}
 
           <ButtonsGroup
             setSectionPrev={() => setSections([0])}

@@ -50,13 +50,7 @@ export default function FavoritesList({ favItems }) {
     <View style={{ height: h * 0.8125 }}>
       <FlatList
         data={favItems}
-        renderItem={({ item }) => (
-          <FavoritesCard
-            item={item}
-            // allInCart={allInCart}
-            // setAllInCart={setAllInCart}
-          />
-        )}
+        renderItem={({ item }) => <FavoritesCard item={item} />}
         ListHeaderComponent={() => (
           <View>
             <TouchableOpacity style={styles.storeCard}>

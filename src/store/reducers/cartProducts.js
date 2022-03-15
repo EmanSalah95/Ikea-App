@@ -98,6 +98,13 @@ export default function cartReducer(state = initialState, action) {
       };
     }
 
+    case 'REMOVE_ALL_FROM_CART': {
+      return {
+        ...state,
+        cartProducts: [],
+      };
+    }
+
     case 'SET_AMOUNT': {
       state.totalPrice = 0;
       state.totalAmountOfCartItems = 0;

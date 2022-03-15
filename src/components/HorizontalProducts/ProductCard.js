@@ -75,6 +75,7 @@ export default function ProductCard({ navigation, item, horizontal }) {
     Images,
     Height,
     Thickness,
+    Quantity,
   } = item.data();
   return (
     <TouchableOpacity
@@ -134,7 +135,7 @@ export default function ProductCard({ navigation, item, horizontal }) {
               style={styles.grayText}
             >{i18n.t('RegularPrice')} {i18n.t('EGP')} {SalePrice}</Text>
           )}
-          {!cartProducts?.find(i => i.id === item.id) && (
+          {Quantity !== 0 && !cartProducts?.find(i => i.id === item.id) && (
             <TouchableOpacity
               style={horizontal ? styles.cartIcon : styles.cartIconV}
               onPress={addCart}

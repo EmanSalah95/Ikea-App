@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     },
     ImageSize: {
       width: w,
-      height: h * 0.65,
+      height: h * 0.55,
       padding: 0
     },
     headerContainer: {
@@ -71,5 +71,7 @@ export const styles = StyleSheet.create({
       padding:8,
       width:w*0.90,
       borderRadius:30
-    }
+    },
+    textDanger: { color: 'red' },
+
   });

@@ -84,6 +84,7 @@ export default function Loginscreen({navigation}){
           style={styles.input}
           onChangeText={(email) => setEmail(email)}
           value={email}
+          theme={{ colors: { primary: "#2e73b8"}}}
         />
         <Text style={styles.textDanger}>{EmailErr}</Text>
         <TextInput
@@ -92,6 +93,7 @@ export default function Loginscreen({navigation}){
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
           value={password}
+          theme={{ colors: { primary: "#2e73b8"}}}
         />
         <Text style={styles.textDanger}>{PasswordErr}</Text>   
         <Button style={styles.logBtn} mode='contained' onPress={handleLogIn} disabled={email=='' || password==''} >

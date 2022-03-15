@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addCartItemToUser } from '../../services/firebase';
 import i18n from 'i18n-js'
 
-export default function FavoritesCard({ item, allInCart, setAllInCart }) {
+export default function FavoritesCard({ item }) {
   const productData = item.productData;
   const [quantityArr, setQuantityArr] = useState([]);
   const [selectedValue, setSelectedValue] = useState(1);
@@ -29,18 +29,12 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
         PurchasedAmount: selectedValue,
       })
     );
-    // setInCart(true);
 
     const localID = await AsyncStorage.getItem('UID');
     localID && addCartItemToUser(localID, item.id);
   };
 
-  useEffect(() => {
-    if (allInCart) {
-      // setInCart(true);
-      // setAllInCart(false);
-    }
-  }, [allInCart]);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const arr = [{ label: '0', value: 0 }];
@@ -55,69 +49,74 @@ export default function FavoritesCard({ item, allInCart, setAllInCart }) {
   }, [dispatch, selectedValue]);
 
   return (
-    <View style={styles.favoritesCard}>
-      <View style={styles.productData}>
-        <Image
-          source={{ uri: productData.Images[0] }}
-          style={styles.imageCard}
-        />
-        <View>
-          <Text style={styles.productName}>{productData.ProductName}</Text>
-          <Text>{i18n.locale=='en'?productData.Name:productData.NameAr}</Text>
-          <Text>
-            {i18n.locale=='en'?productData.Material:productData.MaterialAr}, {i18n.locale=='en'?productData.Color:productData.ColorAr}
-          </Text>
-          <Text style={styles.productPrice}>{i18n.t('EGP')} {productData.Price}</Text>
-          <Text style={styles.productSalePrice}>
-            {i18n.t('RegularPrice')} {i18n.t('EGP')} {productData.SalePrice}
-          </Text>
-          <View style={styles.pickerWrapper}>
-            <RNPickerSelect
-              style={styles.quantityPicker}
-              onValueChange={value => {
-                setSelectedValue(value);
-                console.log(value);
-                if (value === 0 && item.id) {
-                  console.log('alert');
-                  return Alert.alert(
-                    '',
-                    i18n.t('RemoveProductConfirmation'),
-                    [
-                      {
-                        text: i18n.t('No'),
-                        onPress: () => {
-                          setSelectedValue(1);
-                        },
-                      },
-                      {
-                        text: i18n.t('Yes'),
-                        onPress: () => {
-                          dispatch(removeFromFav(item.id));
-                        },
-                      },
-                    ]
-                  );
-                }
-              }}
-              items={quantityArr}
-              placeholder={{
-                label: i18n.t('SelectQuantity'),
-                value: selectedValue,
-                color: '#0e2d64',
-              }}
-              value={selectedValue}
+    <>
+      {item.productData.Quantity !== 0 && (
+        <View style={styles.favoritesCard}>
+          <View style={styles.productData}>
+            <Image
+              source={{ uri: productData.Images[0] }}
+              style={styles.imageCard}
             />
+            <View>
+              <Text style={styles.productName}>{productData.ProductName}</Text>
+              <Text>{productData.Name}</Text>
+              <Text>
+                {productData.Material}, {productData.Color}
+              </Text>
+              <Text style={styles.productPrice}>EGP {productData.Price}</Text>
+              <Text style={styles.productSalePrice}>
+                Regular price EGP {productData.SalePrice}
+              </Text>
+              <View style={styles.pickerWrapper}>
+                <RNPickerSelect
+                  style={styles.quantityPicker}
+                  onValueChange={value => {
+                    setSelectedValue(value);
+                    console.log(value);
+                    if (value === 0 && item.id) {
+                      console.log('alert');
+                      return Alert.alert(
+                        '',
+                        'Do you want to remove this product?',
+                        [
+                          {
+                            text: 'No',
+                            onPress: () => {
+                              setSelectedValue(1);
+                            },
+                          },
+                          {
+                            text: 'Yes',
+                            onPress: () => {
+                              dispatch(removeFromFav(item.id));
+                            },
+                          },
+                        ]
+                      );
+                    }
+                  }}
+                  items={quantityArr}
+                  placeholder={{
+                    label: 'Select Quantity',
+                    value: selectedValue,
+                    color: '#0e2d64',
+                  }}
+                  value={selectedValue}
+                />
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
 
-      <TouchableOpacity
-        style={styles.addToBagButton}
-        onPress={addCart}
-        disabled={cartProducts?.find(i => i.id === item.id)}
-      >
-        <Text style={styles.boldUpperCaseText}>{i18n.t('AddToBag')}</Text>
-      </TouchableOpacity>
-    </View>
+          <TouchableOpacity
+            style={styles.addToBagButton}
+            onPress={addCart}
+            disabled={cartProducts?.find(i => i.id === item.id) ||
+              productData.Quantity === 0}
+          >
+            <Text style={styles.boldUpperCaseText}>{i18n.t('AddToBag')}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 }

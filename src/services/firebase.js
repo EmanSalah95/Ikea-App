@@ -16,6 +16,7 @@ import { fireStore } from '../config/firebaseConfig';
 import { changeLoader } from './../store/actions/loader';
 import { changeUser } from './../store/actions/auth';
 import store from './../store/store';
+import { setCartItemAmount } from '../store/actions/cartProducts';
 
 export const getCollection = async (collName, condition = undefined) => {
   //dispatch loading
@@ -149,6 +150,13 @@ export const removeCartItemFromUser = async (userID, productID) => {
     CartItems: cartItems.filter(id => id !== productID),
   });
 };
+
+export const removeAllCartItemFromUser = async userID => {
+  await updateDoc(doc(fireStore, 'users', userID), {
+    CartItems: [],
+  });
+};
+
 export const addDocByID = async (collName, ID, data) => {
   await setDoc(doc(fireStore, collName, ID), data);
 };
@@ -273,17 +281,28 @@ export const createNewOrder = async data => {
     TotalPrice: data.totalPrice,
     UserID: data.userId,
     CheckedAddress: data.checkedAddress,
-  }).then(async newDoc => {
-    let purchased = [];
-    await getDoc(doc(fireStore, 'users', data.userId)).then(res => {
-      if (res.data().Purchased) {
-        purchased.push(...res.data().Purchased);
-      }
+  })
+    .then(async newDoc => {
+      let purchased = [];
+      await getDoc(doc(fireStore, 'users', data.userId)).then(res => {
+        if (res.data().Purchased) {
+          purchased.push(...res.data().Purchased);
+        }
+      });
+      updateDoc(doc(fireStore, 'users', data.userId), {
+        Purchased: [newDoc.id, ...purchased],
+      });
+    })
+    .then(() => {
+      data.items.map(async item => {
+        const res = await getDocumentByID('Products', item.ProductID);
+        updateData('Products', item.ProductID, {
+          Quantity: item.Amount > res.Quantity ? 0 : res.Quantity - item.Amount,
+        });
+
+        store.dispatch(setCartItemAmount(item.ProductID, 0));
+      });
     });
-    updateDoc(doc(fireStore, 'users', data.userId), {
-      Purchased: [newDoc.id, ...purchased],
-    });
-  });
 };
 
 export const deleteDocument = (id, collName) => {
