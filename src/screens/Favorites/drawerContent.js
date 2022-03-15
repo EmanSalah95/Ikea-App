@@ -7,8 +7,6 @@ import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { h, w } from '../../constants/dimentions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import { DrawerContentScrollView } from '@react-navigation/drawer';
-
 export default function DrawerContent({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
