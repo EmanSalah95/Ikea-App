@@ -102,7 +102,9 @@ export default function SearchPage({ navigation }) {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => navigation.navigate('Login', {
+                navigatedFromShoppingList: false,
+              })}
               style={styles.login}
             >
               <Text style={{ color: 'white' }}>{i18n.t('Login')}</Text>

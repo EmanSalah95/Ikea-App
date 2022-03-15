@@ -163,7 +163,7 @@ export default function Checkout({}) {
                       <RadioButton
                         value={userLocations.indexOf(loc)}
                         status={
-                          user.Locations.indexOf(loc) === checkedAddress
+                          user?.Locations?.indexOf(loc) === checkedAddress
                             ? 'checked'
                             : 'unchecked'
                         }
