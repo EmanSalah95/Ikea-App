@@ -7,8 +7,13 @@ import React, { useState, useEffect } from 'react'
 import { addDocByID, updateUserStorageByID } from '../../services/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from 'i18n-js'
+import { useDispatch } from 'react-redux';
+import { toggleSnackbarError } from '../../store/actions/snackbar';
 
 export default function SignUpForm({ navigation }) {
+
+    const dispatch= useDispatch();
+
 
     const [firstName, setFirstName] = useState('')
     const [surName, setSurName] = useState('')
@@ -102,7 +107,7 @@ export default function SignUpForm({ navigation }) {
 
         if (!allValid) {
             e.preventDefault();
-            console.log('submission prevented,, form is notValied')
+            // console.log('submission prevented,, form is notValied')
         }
         else {
             await signup(Email, Password).then(
@@ -112,7 +117,7 @@ export default function SignUpForm({ navigation }) {
                             AsyncStorage.setItem('UID', userCredentials.user.uid)
                             updateUserStorageByID(userCredentials.user.uid)
                             navigation.navigate('User')
-                            console.log('function signIn Success and data stored in firebase');
+                            // console.log('function signIn Success and data stored in firebase');
                         } catch (e) {
                             console.log(e);
                         }
@@ -121,13 +126,14 @@ export default function SignUpForm({ navigation }) {
             )
                 .catch(err => {
                     if (allValid) {
-                        Alert.alert(i18n.t('EmailExist'));
-                        console.log('function signIn Failed', err);
+                        // Alert.alert(i18n.t('EmailExist'));
+                        dispatch(toggleSnackbarError(i18n.t('EmailExist')));
+                        // console.log('function signIn Failed', err);
                     }
                 })
         }
 
-        console.log(userObj);
+        // console.log(userObj);
     }
 
     useEffect(() => {
