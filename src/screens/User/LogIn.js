@@ -7,12 +7,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { updateUserStorageByID } from '../../services/firebase';
 import i18n from 'i18n-js';
 import { useEffect } from 'react';
+import { toggleSnackbarError, toggleSnackbarOpen } from '../../store/actions/snackbar';
+import { useDispatch } from 'react-redux';
 
 export default function Loginscreen({ navigation, route }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [EmailErr, setEmailErr] = useState('');
   const [PasswordErr, setPasswordErr] = useState('');
+  const dispatch= useDispatch();
 
   const isNavigatedFromShoppingList = route.params.navigatedFromShoppingList;
 
@@ -64,9 +67,11 @@ export default function Loginscreen({ navigation, route }) {
         // console.log('function LogIn Success',userCredentials);
       })
       .catch(err => {
-        Alert.alert(i18n.t('UserNotFound'));
-        console.log('Failed LogIn', err);
-        navigation.navigate('SignForm');
+        // Alert.alert(i18n.t('UserNotFound'));
+        dispatch(toggleSnackbarError(i18n.t('UserNotFound')));
+
+        
+
       });
     console.log(userObj);
   }

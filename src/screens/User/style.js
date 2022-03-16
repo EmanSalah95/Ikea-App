@@ -29,20 +29,22 @@ export const styles = StyleSheet.create({
     logBtn: {
         width: "100%",
         marginTop: 20,
-        padding: 10,
+        // padding: 10,
+        height:w*0.12,
         width: "92%",
         backgroundColor: "#2e73b8",
-	    alignSelf: "center"
+	    alignSelf: "center",
+        justifyContent:'center'
     },
 
     signBtn: {
         width: "100%",
         marginTop: 18,
-        color: 'black',
         backgroundColor: "lightgray",
-        padding: 10,
+        height:w*0.12,
         width: "92%",
-        alignSelf: "center"
+	    alignSelf: "center",
+        justifyContent:'center'
     },
     
     txtQues: {
@@ -75,9 +77,10 @@ export const styles = StyleSheet.create({
     // Start Style For LogPage
     userSubbHeading: {
         marginBottom: 28,
-        fontSize: 19,
+        fontSize: 18,
         color: "gray",
         textAlign: 'center',
+        paddingHorizontal:10,
     },
 
     view: {
@@ -88,12 +91,12 @@ export const styles = StyleSheet.create({
     input: {
         width: "100%",
         height: 30,
-        padding: 15,
+        // padding: 10,
         borderWidth: 1,
         borderColor: 'white',
         marginBottom: 10,
         backgroundColor: "white",
-        textAlign:'left'
+        // textAlign:'left'
     },
 
     inputext: {
@@ -150,7 +153,7 @@ export const styles = StyleSheet.create({
     // End Style For SignIn Page
 
     textDanger: {
-        color: "red"
+        color: "#B71525"
     },
 
     profileContainer:{

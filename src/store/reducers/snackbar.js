@@ -13,12 +13,31 @@ const initialState = {
           message: action.message,
         };
       }
+
+      case "TOGGLE_SNACKBAR_SUCCESS": {
+        return {
+          ...state,
+          isVisible: true,
+          message: action.message,
+          color:'green'
+        };
+      }
+
+      case "TOGGLE_SNACKBAR_ERROR": {
+        return {
+          ...state,
+          isVisible: true,
+          message: action.message,
+          color:'#B71525'
+        };
+      }
   
       case "TOGGLE_SNACKBAR_CLOSE": {
         return {
           ...state,
           isVisible: false,
           message: null,
+          color:''
         };
       }
   

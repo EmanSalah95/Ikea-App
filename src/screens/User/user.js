@@ -69,7 +69,10 @@ export default function User({ navigation }) {
               mode='contained'
               onPress={() => navigation.navigate('Sign')}
             >
-              {i18n.t('SignUp')}
+              <Text style={{color:'black'}}>
+                 {i18n.t('SignUp')}
+              </Text>
+              
             </Button>
             <Text style={styles.txtQues}>{i18n.t('ForgotPassword')}</Text>
           </View>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { View, TouchableOpacity, I18nManager } from "react-native"
+import { View, TouchableOpacity, I18nManager, Alert } from "react-native"
 import { Divider, Text } from "react-native-paper"
 import { logout } from "../../Firebase/fireStoreAuthConfig"
 import { styles } from "./style"
@@ -27,7 +27,19 @@ export const ProfileSettings = ({ navigation }) => {
             console.log(err)
         }
     }
+    const confirmLogOut=()=>{
+        return Alert.alert(i18n.t('LogOutConfirm'), null, [
+            {
+              text: i18n.t('No'),
+            },
+            {
+              text: i18n.t('Yes'),
+              onPress:handleLogout,
+            },
+          ]);
+    }
     const handleLogout = () => {
+        
         logout()
             .then(() => {
                 AsyncStorage.removeItem('UID');
@@ -90,7 +102,7 @@ export const ProfileSettings = ({ navigation }) => {
             <Divider style={styles.dividerStyle} />
             {logged &&
                 <TouchableOpacity
-                    onPress={handleLogout}
+                    onPress={confirmLogOut}
                 >
                     <Text>{i18n.t('Logout')}</Text>
                 </TouchableOpacity>}

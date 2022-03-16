@@ -156,5 +156,8 @@
     "Width":"Width",
     
     "Yes":"Yes",
-    "YourOrders":"Your orders"
+    "YourOrders":"Your orders",
+
+    "LogOutConfirm":"Are you sure you want to logout?"
+
 }
