@@ -16,7 +16,7 @@ const SnackBar = () => {
     <>
       {isVisible && (
         <Snackbar
-          duration={3000}
+          duration={1500}
           style={[styles.container, color ? { backgroundColor: color } : {}]}
           visible={isVisible}
           onDismiss={closeMe}

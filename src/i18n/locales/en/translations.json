@@ -158,6 +158,8 @@
     "Yes":"Yes",
     "YourOrders":"Your orders",
 
-    "LogOutConfirm":"Are you sure you want to logout?"
+    "LogOutConfirm":"Are you sure you want to logout?",
+    "CartSuccess":"Added to cart successfully",
+    "CartDeleted":"Product deleted from cart successfully"
 
 }

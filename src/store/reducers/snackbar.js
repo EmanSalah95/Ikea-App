@@ -19,7 +19,7 @@ const initialState = {
           ...state,
           isVisible: true,
           message: action.message,
-          color:'green'
+          color:'#40AF11'
         };
       }
 

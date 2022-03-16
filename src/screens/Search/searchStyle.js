@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
    },
 
    login:{
-      backgroundColor:'#2912F5',
+      backgroundColor:'#0051BA',
       color:'#fff',
       padding:10,
       borderRadius:20,
